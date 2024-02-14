@@ -1,0 +1,31 @@
+item is a pure virtual class with ID field
+
+enum class sport {SPORT1, SPORT2}
+
+
+Node<class Item>
+int id
+int height
+Node* left, right
+Node* parent
++setID(int id) // optional
++getID(int id)
+
+Teams -> Team
+Team:
+int numberOfContestants
+country*
+allContestants*
+
+
+Country:
+int numberOfTeams;
+allTeams*
+
+Contestants:
+strength
+team*
+//country*
+
+Tree<class Item>
+int size;
