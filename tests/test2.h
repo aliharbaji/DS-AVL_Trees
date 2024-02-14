@@ -4,11 +4,13 @@
 
 #ifndef AVLTREES_TEST2_H
 #define AVLTREES_TEST2_H
+#include "test2.h"
+#include "../node.h"
+#include "../item/item.h"
+#include <memory>
+using namespace std;
 
-
-class test2 {
-
-};
+shared_ptr<Node<Team>> test2();
 
 
 #endif //AVLTREES_TEST2_H

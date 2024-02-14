@@ -5,7 +5,7 @@
 #ifndef AVLTREES_ITEM_H
 #define AVLTREES_ITEM_H
 
-#include "node.h"
+#include "../node.h"
 
 class Item {
     int ID;
