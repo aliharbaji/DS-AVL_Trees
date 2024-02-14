@@ -20,7 +20,6 @@ int main() {
     cout << contains(teamRoot, 27) << endl;
     cout << contains(teamRoot, 20) << endl;
 
-
 //    Node* tree = test1();
 //    cout << endl << "the tree starts off balanced: " << isBalanced(tree) << endl;
 //    inorder(tree);
