@@ -70,30 +70,6 @@ void RL(shared_ptr<Node<T>>& root){
     RR(root);
 }
 
-// work in progress, still gives segmentation fault
-//template <typename T>
-//void LL2(shared_ptr<Node<T>>& root){
-//    shared_ptr<Node<T>> rootParent = root->parent;
-//    shared_ptr<Node<T>> newRoot = root->left;
-//
-//    if(rootParent->left == root){
-//        rootParent->left = newRoot;
-//    } else{
-//        rootParent->right = newRoot;
-//    }
-//    if(newRoot != nullptr){
-//        newRoot->parent = rootParent;
-//    }
-//
-//    root->left = newRoot->right;
-//
-//    if(newRoot->right != nullptr){
-//        newRoot->right->parent = root;
-//    }
-//
-//    newRoot->right = root;
-//    root->parent = newRoot;
-//}
 
 
 
@@ -155,7 +131,9 @@ void printInfo(shared_ptr<Node<T>> root){
 template <typename T>
 void updateHeight(shared_ptr<Node<T>>& node) {
     if (node != nullptr) {
-        node->height = 1 + std::max(getHeight(node->left), getHeight(node->right));
+        int leftHeight = (node->left == nullptr) ? 0 : node->left->height;
+        int rightHeight = (node->right == nullptr) ? 0 : node->right->height;
+        node->height = 1 + max(leftHeight, rightHeight);
     }
 }
 
@@ -166,7 +144,7 @@ void addAux(shared_ptr<Node<T>> parent, shared_ptr<Node<T>>& son, shared_ptr<Nod
     if (son == nullptr){
         son = newNode;
         newNode->parent = parent;
-//        updateHeight(parent);
+        updateHeight(parent);
         return;
     }
     if(newNode->value < son->value){
@@ -176,24 +154,34 @@ void addAux(shared_ptr<Node<T>> parent, shared_ptr<Node<T>>& son, shared_ptr<Nod
     }
 
     updateHeight(son);
-
+    updateHeight(parent);
 
     // check if the tree is balanced
 
 
-    if(son->getBF() > 1 || son->getBF() < -1){
-        cout << "PERFORM ROTATION************** " << son->value << "BF is" << son->getBF()<< endl; // delete later
+    if(son->getBF() > One || son->getBF() < -One){
+        cout << "*******PERFORM ROTATION************** " << son->value << "BF is" << son->getBF()<< endl; // delete later
+        int rightHeight = Zero;
+        int leftHeight = Zero;
+        int BF = Zero;
         switch (son->getBF()) {
-            case RIGHT_HEAVY:
-                if(son->right->getBF() > 0){
+            case LEFT_HEAVY:
+                rightHeight = (son->right == nullptr) ? 0 : son->right->height;
+                leftHeight = (son->left == nullptr) ? 0 : son->left->height;
+                BF = leftHeight - rightHeight;
+                if(BF >= 0){
                     LL(son);
-
                 }else{
                     LR(son);
                 }
                 break;
-            case LEFT_HEAVY:
-                if(son->left->getBF() < 0){
+
+            case RIGHT_HEAVY:
+                rightHeight = (son->right == nullptr) ? 0 : son->right->height;
+                leftHeight = (son->left == nullptr) ? 0 : son->left->height;
+                BF = leftHeight - rightHeight;
+                if(BF <= 0){
+                    cout << "here" << endl;
                     RR(son);
                 }else{
                     RL(son);
@@ -201,7 +189,7 @@ void addAux(shared_ptr<Node<T>> parent, shared_ptr<Node<T>>& son, shared_ptr<Nod
                 break;
         }
     }
-        updateHeight(parent);
+
 
 }
 

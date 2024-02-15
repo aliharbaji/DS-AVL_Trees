@@ -16,25 +16,36 @@ int main() {
 
     cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
 
-    shared_ptr<Team> team18 = make_shared<Team>(18);
-    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
-
-    inorderINFO(teamRoot);
-    cout << endl;
-//    addNode(shared_ptr<Node<Team>> teamRoot, shared_ptr<Node<Team>>)
-    addNode(teamRoot, team18Node);
-    inorderINFO(teamRoot);
+    shared_ptr<Team> team30 = make_shared<Team>(30);
+    shared_ptr<Node<Team>> team30Node = make_shared<Node<Team>>(team30);
+    addNode(teamRoot, team30Node);
+    inorder<Team>(teamRoot);
     cout << endl;
     cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
 
+    shared_ptr<Team> team31 = make_shared<Team>(31);
+    shared_ptr<Node<Team>> team31Node = make_shared<Node<Team>>(team31);
+    addNode(teamRoot, team31Node);
     inorder<Team>(teamRoot);
     cout << endl;
+    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+
 //
-//    //perform LL rotation on problematic node
-//    LL(teamRoot->right->right->left);
+//    shared_ptr<Team> team18 = make_shared<Team>(18);
+//    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
+//
+//    inorderINFO(teamRoot);
+//    cout << endl;
+////    addNode(shared_ptr<Node<Team>> teamRoot, shared_ptr<Node<Team>>)
+//    addNode(teamRoot, team18Node);
+//    inorderINFO(teamRoot);
+//    cout << endl;
 //    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+//
 //    inorder<Team>(teamRoot);
 //    cout << endl;
+//
+
 
 
 //    cout << "NEW TEST2 ***********************************" << endl;

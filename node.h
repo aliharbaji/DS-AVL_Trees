@@ -13,11 +13,11 @@ enum class IMBALANCE_TYPE{
     RL,
     RR
 };
-const int RIGHT_HEAVY = 2;
-const int LEFT_HEAVY = -2;
+const int RIGHT_HEAVY = -2;
+const int LEFT_HEAVY = 2;
 const int BALANCED = 0;
 const int Zero = 0;
-
+const int One = 1;
 #define AVLTREES_NODE_H
 #include "memory"
 
@@ -44,6 +44,8 @@ public:
         int bf = (left != nullptr ? left->height : -1) - (right != nullptr ? right->height : -1);
         return bf;
     }
+
+
 };
 
 
