@@ -5,6 +5,58 @@ using namespace std;
 #include "node.h"
 #include "iostream"
 
+// work in progress, still gives segmentation fault
+template <typename Item>
+void LL(shared_ptr<Node<Item>>& root){
+    shared_ptr<Node<Item>> rootParent = root->parent;
+    shared_ptr<Node<Item>> newRoot = root->left;
+
+    if(rootParent->left == root){
+        rootParent->left = newRoot;
+    } else{
+        rootParent->right = newRoot;
+    }
+    if(newRoot != nullptr){
+        newRoot->parent = rootParent;
+    }
+
+    root->left = newRoot->right;
+
+    if(newRoot->right != nullptr){
+        newRoot->right->parent = root;
+    }
+
+    newRoot->right = root;
+    root->parent = newRoot;
+
+
+}
+
+//template <typename Item>
+//void LL(shared_ptr<Node<Item>> root){
+//    shared_ptr<Node<Item>> newRoot = root->left; // A
+//    shared_ptr<Node<Item>> tempL = newRoot->left; // AL
+//    shared_ptr<Node<Item>> tempR = newRoot->right; // AR
+//    swapFields(root, newRoot); // A <-> B
+//
+//    root->left = tempL;
+//    newRoot->right = root->right;
+//    newRoot->left = tempR;
+//    root->right = newRoot;
+//}
+
+template <typename Item>
+void RR(shared_ptr<Node<Item>> root){
+    shared_ptr<Node<Item>> newRoot = root->right; // A
+    shared_ptr<Node<Item>> tempL = newRoot->left; // AL
+    shared_ptr<Node<Item>> tempR = newRoot->right; // AR
+    swapFields(root, newRoot); // A <-> B
+
+    root->right = tempR;
+    newRoot->left = root->left;
+    newRoot->right = tempL;
+    root->left = newRoot;
+}
 
 template <typename Item>
 void rotate(shared_ptr<Node<Item>>& imbalancedNode){
@@ -108,7 +160,8 @@ void addAux(shared_ptr<Node<Item>> parent, shared_ptr<Node<Item>>& son, shared_p
 
     // check if the tree is balanced
     if(son->balanceFactor > 1 || son->balanceFactor < -1){
-        cout << "The tree is not balanced son is " << son->value << endl; // delete later
+        cout << "PERFORM ROTATION " << son->value << endl; // delete later
+//        rotate(son);
     }
 
 
@@ -193,45 +246,19 @@ void swapFields(shared_ptr<Node<Item>> n1, shared_ptr<Node<Item>> n2){
     n2->height = height; // getHeight
 }
 
-template <typename Item>
-void LL(shared_ptr<Node<Item>> root){
-    shared_ptr<Node<Item>> newRoot = root->left; // A
-    shared_ptr<Node<Item>> tempL = newRoot->left; // AL
-    shared_ptr<Node<Item>> tempR = newRoot->right; // AR
-    swapFields(root, newRoot); // A <-> B
 
-    root->left = tempL;
-    newRoot->right = root->right;
-    newRoot->left = tempR;
-    root->right = newRoot;
-
-}
-
-template <typename Item>
-void RR(shared_ptr<Node<Item>> root){
-    shared_ptr<Node<Item>> newRoot = root->right; // A
-    shared_ptr<Node<Item>> tempL = newRoot->left; // AL
-    shared_ptr<Node<Item>> tempR = newRoot->right; // AR
-    swapFields(root, newRoot); // A <-> B
-
-    root->right = tempR;
-    newRoot->left = root->left;
-    newRoot->right = tempL;
-    root->left = newRoot;
-}
-
-template <typename Item>
-void LR(shared_ptr<Node<Item>> root){
-    shared_ptr<Node<Item>> tempL = root->left;
-    shared_ptr<Node<Item>> tempR = root->right;
-    shared_ptr<Node<Item>> tempLR = root->left->right;
-    swapFields(root, tempLR);
-
-    root->right = tempLR;
-    shared_ptr<Node<Item>> tempLRL = root->left->right->left;
-    shared_ptr<Node<Item>> tempLRR = root->left->right->right;
-    tempLR->right = tempR;
-    tempLR->left = tempLRR;
-    tempL->right = tempLRL;
-}
+//template <typename Item>
+//void LR(shared_ptr<Node<Item>> root){
+//    shared_ptr<Node<Item>> tempL = root->left;
+//    shared_ptr<Node<Item>> tempR = root->right;
+//    shared_ptr<Node<Item>> tempLR = root->left->right;
+//    swapFields(root, tempLR);
+//
+//    root->right = tempLR;
+//    shared_ptr<Node<Item>> tempLRL = root->left->right->left;
+//    shared_ptr<Node<Item>> tempLRR = root->left->right->right;
+//    tempLR->right = tempR;
+//    tempLR->left = tempLRR;
+//    tempL->right = tempLRL;
+//}
 #endif //AVLTREES_FUNCTIONS_H
