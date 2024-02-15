@@ -6,8 +6,19 @@
 
 #ifndef AVLTREES_NODE_H
 using namespace std;
+// const init
+enum class IMBALANCE_TYPE{
+    LL,
+    LR,
+    RL,
+    RR
+};
+const int RIGHT_HEAVY = 1;
+const int LEFT_HEAVY = -1;
+const int BALANCED = 0;
 const int Zero = 0;
-#define AVLTREES_NODE_H \
+
+#define AVLTREES_NODE_H
 #include "memory"
 
 // GENERIC
@@ -15,14 +26,16 @@ template <typename Item>
 class Node{
 public:
     shared_ptr<Item> data;
-    int value;
-    // TO DO: use value instead of Item->getID(), the Node shouldn't be generic (maybe)
-    int balanceFactor;
     shared_ptr<Node> left, right;
     shared_ptr<Node> parent;
-    int height = 0;
+    int value;
+    int balanceFactor;
+    int height;
+    friend class Tree;
 
-    Node(shared_ptr<Item> data): data(data), value(data->getID()), balanceFactor(Zero), left(nullptr), right(nullptr), parent(nullptr){}
+    Node(shared_ptr<Item> data): data(data), value(data->getID()), height(Zero), balanceFactor(Zero),
+    left(nullptr), right(nullptr), parent(nullptr){}
+
     int getID() const {
         return data->getID();
     }

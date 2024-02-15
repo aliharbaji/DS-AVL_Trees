@@ -9,31 +9,69 @@ using namespace std;
 
 int main() {
 
-    shared_ptr<Node<Team>> teamRoot = test2();
-    cout << teamRoot->getID() << endl;
+//    shared_ptr<Node<Team>> teamRoot = test2();
+//    cout << teamRoot->getID() << endl;
+//
+//    inorder<Team>(teamRoot);
+//    cout << endl;
+//
+//    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+//    cout << contains(teamRoot, 27) << endl;
+//    cout << contains(teamRoot, 20) << endl;
+//
+//    shared_ptr<Team> team18 = make_shared<Team>(18);
+//    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
+//
+////    addNode(shared_ptr<Node<Team>> teamRoot, shared_ptr<Node<Team>>)
+//    addNode(teamRoot, team18Node);
+//    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+//
+//    inorder<Team>(teamRoot);
+//    cout << endl;
+//
+//    //perform LL rotation on problematic node
+//    LL(teamRoot->right->right->left);
+//    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+//    inorder<Team>(teamRoot);
+//    cout << endl;
 
-    inorder<Team>(teamRoot);
+
+    cout << "NEW TEST ***********************************" << endl;
+    cout<<endl;
+
+    shared_ptr<Node<Team>> teamRoot = test2();
+    inorderINFO(teamRoot);
     cout << endl;
 
-    cout << "The tree is balanced: " << isBalanced(teamRoot) << endl;
-    cout << contains(teamRoot, 27) << endl;
-    cout << contains(teamRoot, 20) << endl;
+    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
+//    cout << contains(teamRoot, 18) << endl;
+    cout << "ADDING NODE 18" << endl;
 
     shared_ptr<Team> team18 = make_shared<Team>(18);
     shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
 
-//    addNode(shared_ptr<Node<Team>> teamRoot, shared_ptr<Node<Team>>)
-    addNode2(teamRoot, team18Node);
-    cout << "The tree is balanced: " << isBalanced(teamRoot) << endl;
+    addNode(teamRoot, team18Node);
+    inorderINFO(teamRoot);
+//    cout << contains(teamRoot, 18) << endl;
 
-    inorder<Team>(teamRoot);
-    cout << endl;
+//    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
+//    inorder(teamRoot);
+//    cout << endl;
+//
+//    cout << "Performing LL rotation on problematic node" << endl;
+//    LL(teamRoot->right->right->left);
+//    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
+//    inorder(teamRoot);
+//    cout << endl;
 
-    //perform LL rotation on problematic node
-    LL(teamRoot->right->right->left);
-    cout << "The tree is balanced: " << isBalanced(teamRoot) << endl;
-    inorder<Team>(teamRoot);
 
+    // TRASHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+//    shared_ptr<Team> team30 = make_shared<Team>(30);
+//    shared_ptr<Node<Team>> team30Node = make_shared<Node<Team>>(team30);
+//    addNode(teamRoot, team30Node);
+//    cout << "The tree is balanced: " << isBalanced(teamRoot) << endl;
+//    inorder<Team>(teamRoot);
+//    cout << endl;
 //    addNode(teamRoot, 27);
 //    Node* tree = test1();
 //    cout << endl << "the tree starts off balanced: " << isBalanced(tree) << endl;

@@ -5,6 +5,8 @@ using namespace std;
 #include "node.h"
 #include "iostream"
 
+
+
 template <typename Item>
 int getHeight(shared_ptr<Node<Item>> root){
     if(root == nullptr) return 0;
@@ -13,112 +15,110 @@ int getHeight(shared_ptr<Node<Item>> root){
     return 1 + std::max(R, L);
 }
 
+// Slow Version meaning it iterates over the tree multiple times and doesn't use the height field
 template <typename Item>
-bool isBalanced(shared_ptr<Node<Item>> root){
+bool isBalancedSlowVersion(shared_ptr<Node<Item>> root){
     if(root == nullptr) return true;
     int leftHeight = getHeight(root->left);
     int rightHeight = getHeight(root->right);
     if(std::abs(leftHeight - rightHeight) > 1) return false;
-    return isBalanced(root->left) && isBalanced(root->right);
+    return isBalancedSlowVersion(root->left) && isBalancedSlowVersion(root->right);
 }
 
-// TO DO: maybe revert to the old implementation
 template <typename Item>
 bool contains(shared_ptr<Node<Item>> root, int val){
     if(root == nullptr) return false;
-    if(root->getID() == val) return true;
-    if(root->getID() < val){
+    if(root->value == val) return true;
+    if(root->value < val){
         return contains(root->right, val);
     }else{
         return contains(root->left, val);
     }
 }
 
-
-// OLD IMPLEMENTATION
-//template <typename Item>
-//bool contains(shared_ptr<Node<Item>> root, int val){
-//    if(root == nullptr) return false;
-//    if(root->value == val) return true;
-//    if(root->value < val){
-//        return contains(root->right, val);
-//    }else{
-//        return contains(root->left, val);
-//    }
-//}
-
 template <typename Item>
 void print(shared_ptr<Node<Item>> root){
     if(root == nullptr) return;
-    cout << root->getID() << " ";
+    cout << root->value << " ";
 }
 
 template <typename Item>
 void printInfo(shared_ptr<Node<Item>> root){
     if(root == nullptr) return;
-    cout << "v: " << root->value << " h: " << root->height << " ";
+    cout << "v:" << root->value << " h:" << root->height << ", ";
 }
 
 template <typename Item>
-void addAux(shared_ptr<Node<Item>> root, int val) {
-    if (root == nullptr) {
-        root = make_shared<Node<Item>>( val);
+void updateHeight(shared_ptr<Node<Item>>& node) {
+    if (node == nullptr) return;
+    int leftHeight = (node->left != nullptr) ? node->left->height : -1;
+    int rightHeight = (node->right != nullptr) ? node->right->height : -1;
+    node->height = 1 + max(leftHeight, rightHeight);
+}
+
+
+template <typename Item>
+void addAux(shared_ptr<Node<Item>> parent, shared_ptr<Node<Item>>& son, shared_ptr<Node<Item>> newNode){
+    if (son == nullptr){
+        son = newNode;
+        newNode->parent = parent;
+        return;
+    }
+    if(newNode->value < son->value){
+        addAux(son, son->left, newNode);
+    }else{
+        addAux(son, son->right, newNode);
+    }
+    // update the height of the parent
+    updateHeight(son);
+}
+template <typename Item>
+void addNode(shared_ptr<Node<Item>>& parent, shared_ptr<Node<Item>> newNode){
+    if(parent == nullptr){
+        parent = newNode; // if the tree is empty make the new node the root
         return;
     }
 
-    if (val < root->value) {
-        if (root->left == nullptr) {
-            root->left = make_shared<Node<Item>>(val);
-            root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
-        } else {
-            addAux(root->left, val);
-        }
-    } else if (val > root->value) {
-        if (root->right == nullptr) {
-            root->right = make_shared<Node<Item>>(val);
-            root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
-        } else {
-            addAux(root->right, val);
-        }
-    }
-}
+    if(contains(parent, newNode->value)) return; // if the value is already in the tree dont add it
 
-template <typename Item>
-void addNode2(shared_ptr<Node<Item>> root, shared_ptr<Node<Item>> newNode){
-    if(contains(root, newNode->getID())) return;
-    addAux2(root, newNode);
-}
-
-template <typename Item>
-void addAux2(shared_ptr<Node<Item>> root, shared_ptr<Node<Item>> newNode) {
-    if (root == nullptr) {
-        root = newNode;
-        return;
-    }
-
-    if (newNode->value < root->value) {
-        if (root->left == nullptr) {
-            root->left = newNode;
-            root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
-        } else {
-            addAux2(root->left, newNode);
-        }
-    } else if (newNode->value > root->value) {
-        if (root->right == nullptr) {
-            root->right = newNode;
-            root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
-        } else {
-            addAux2(root->right, newNode);
-        }
+    if (newNode->value < parent->value){
+        addAux(parent, parent->left, newNode);
+    }else{
+        addAux(parent, parent->right, newNode);
     }
 }
 
 
-template <typename Item>
-void addNode(shared_ptr<Node<Item>>root, int val){
-    if(contains(root, val)) return;
-    addAux(root, val);
-}
+// Old implementation of addNode
+//template <typename Item>
+//void addAux(shared_ptr<Node<Item>> root, shared_ptr<Node<Item>> newNode) {
+//    if (root == nullptr) {
+//        root = newNode;
+//        return;
+//    }
+//
+//    if (newNode->value < root->value) {
+//        if (root->left == nullptr) {
+//            root->left = newNode;
+//            root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
+//        } else {
+//            addAux(root->left, newNode);
+//        }
+//    } else if (newNode->value > root->value) {
+//        if (root->right == nullptr) {
+//            root->right = newNode;
+//            root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
+//        } else {
+//            addAux(root->right, newNode);
+//        }
+//    }
+//}
+//
+//template <typename Item>
+//void addNode(shared_ptr<Node<Item>> root, shared_ptr<Node<Item>> newNode){
+//    if(contains(root, newNode->getID())) return;
+//    addAux(root, newNode);
+//}
 
 template <typename Item>
 void inorder(shared_ptr<Node<Item>> root){
@@ -131,10 +131,9 @@ void inorder(shared_ptr<Node<Item>> root){
 template <typename Item>
 void inorderINFO(shared_ptr<Node<Item>> root){
     if (root == nullptr) return;
-
-    inorder(root->left);
+    inorderINFO(root->left);
     printInfo(root);
-    inorder(root->right);
+    inorderINFO(root->right);
 }
 
 template <typename Item>
@@ -146,11 +145,9 @@ void swapFields(shared_ptr<Node<Item>> n1, shared_ptr<Node<Item>> n2){
     n1->value = n2->value;
     n1->balanceFactor = n2->balanceFactor;
     n1->height = n2->height; //getHeight
-
     n2->value = val;
     n2->balanceFactor = bf;
     n2->height = height; // getHeight
-
 }
 
 template <typename Item>
