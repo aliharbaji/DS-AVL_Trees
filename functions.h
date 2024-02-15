@@ -96,14 +96,14 @@ void addAux2(shared_ptr<Node<Item>> root, shared_ptr<Node<Item>> newNode) {
         return;
     }
 
-    if (newNode->getID() < root->getID()) {
+    if (newNode->value < root->value) {
         if (root->left == nullptr) {
             root->left = newNode;
             root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
         } else {
             addAux2(root->left, newNode);
         }
-    } else if (newNode->getID() > root->getID()) {
+    } else if (newNode->value > root->value) {
         if (root->right == nullptr) {
             root->right = newNode;
             root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;

@@ -25,6 +25,15 @@ int main() {
 //    addNode(shared_ptr<Node<Team>> teamRoot, shared_ptr<Node<Team>>)
     addNode2(teamRoot, team18Node);
     cout << "The tree is balanced: " << isBalanced(teamRoot) << endl;
+
+    inorder<Team>(teamRoot);
+    cout << endl;
+
+    //perform LL rotation on problematic node
+    LL(teamRoot->right->right->left);
+    cout << "The tree is balanced: " << isBalanced(teamRoot) << endl;
+    inorder<Team>(teamRoot);
+
 //    addNode(teamRoot, 27);
 //    Node* tree = test1();
 //    cout << endl << "the tree starts off balanced: " << isBalanced(tree) << endl;
