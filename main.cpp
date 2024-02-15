@@ -52,6 +52,17 @@ int main() {
 
     addNode(teamRoot, team18Node);
     inorderINFO(teamRoot);
+    cout << endl;
+
+    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
+
+    cout << "performing LL rotation on problematic node" << endl;
+    LL(teamRoot->right->right->left);
+
+    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
+    inorderINFO(teamRoot);
+    cout << endl;
+
 //    cout << contains(teamRoot, 18) << endl;
 
 //    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;

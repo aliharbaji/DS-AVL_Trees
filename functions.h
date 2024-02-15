@@ -108,11 +108,12 @@ void addAux(shared_ptr<Node<Item>> parent, shared_ptr<Node<Item>>& son, shared_p
 
     // check if the tree is balanced
     if(son->balanceFactor > 1 || son->balanceFactor < -1){
-        cout << "The tree is not balanced son is " << son->value << endl;
+        cout << "The tree is not balanced son is " << son->value << endl; // delete later
     }
 
 
 }
+
 template <typename Item>
 void addNode(shared_ptr<Node<Item>>& parent, shared_ptr<Node<Item>> newNode){
     if(parent == nullptr){
@@ -179,6 +180,7 @@ void inorderINFO(shared_ptr<Node<Item>> root){
 
 template <typename Item>
 void swapFields(shared_ptr<Node<Item>> n1, shared_ptr<Node<Item>> n2){
+    // maybe implement an assignment operator
     int val = n1->value;
     int bf = n1->balanceFactor;
     int height = n1->height;
@@ -197,7 +199,6 @@ void LL(shared_ptr<Node<Item>> root){
     shared_ptr<Node<Item>> tempL = newRoot->left; // AL
     shared_ptr<Node<Item>> tempR = newRoot->right; // AR
     swapFields(root, newRoot); // A <-> B
-
 
     root->left = tempL;
     newRoot->right = root->right;
