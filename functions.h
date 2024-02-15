@@ -6,6 +6,16 @@ using namespace std;
 #include "iostream"
 
 
+template <typename Item>
+void rotate(shared_ptr<Node<Item>>& imbalancedNode){
+    if(imbalancedNode == nullptr) return;
+    switch(imbalancedNode->balanceFactor){
+        case RIGHT_HEAVY:
+            break;
+        case LEFT_HEAVY:
+            break;
+    }
+}
 
 template <typename Item>
 int getHeight(shared_ptr<Node<Item>> root){
@@ -57,6 +67,7 @@ void updateHeight(shared_ptr<Node<Item>>& node) {
 }
 
 
+
 template <typename Item>
 void addAux(shared_ptr<Node<Item>> parent, shared_ptr<Node<Item>>& son, shared_ptr<Node<Item>> newNode){
     if (son == nullptr){
@@ -69,8 +80,38 @@ void addAux(shared_ptr<Node<Item>> parent, shared_ptr<Node<Item>>& son, shared_p
     }else{
         addAux(son, son->right, newNode);
     }
-    // update the height of the parent
+
+    // update the height of the parent and balance factor
+    if(parent != nullptr){
+        if(parent->left == son) {
+            if (parent->right == nullptr) {
+                parent->height = 1 + son->height;
+                parent->balanceFactor = parent->height - 0;
+            } else {
+                parent->height = 1 + max(son->height, parent->right->height);
+            }
+        }else if(parent->right == son){
+            if(parent->left == nullptr){
+                parent->height = 1 + son->height;
+                parent->balanceFactor = 0 - parent->height;
+            }else {
+                parent->height = 1 + max(son->height, parent->left->height);
+                parent->balanceFactor = parent->left->height - parent->right->height;
+            }
+        }
+    }
+    // update the height of the son (still dont know why this is necessary but it is)
     updateHeight(son);
+
+    // update the balance factor of the son
+    son->balanceFactor = (son->left != nullptr ? son->left->height : -1) - (son->right != nullptr ? son->right->height : -1);
+
+    // check if the tree is balanced
+    if(son->balanceFactor > 1 || son->balanceFactor < -1){
+        cout << "The tree is not balanced son is " << son->value << endl;
+    }
+
+
 }
 template <typename Item>
 void addNode(shared_ptr<Node<Item>>& parent, shared_ptr<Node<Item>> newNode){

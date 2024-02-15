@@ -69,6 +69,7 @@ shared_ptr<Node<Team>> test2(){
     root->right->right->right->balanceFactor = 0;
 
     // update heights
+    root->height = 4;
     root->left->height = 2;
     root->left->left->height = 1;
     root->left->left->left->height = 0;
@@ -81,7 +82,6 @@ shared_ptr<Node<Team>> test2(){
     root->right->right->left->height = 1;
     root->right->right->left->left->height = 0;
     root->right->right->right->height = 0;
-    root->height = 4;
 
 
     return root;
