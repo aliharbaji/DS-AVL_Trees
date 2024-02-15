@@ -10,7 +10,6 @@ using namespace std;
 int main() {
 
     shared_ptr<Node<Team>> teamRoot = test2();
-
     cout << teamRoot->getID() << endl;
 
     inorder<Team>(teamRoot);
@@ -20,6 +19,13 @@ int main() {
     cout << contains(teamRoot, 27) << endl;
     cout << contains(teamRoot, 20) << endl;
 
+    shared_ptr<Team> team18 = make_shared<Team>(18);
+    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
+
+//    addNode(shared_ptr<Node<Team>> teamRoot, shared_ptr<Node<Team>>)
+    addNode2(teamRoot, team18Node);
+    cout << "The tree is balanced: " << isBalanced(teamRoot) << endl;
+//    addNode(teamRoot, 27);
 //    Node* tree = test1();
 //    cout << endl << "the tree starts off balanced: " << isBalanced(tree) << endl;
 //    inorder(tree);

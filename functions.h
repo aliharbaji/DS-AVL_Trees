@@ -62,7 +62,7 @@ void printInfo(shared_ptr<Node<Item>> root){
 template <typename Item>
 void addAux(shared_ptr<Node<Item>> root, int val) {
     if (root == nullptr) {
-        root = make_shared<Node<Item>>(val);
+        root = make_shared<Node<Item>>( val);
         return;
     }
 
@@ -82,6 +82,37 @@ void addAux(shared_ptr<Node<Item>> root, int val) {
         }
     }
 }
+
+template <typename Item>
+void addNode2(shared_ptr<Node<Item>> root, shared_ptr<Node<Item>> newNode){
+    if(contains(root, newNode->getID())) return;
+    addAux2(root, newNode);
+}
+
+template <typename Item>
+void addAux2(shared_ptr<Node<Item>> root, shared_ptr<Node<Item>> newNode) {
+    if (root == nullptr) {
+        root = newNode;
+        return;
+    }
+
+    if (newNode->getID() < root->getID()) {
+        if (root->left == nullptr) {
+            root->left = newNode;
+            root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
+        } else {
+            addAux2(root->left, newNode);
+        }
+    } else if (newNode->getID() > root->getID()) {
+        if (root->right == nullptr) {
+            root->right = newNode;
+            root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
+        } else {
+            addAux2(root->right, newNode);
+        }
+    }
+}
+
 
 template <typename Item>
 void addNode(shared_ptr<Node<Item>>root, int val){

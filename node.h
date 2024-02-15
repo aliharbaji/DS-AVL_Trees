@@ -14,15 +14,17 @@ const int Zero = 0;
 template <typename Item>
 class Node{
 public:
-    Item data;
+    shared_ptr<Item> data;
+    int value;
     // TO DO: use value instead of Item->getID(), the Node shouldn't be generic (maybe)
     int balanceFactor;
     shared_ptr<Node> left, right;
     shared_ptr<Node> parent;
     int height = 0;
-    explicit Node(Item data): data(data), balanceFactor(Zero), left(nullptr), right(nullptr), parent(nullptr){}
+
+    Node(shared_ptr<Item> data): data(data), value(data->getID()), balanceFactor(Zero), left(nullptr), right(nullptr), parent(nullptr){}
     int getID() const {
-        return data.getID();
+        return data->getID();
     }
 
 };
