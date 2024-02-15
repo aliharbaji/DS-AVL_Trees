@@ -144,7 +144,7 @@ void addAux(shared_ptr<Node<T>> parent, shared_ptr<Node<T>>& son, shared_ptr<Nod
     if (son == nullptr){
         son = newNode;
         newNode->parent = parent;
-        updateHeight(parent);
+        updateHeight(parent); // not sure
         return;
     }
     if(newNode->value < son->value){
@@ -153,17 +153,16 @@ void addAux(shared_ptr<Node<T>> parent, shared_ptr<Node<T>>& son, shared_ptr<Nod
         addAux(son, son->right, newNode);
     }
 
+    // cold feet
     updateHeight(son);
     updateHeight(parent);
 
     // check if the tree is balanced
-
-
     if(son->getBF() > One || son->getBF() < -One){
         cout << "*******PERFORM ROTATION************** " << son->value << "BF is" << son->getBF()<< endl; // delete later
-        int rightHeight = Zero;
-        int leftHeight = Zero;
-        int BF = Zero;
+        int rightHeight;
+        int leftHeight;
+        int BF;
         switch (son->getBF()) {
             case LEFT_HEAVY:
                 rightHeight = (son->right == nullptr) ? 0 : son->right->height;
@@ -199,7 +198,6 @@ void addNode(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>> newNode){
         parent = newNode; // if the tree is empty make the new node the root
         return;
     }
-
     if(contains(parent, newNode->value)) return; // if the value is already in the tree dont add it
 
     if (newNode->value < parent->value){
@@ -210,37 +208,6 @@ void addNode(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>> newNode){
 }
 
 
-// Old implementation of addNode
-//template <typename Item>
-//void addAux(shared_ptr<Node<Item>> root, shared_ptr<Node<Item>> newNode) {
-//    if (root == nullptr) {
-//        root = newNode;
-//        return;
-//    }
-//
-//    if (newNode->value < root->value) {
-//        if (root->left == nullptr) {
-//            root->left = newNode;
-//            root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
-//        } else {
-//            addAux(root->left, newNode);
-//        }
-//    } else if (newNode->value > root->value) {
-//        if (root->right == nullptr) {
-//            root->right = newNode;
-//            root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
-//        } else {
-//            addAux(root->right, newNode);
-//        }
-//    }
-//}
-//
-//template <typename Item>
-//void addNode(shared_ptr<Node<Item>> root, shared_ptr<Node<Item>> newNode){
-//    if(contains(root, newNode->getID())) return;
-//    addAux(root, newNode);
-//}
-
 template <typename T>
 void inorder(shared_ptr<Node<T>> root){
     if (root == nullptr) return;
@@ -249,6 +216,7 @@ void inorder(shared_ptr<Node<T>> root){
     inorder(root->right);
 }
 
+// for debugging purposes
 template <typename T>
 void inorderINFO(shared_ptr<Node<T>> root){
     if (root == nullptr) return;
@@ -257,16 +225,5 @@ void inorderINFO(shared_ptr<Node<T>> root){
     inorderINFO(root->right);
 }
 
-template <typename T>
-void swapFields(shared_ptr<Node<T>> n1, shared_ptr<Node<T>> n2){
-    // maybe implement an assignment operator
-    int val = n1->value;
-    int height = n1->height;
-
-    n1->value = n2->value;
-    n1->height = n2->height; //getHeight
-    n2->value = val;
-    n2->height = height; // getHeight
-}
 
 #endif //AVLTREES_FUNCTIONS_H
