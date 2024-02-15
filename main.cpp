@@ -6,28 +6,29 @@
 using namespace std;
 #include "tests/test2.h"
 #include "functions.h"
+#include "tests/test3Rotations.h"
 
 int main() {
+    shared_ptr<Node<Team>> teamRoot = test2();
 
-//    shared_ptr<Node<Team>> teamRoot = test2();
-//    cout << teamRoot->getID() << endl;
-//
-//    inorder<Team>(teamRoot);
-//    cout << endl;
-//
-//    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
-//    cout << contains(teamRoot, 27) << endl;
-//    cout << contains(teamRoot, 20) << endl;
-//
-//    shared_ptr<Team> team18 = make_shared<Team>(18);
-//    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
-//
-////    addNode(shared_ptr<Node<Team>> teamRoot, shared_ptr<Node<Team>>)
-//    addNode(teamRoot, team18Node);
-//    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
-//
-//    inorder<Team>(teamRoot);
-//    cout << endl;
+    inorder<Team>(teamRoot);
+    cout << endl;
+
+    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+
+    shared_ptr<Team> team18 = make_shared<Team>(18);
+    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
+
+    inorderINFO(teamRoot);
+    cout << endl;
+//    addNode(shared_ptr<Node<Team>> teamRoot, shared_ptr<Node<Team>>)
+    addNode(teamRoot, team18Node);
+    inorderINFO(teamRoot);
+    cout << endl;
+    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+
+    inorder<Team>(teamRoot);
+    cout << endl;
 //
 //    //perform LL rotation on problematic node
 //    LL(teamRoot->right->right->left);
@@ -36,44 +37,49 @@ int main() {
 //    cout << endl;
 
 
-    cout << "NEW TEST ***********************************" << endl;
-    cout<<endl;
-
-    shared_ptr<Node<Team>> teamRoot = test2();
-    inorderINFO(teamRoot);
-    cout << endl;
-
-    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
-//    cout << contains(teamRoot, 18) << endl;
-    cout << "ADDING NODE 18" << endl;
-
-    shared_ptr<Team> team18 = make_shared<Team>(18);
-    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
-
-    addNode(teamRoot, team18Node);
-    inorderINFO(teamRoot);
-    cout << endl;
-
-    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
-
-    cout << "performing LL rotation on problematic node" << endl;
-    LL(teamRoot->right->right->left);
-
-    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
-    inorderINFO(teamRoot);
-    cout << endl;
-
-//    cout << contains(teamRoot, 18) << endl;
-
-//    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
-//    inorder(teamRoot);
+//    cout << "NEW TEST2 ***********************************" << endl;
+//    cout<<endl;
+//
+//    shared_ptr<Node<Team>> teamRoot = test2();
+//    inorderINFO(teamRoot);
 //    cout << endl;
 //
-//    cout << "Performing LL rotation on problematic node" << endl;
-//    LL(teamRoot->right->right->left);
 //    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
-//    inorder(teamRoot);
+////    cout << contains(teamRoot, 18) << endl;
+//    cout << "ADDING NODE 18" << endl;
+//
+//    shared_ptr<Team> team18 = make_shared<Team>(18);
+//    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
+//
+//    addNode(teamRoot, team18Node);
+//    inorderINFO(teamRoot);
 //    cout << endl;
+//
+//    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
+//
+//    cout << "performing LL rotation on problematic node" << endl;
+//
+//
+//
+//    cout << "is balanced = " << isBalancedSlowVersion(teamRoot) << endl;
+//    inorderINFO(teamRoot);
+//    cout << endl;
+//   cout << "NEW TEST3 ***********************************" << endl;
+
+//    shared_ptr<Node<Team>> ts = test3();
+//    inorderINFO(ts);
+//    cout << getHeight(ts) << " mmmm " << ts->height << endl;
+//    cout << "before rotation" << endl;
+//    cout << ts->value << endl;
+//    cout << ts->left->value << endl;
+//    cout << ts->left->right->value << endl;
+//    cout << ts->left->right->right->value << endl;
+//    cout << endl;
+//    RR(ts->left);
+//    cout << ts->value << endl;
+//    cout << ts->left->value << endl;
+//    cout << ts->left->left->value << endl;
+//    cout << ts->left->right->value << endl;
 
 
     // TRASHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH

@@ -3,7 +3,7 @@ item is a pure virtual class with ID field
 enum class sport {SPORT1, SPORT2}
 
 
-Node<class Item>
+Node<class T>
 int height
 Node* left, right
 Node* parent
@@ -26,5 +26,5 @@ strength
 team*
 //country*
 
-Tree<class Item>
+Tree<class T>
 int size;

@@ -55,18 +55,18 @@ shared_ptr<Node<Team>> test2(){
     root->right->right->right->parent = root->right->right;
 
     // update balance factors
-    root->left->balanceFactor = 1;
-    root->left->left->balanceFactor = 1;
-    root->left->left->left->balanceFactor = 0;
-    root->left->right->balanceFactor = 0;
-    root->left->right->right->balanceFactor = 0;
-    root->right->balanceFactor = -1;
-    root->right->left->balanceFactor = -1;
-    root->right->left->left->balanceFactor = 0;
-    root->right->right->balanceFactor = 1;
-    root->right->right->left->balanceFactor = 1;
-    root->right->right->left->left->balanceFactor = 0;
-    root->right->right->right->balanceFactor = 0;
+//    root->left->balanceFactor = 1;
+//    root->left->left->balanceFactor = 1;
+//    root->left->left->left->balanceFactor = 0;
+//    root->left->right->balanceFactor = 0;
+//    root->left->right->right->balanceFactor = 0;
+//    root->right->balanceFactor = -1;
+//    root->right->left->balanceFactor = -1;
+//    root->right->left->left->balanceFactor = 0;
+//    root->right->right->balanceFactor = 1;
+//    root->right->right->left->balanceFactor = 1;
+//    root->right->right->left->left->balanceFactor = 0;
+//    root->right->right->right->balanceFactor = 0;
 
     // update heights
     root->height = 4;

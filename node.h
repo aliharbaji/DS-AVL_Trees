@@ -13,33 +13,37 @@ enum class IMBALANCE_TYPE{
     RL,
     RR
 };
-const int RIGHT_HEAVY = 1;
-const int LEFT_HEAVY = -1;
+const int RIGHT_HEAVY = 2;
+const int LEFT_HEAVY = -2;
 const int BALANCED = 0;
 const int Zero = 0;
 
 #define AVLTREES_NODE_H
 #include "memory"
 
-// GENERIC
-template <typename Item>
+// TODO: remove balance factor field
+template <class T>
 class Node{
+private:
 public:
-    shared_ptr<Item> data;
+    shared_ptr<T> data;
     shared_ptr<Node> left, right;
     shared_ptr<Node> parent;
     int value;
-    int balanceFactor;
     int height;
     friend class Tree;
 
-    Node(shared_ptr<Item> data): data(data), value(data->getID()), height(Zero), balanceFactor(Zero),
+    Node(shared_ptr<T> data): data(data), value(data->getID()), height(Zero),
     left(nullptr), right(nullptr), parent(nullptr){}
 
     int getID() const {
         return data->getID();
     }
 
+    int getBF(){
+        int bf = (left != nullptr ? left->height : -1) - (right != nullptr ? right->height : -1);
+        return bf;
+    }
 };
 
 
