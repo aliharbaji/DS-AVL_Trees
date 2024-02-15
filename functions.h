@@ -7,7 +7,7 @@ using namespace std;
 
 // work in progress, still gives segmentation fault
 template <typename Item>
-void LL(shared_ptr<Node<Item>>& root){
+void LL2(shared_ptr<Node<Item>>& root){
     shared_ptr<Node<Item>> rootParent = root->parent;
     shared_ptr<Node<Item>> newRoot = root->left;
 
@@ -32,18 +32,18 @@ void LL(shared_ptr<Node<Item>>& root){
 
 }
 
-//template <typename Item>
-//void LL(shared_ptr<Node<Item>> root){
-//    shared_ptr<Node<Item>> newRoot = root->left; // A
-//    shared_ptr<Node<Item>> tempL = newRoot->left; // AL
-//    shared_ptr<Node<Item>> tempR = newRoot->right; // AR
-//    swapFields(root, newRoot); // A <-> B
-//
-//    root->left = tempL;
-//    newRoot->right = root->right;
-//    newRoot->left = tempR;
-//    root->right = newRoot;
-//}
+template <typename Item>
+void LL(shared_ptr<Node<Item>> root){
+    shared_ptr<Node<Item>> newRoot = root->left; // A
+    shared_ptr<Node<Item>> tempL = newRoot->left; // AL
+    shared_ptr<Node<Item>> tempR = newRoot->right; // AR
+    swapFields(root, newRoot); // A <-> B
+
+    root->left = tempL;
+    newRoot->right = root->right;
+    newRoot->left = tempR;
+    root->right = newRoot;
+}
 
 template <typename Item>
 void RR(shared_ptr<Node<Item>> root){
