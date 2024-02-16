@@ -34,36 +34,37 @@ void updateHeight(shared_ptr<Node<T>>& node) {
 template <typename T>
 void LL(shared_ptr<Node<T>>& root) {
     if (root == nullptr) return;
-
+    cout << "inside LL on node " << root->value << endl;
     shared_ptr<Node<T>> parent = root->parent;
     shared_ptr<Node<T>> temp = root->left;
 
-        // Update parent pointers
-        temp->parent = parent;
-        root->parent = temp;
+    // Update parent pointers
+    temp->parent = parent;
+    root->parent = temp;
 
-        // Update child pointers
-        root->left = temp->right;
-        if (temp->right != nullptr) {
-            temp->right->parent = root;
+    // Update child pointers
+    root->left = temp->right;
+    if (temp->right != nullptr) {
+        temp->right->parent = root;
+    }
+
+    temp->right = root;
+
+    // Update parent's child pointer
+    if (parent != nullptr) {
+        if (parent->left == root) {
+            parent->left = temp;
+        } else {
+            parent->right = temp;
         }
+    }
 
-
-        temp->right = root;
-        // Update parent's child pointer
-        if (parent != nullptr) {
-            if (parent->left == root) {
-                parent->left = temp;
-            } else {
-                parent->right = temp;
-            }
-        }
-
-        // update heights
-        updateHeight(root);
-        updateHeight(temp); // height of
-        updateHeight(parent);
+    // Update heights
+    updateHeight(root);
+    updateHeight(temp); // Update the height after updating its right child
+    updateHeight(parent);
 }
+
 
 //template <typename T>
 //void LL(shared_ptr<Node<T>>& root) {
@@ -210,55 +211,58 @@ void printInfo(shared_ptr<Node<T>> root){
 
 
 template <typename T>
-void addAux(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>>& son, shared_ptr<Node<T>>& newNode){
-    if (son == nullptr){
+void addAux(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>>& son, shared_ptr<Node<T>>& newNode) {
+    if (son == nullptr) {
         son = newNode;
-        newNode->parent = parent;
-//        updateHeight(parent); // not sure
-//        updateHeight(son);
+        son->parent = parent;
         return;
     }
-    if(newNode->value < son->value){
+
+    if (newNode->value < son->value) {
         addAux(son, son->left, newNode);
-    }else{
+    } else {
         addAux(son, son->right, newNode);
     }
 
+    // Update son's height after recursive calls
+    updateHeight(son);
 
-    // check if the tree is balanced
-    if(son->getBF() > One || son->getBF() < -One){
-        cout << "*******PERFORM ROTATION************** " << son->value << "BF is " << son->getBF()<< endl; // delete later
-        int rightHeight;
-        int leftHeight;
-        int BF;
+    // Check if the tree is balanced
+    if (son->getBF() > One || son->getBF() < -One) {
+
+        cout << "***********PERFORM ROTATION************** on node " << son->value << " its BF is " << son->getBF() << endl;
         switch (son->getBF()) {
-            case LEFT_HEAVY:
-                rightHeight = (son->right == nullptr) ? 0 : son->right->height;
-                leftHeight = (son->left == nullptr) ? 0 : son->left->height;
-                BF = leftHeight - rightHeight;
-                if(BF >= 0){
+            case LEFT_HEAVY: {
+                int rightHeight = (son->right == nullptr) ? 0 : getHeight(son->right);
+                int leftHeight = (son->left == nullptr) ? 0 : getHeight(son->left);
+                int BF = leftHeight - rightHeight;
+
+                if (BF >= 0) {
                     LL(son);
-                }else{
+                } else {
                     LR(son);
                 }
                 break;
+            }
+            case RIGHT_HEAVY: {
+                int rightHeight = (son->right == nullptr) ? 0 : son->right->height;
+                int leftHeight = (son->left == nullptr) ? 0 : son->left->height;
+                int BF = leftHeight - rightHeight;
 
-            case RIGHT_HEAVY:
-                rightHeight = (son->right == nullptr) ? 0 : son->right->height;
-                leftHeight = (son->left == nullptr) ? 0 : son->left->height;
-                BF = leftHeight - rightHeight;
-                if(BF <= 0){
-                    cout << "here" << endl;
+                if (BF <= 0) {
                     RR(son);
-                }else{
+                } else {
                     RL(son);
                 }
                 break;
+            }
         }
     }
+
+    // Update parent's height after rotations
     updateHeight(parent);
-    updateHeight(son);
 }
+
 
 template <typename T>
 void addNode(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>>& newNode){

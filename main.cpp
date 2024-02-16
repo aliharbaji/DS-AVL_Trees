@@ -24,8 +24,13 @@ int main() {
     inorderINFO<Team>(teamRoot);
     cout << endl;
     cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
-    cout << teamRoot->right->right->left->value << endl;
+    cout << teamRoot->right->right->left->left->value << endl;
+//    cout << teamRoot->right->right->left->left->right->value << endl;
     cout << "HEIGHT OF n:20 should be 0 and not 2 after LL rotation!!, check example from lecture!!!" << endl;
+    cout << "The error has something to do with updating heights correctly " << endl;
+    cout << "the code should perform an LL rotation on Node 20 first but for some reason it is doing it on node 24" << endl;
+    cout << "it is probably calculating Node 20's BF incorrectly and as the recursive call unfolds it skips the fact that"
+            "Node 20 is imbalanced" << endl;
 
 
 
