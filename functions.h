@@ -8,16 +8,12 @@ template <typename T>
 void updateHeight(shared_ptr<Node<T>>& node) {
     if (node == nullptr) return;
 
-    int leftHeight = (node->left != nullptr) ? node->left->height : 0;
-    int rightHeight = (node->right != nullptr) ? node->right->height : 0;
-
-    if(node->left == nullptr && node->right == nullptr){
-        node->height = 0;
-        return;
-    }
+    int leftHeight = (node->left != nullptr) ? node->left->height : -1; // Initialize to -1 instead of 0
+    int rightHeight = (node->right != nullptr) ? node->right->height : -1; // Initialize to -1 instead of 0
 
     node->height = 1 + max(leftHeight, rightHeight);
 }
+
 
 // TODO: fix the height update
 template <typename T>
@@ -38,7 +34,7 @@ void LL(shared_ptr<Node<T>>& root) {
     }
 
     temp->right = root;
-    temp->right->height = root->height - 2; // idk why this works for my test, TODO fix this
+//    temp->right->height = root->height - 2; // idk why this works for my test, TODO fix this
 
     // Update parent's child pointer
     if (parent != nullptr) {
@@ -51,6 +47,7 @@ void LL(shared_ptr<Node<T>>& root) {
 
     // Update heights
     updateHeight(temp); // Update the height after updating its right child
+    updateHeight(temp->right); // Update the height of the right child
     updateHeight(root);
     updateHeight(parent);
 }
