@@ -4,6 +4,99 @@ using namespace std;
 #include "node.h"
 #include "iostream"
 
+template <typename T>
+void updateHeight(shared_ptr<Node<T>>& node) {
+    if (node == nullptr) return;
+
+    int leftHeight = (node->left != nullptr) ? getHeight(node->left) : 0;
+    int rightHeight = (node->right != nullptr) ? getHeight(node->right) : 0;
+    if(node->left == nullptr && node->right == nullptr){
+        node->height = 0;
+        return;
+    }
+    node->height = 1 + max(leftHeight, rightHeight);
+}
+
+//template <typename T>
+//void updateHeight(shared_ptr<Node<T>>& node) {
+//    if (node != nullptr) {
+//        if(node->value == 20){
+//            cout << "Updating height for " << node->value << endl; // delete later
+//        }
+//        int leftHeight = (node->left == nullptr) ? 0 : node->left->height;
+//        int rightHeight = (node->right == nullptr) ? 0 : node->right->height;
+//        int height = 1 + std::max(leftHeight, rightHeight);
+//        height = (height < 0) ? 0 : height;
+//        node->height = height;
+//    }
+//}
+
+template <typename T>
+void LL(shared_ptr<Node<T>>& root) {
+    if (root == nullptr) return;
+
+    shared_ptr<Node<T>> parent = root->parent;
+    shared_ptr<Node<T>> temp = root->left;
+
+        // Update parent pointers
+        temp->parent = parent;
+        root->parent = temp;
+
+        // Update child pointers
+        root->left = temp->right;
+        if (temp->right != nullptr) {
+            temp->right->parent = root;
+        }
+
+
+        temp->right = root;
+        // Update parent's child pointer
+        if (parent != nullptr) {
+            if (parent->left == root) {
+                parent->left = temp;
+            } else {
+                parent->right = temp;
+            }
+        }
+
+        // update heights
+        updateHeight(root);
+        updateHeight(temp); // height of
+        updateHeight(parent);
+}
+
+//template <typename T>
+//void LL(shared_ptr<Node<T>>& root) {
+//    if(root == nullptr) return;
+//    if(root->value == 20){
+//        cout <<"here*************" << endl;
+//
+//    }
+//    shared_ptr<Node<T>> parent = root->parent;
+//    shared_ptr<Node<T>> temp = root->left;
+//
+//    // Update parent pointers
+//    temp->parent = parent;
+//    root->parent = temp;
+//
+//    // Update child pointers
+//    root->left = temp->right;
+//    if (temp->right != nullptr) {
+//        temp->right->parent = root;
+//    }
+//
+//    temp->right = root;
+//
+//    // Update parent's child pointer
+//    if (parent != nullptr) {
+//        if (parent->left == root) {
+//            parent->left = temp;
+//        } else {
+//            parent->right = temp;
+//        }
+//    }
+//    updateHeight(root->right); //this works for some reason
+//}
 
 template <typename T>
 void RR(shared_ptr<Node<T>>& root) {
@@ -30,38 +123,6 @@ void RR(shared_ptr<Node<T>>& root) {
         }
     }
     updateHeight(root->left); //this works for some reason
-}
-
-template <typename T>
-void LL(shared_ptr<Node<T>>& root) {
-//    if(root->value == 20){
-//        cout <<"here" << endl;
-//
-//    }
-    shared_ptr<Node<T>> parent = root->parent;
-    shared_ptr<Node<T>> temp = root->left;
-
-    // Update parent pointers
-    temp->parent = parent;
-    root->parent = temp;
-
-    // Update child pointers
-    root->left = temp->right;
-    if (temp->right != nullptr) {
-        temp->right->parent = root;
-    }
-
-    temp->right = root;
-
-    // Update parent's child pointer
-    if (parent != nullptr) {
-        if (parent->left == root) {
-            parent->left = temp;
-        } else {
-            parent->right = temp;
-        }
-    }
-    updateHeight(root->right); //this works for some reason
 }
 template <typename T>
 void LR(shared_ptr<Node<T>>& root){
@@ -98,11 +159,11 @@ void rotate(shared_ptr<Node<T>>& imbalancedNode){
 template <typename T>
 int getHeight(shared_ptr<Node<T>> root){
     if(root == nullptr) return -1;
-    int R = getHeight(root->right);
-    int L = getHeight(root->left);
+//    int R = getHeight(root->right);
+//    int L = getHeight(root->left);
     //the commented lines give a segmentation fault
-//    int R = (root->right == nullptr ? -1 : root->right->height);
-//    int L = (root->left == nullptr ? -1 : root->left->height);
+    int R = (root->right == nullptr ? -1 : root->right->height);
+    int L = (root->left == nullptr ? -1 : root->left->height);
 
     int height = 1 + max(R, L);
     int heightToReturn = (height < Zero) ? Zero : height;
@@ -145,19 +206,6 @@ void printInfo(shared_ptr<Node<T>> root){
     cout << "v:" << root->value << " h:" << root->height << ", ";
 }
 
-template <typename T>
-void updateHeight(shared_ptr<Node<T>>& node) {
-    if (node != nullptr) {
-        if(node->value == 20){
-            cout << "Updating height for " << node->value << endl; // delete later
-        }
-        int leftHeight = (node->left == nullptr) ? 0 : getHeight(node->left);
-        int rightHeight = (node->right == nullptr) ? 0 : getHeight(node->right);
-        int height = 1 + max(leftHeight, rightHeight);
-        height = (height < 0) ? 0 : height;
-        node->height = height;
-    }
-}
 
 
 
@@ -179,7 +227,7 @@ void addAux(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>>& son, shared_ptr<No
 
     // check if the tree is balanced
     if(son->getBF() > One || son->getBF() < -One){
-        cout << "*******PERFORM ROTATION************** " << son->value << "BF is" << son->getBF()<< endl; // delete later
+        cout << "*******PERFORM ROTATION************** " << son->value << "BF is " << son->getBF()<< endl; // delete later
         int rightHeight;
         int leftHeight;
         int BF;

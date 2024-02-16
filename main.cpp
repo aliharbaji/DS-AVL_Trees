@@ -15,23 +15,23 @@ int main() {
     cout << endl;
 
     cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+    cout << endl;
 
-//    shared_ptr<Team> team30 = make_shared<Team>(30);
-//    shared_ptr<Node<Team>> team30Node = make_shared<Node<Team>>(team30);
-//    addNode(teamRoot, team30Node);
-//    inorderINFO<Team>(teamRoot);
-//    cout << endl;
-//    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
 
-    shared_ptr<Team> team31 = make_shared<Team>(18);
-    shared_ptr<Node<Team>> team31Node = make_shared<Node<Team>>(team31);
-    addNode(teamRoot, team31Node);
+    shared_ptr<Team> team18 = make_shared<Team>(18);
+    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
+    addNode(teamRoot, team18Node);
     inorderINFO<Team>(teamRoot);
     cout << endl;
     cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
-    cout << teamRoot->right->right->left->right->value << endl;
-    inorderINFO<Team>(teamRoot);
-    cout << endl;
+    cout << teamRoot->right->right->left->value << endl;
+    cout << "HEIGHT OF n:20 should be 0 and not 2 after LL rotation!!, check example from lecture!!!" << endl;
+
+
+
+//
+//    inorderINFO<Team>(teamRoot);
+//    cout << endl;
 //
 //    shared_ptr<Team> team18 = make_shared<Team>(18);
 //    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
@@ -46,7 +46,7 @@ int main() {
 //
 //    inorder<Team>(teamRoot);
 //    cout << endl;
-//
+////
 
 
 
@@ -78,7 +78,7 @@ int main() {
 //    inorderINFO(teamRoot);
 //    cout << endl;
 //   cout << "NEW TEST3 ***********************************" << endl;
-
+//
 //    shared_ptr<Node<Team>> ts = test3();
 //    inorderINFO(ts);
 //    cout << getHeight(ts) << " mmmm " << ts->height << endl;
@@ -93,7 +93,7 @@ int main() {
 //    cout << ts->left->value << endl;
 //    cout << ts->left->left->value << endl;
 //    cout << ts->left->right->value << endl;
-
+//    inorderINFO(ts);
 
     // TRASHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 //    shared_ptr<Team> team30 = make_shared<Team>(30);

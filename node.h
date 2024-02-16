@@ -41,7 +41,7 @@ public:
     }
 
     int getBF(){
-        int bf = (left != nullptr ? left->height : -1) - (right != nullptr ? right->height : -1);
+        int bf = (left != nullptr ? left->height : 0) - (right != nullptr ? right->height : 0);
         return bf;
     }
 
