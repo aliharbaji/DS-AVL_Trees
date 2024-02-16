@@ -34,7 +34,6 @@ void LL(shared_ptr<Node<T>>& root) {
     }
 
     temp->right = root;
-//    temp->right->height = root->height - 2; // idk why this works for my test, TODO fix this
 
     // Update parent's child pointer
     if (parent != nullptr) {
@@ -52,9 +51,46 @@ void LL(shared_ptr<Node<T>>& root) {
     updateHeight(parent);
 }
 
+template <typename T>
+void RR(shared_ptr<Node<T>>& root) {
+    if (root == nullptr || root->right == nullptr) return;
+
+    cout << "inside RR on node " << root->value << endl;
+
+    shared_ptr<Node<T>> parent = root->parent;
+    shared_ptr<Node<T>> temp = root->right;
+
+    // Update parent pointers
+    temp->parent = parent;
+    root->parent = temp;
+
+    // Update child pointers
+    root->right = temp->left;
+    if (temp->left != nullptr) {
+        temp->left->parent = root;
+    }
+
+    temp->left = root;
+
+    // Update parent's child pointer
+    if (parent != nullptr) {
+        if (parent->left == root) {
+            parent->left = temp;
+        } else {
+            parent->right = temp;
+        }
+    }
+
+    // Update heights
+    updateHeight(temp); // Update the height after updating its left child
+    updateHeight(temp->left); // Update the height of the left child
+    updateHeight(root);
+    updateHeight(parent);
+}
+
 
 //template <typename T>
-//void LL(shared_ptr<Node<T>>& root) {
+//void LLOLD(shared_ptr<Node<T>>& root) {
 //    if(root == nullptr) return;
 //    if(root->value == 20){
 //        cout <<"here*************" << endl;
@@ -86,32 +122,32 @@ void LL(shared_ptr<Node<T>>& root) {
 //    updateHeight(root->right); //this works for some reason
 //}
 
-template <typename T>
-void RR(shared_ptr<Node<T>>& root) {
-    shared_ptr<Node<T>> parent = root->parent;
-    shared_ptr<Node<T>> temp = root->right;
-
-    // Update parent pointers
-    temp->parent = parent;
-    root->parent = temp;
-
-    // Update child pointers
-    root->right = temp->left;
-    if (temp->left != nullptr) {
-        temp->left->parent = root;
-    }
-
-    temp->left = root;
-    // Update parent's child pointer
-    if (parent != nullptr) {
-        if (parent->left == root) {
-            parent->left = temp;
-        } else {
-            parent->right = temp;
-        }
-    }
-    updateHeight(root->left); //this works for some reason
-}
+//template <typename T>
+//void RROLD(shared_ptr<Node<T>>& root) {
+//    shared_ptr<Node<T>> parent = root->parent;
+//    shared_ptr<Node<T>> temp = root->right;
+//
+//    // Update parent pointers
+//    temp->parent = parent;
+//    root->parent = temp;
+//
+//    // Update child pointers
+//    root->right = temp->left;
+//    if (temp->left != nullptr) {
+//        temp->left->parent = root;
+//    }
+//
+//    temp->left = root;
+//    // Update parent's child pointer
+//    if (parent != nullptr) {
+//        if (parent->left == root) {
+//            parent->left = temp;
+//        } else {
+//            parent->right = temp;
+//        }
+//    }
+//    updateHeight(root->left); //this works for some reason
+//}
 template <typename T>
 void LR(shared_ptr<Node<T>>& root){
     if(root == nullptr || root->left == nullptr) return;
@@ -133,12 +169,30 @@ void rotate(shared_ptr<Node<T>>& imbalancedNode){
     if(imbalancedNode == nullptr) return;
 
     switch(imbalancedNode->getBF()){
-        case RIGHT_HEAVY:
+        case LEFT_HEAVY: {
+            int rightHeight = (imbalancedNode->right == nullptr) ? 0 : imbalancedNode->right->height;
+            int leftHeight = (imbalancedNode->left == nullptr) ? 0 : imbalancedNode->left->height;
+            int BF = leftHeight - rightHeight;
 
+            if (BF >= 0) {
+                LL(imbalancedNode);
+            } else {
+                LR(imbalancedNode);
+            }
             break;
-        case LEFT_HEAVY:
+        }
+        case RIGHT_HEAVY: {
+            int rightHeight = (imbalancedNode->right == nullptr) ? 0 : imbalancedNode->right->height;
+            int leftHeight = (imbalancedNode->left == nullptr) ? 0 : imbalancedNode->left->height;
+            int BF = leftHeight - rightHeight;
 
+            if (BF <= 0) {
+                RR(imbalancedNode);
+            } else {
+                RL(imbalancedNode);
+            }
             break;
+        }
     }
 }
 
@@ -211,38 +265,17 @@ void addAux(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>>& son, shared_ptr<No
         addAux(son, son->right, newNode);
     }
 
-
+    cout << "son is " << son->value << " and its BF is " << son->getBF() << endl;
+    cout << "parent is " << parent->value << " and its BF is " << parent->getBF() << endl;
     // Check if the tree is balanced
     if (son->getBF() > One || son->getBF() < -One) {
-
         cout << "***********PERFORM ROTATION************** on node " << son->value << " its BF is " << son->getBF() << endl;
-        switch (son->getBF()) {
-            case LEFT_HEAVY: {
-                int rightHeight = (son->right == nullptr) ? 0 : son->right->height;
-                int leftHeight = (son->left == nullptr) ? 0 : son->left->height;
-                int BF = leftHeight - rightHeight;
-
-                if (BF >= 0) {
-                    LL(son);
-                } else {
-                    LR(son);
-                }
-                break;
-            }
-            case RIGHT_HEAVY: {
-                int rightHeight = (son->right == nullptr) ? 0 : son->right->height;
-                int leftHeight = (son->left == nullptr) ? 0 : son->left->height;
-                int BF = leftHeight - rightHeight;
-
-                if (BF <= 0) {
-                    RR(son);
-                } else {
-                    RL(son);
-                }
-                break;
-            }
-        }
+        rotate(son);
+    }else if(parent->getBF() > One || parent->getBF() < -One){
+        cout << "***********PERFORM ROTATION************** on node " << parent->value << " its BF is " << parent->getBF() << endl;
+        rotate(parent);
     }
+
     // Update son's height after recursive calls
     updateHeight(son);
     // Update parent's height after rotations
@@ -265,6 +298,13 @@ void addNode(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>>& newNode){
     }
 }
 
+template <typename T>
+shared_ptr<Node<T>> insert(shared_ptr<Node<T>>& root, int id){
+    shared_ptr<T> newNode = make_shared<T>(id);
+    shared_ptr<Node<T>> team18Node = make_shared<Node<T>>(newNode);
+    addNode(root, team18Node);
+    return root;
+}
 
 template <typename T>
 void inorder(shared_ptr<Node<T>> root){

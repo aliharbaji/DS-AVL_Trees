@@ -9,36 +9,51 @@ using namespace std;
 #include "tests/test3Rotations.h"
 
 int main() {
-    shared_ptr<Node<Team>> teamRoot = test2();
+    shared_ptr<Node<Team>> root;
+    root = insert(root, 10);
+    root = insert(root, 20);
+    root = insert(root, 30);
+    inorderINFO(root);
+    cout << endl;
+    cout << root->right->value << endl;
+    cout << "The tree is balanced: " << isBalancedSlowVersion(root) << endl;
+    cout << "fixed many of the issues with the rotations, but need to fix the problem in this test" << endl;
+    cout << "if we create a שרוך with 3 nodes the tree becomes unbalanced, and to fix we perform an RR rotation" << endl;
+    cout << "the problem that arises is that the pointer root stops pointing to the root of the tree" << endl;
+    cout << "and instead points to the left child of the root" << endl;
+    cout << "this is a problem because the root of the tree is not updated" << endl;
+    cout << "the solution is to return the new root of the tree from the rotation functions" << endl;
 
-    inorder<Team>(teamRoot);
-    cout << endl;
-
-    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
-    cout << endl;
-
-
-    shared_ptr<Team> team18 = make_shared<Team>(18);
-    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
-    addNode(teamRoot, team18Node);
-    inorderINFO<Team>(teamRoot);
-    cout << endl;
-    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
-    cout << teamRoot->right->right->left->value << endl;
-    cout << teamRoot->right->right->left->right->value << endl;
-//    cout << teamRoot->right->right->left->left->right->value << endl;
-    cout << endl;
-    cout << endl;
-    cout << "HEIGHT OF n:20 should be 0 and not 2 after LL rotation!!, check example from lecture!!!" << endl;
-    cout << "The error has something to do with updating heights correctly " << endl;
-    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
-    cout << "the height of node 24 should be 2, but it is " << teamRoot->right->right->height << endl;
-    cout << "this is the height of the right child of node 24: " << teamRoot->right->right->right->height << endl;
-    cout << "this is the height of the left child of node 24: " << teamRoot->right->right->left->height << endl;
-    cout << "the left child of node 24 is correct and is " << teamRoot->right->right->left->value << endl;
-    cout << "its height is " << teamRoot->right->right->left->height << endl;
-    cout << "now it works but LL's implementation seems weird and maybe only works for this case" << endl;
-    cout << "check TODO comments in LL function" << endl;
+//    shared_ptr<Node<Team>> teamRoot = test2();
+//    inorder<Team>(teamRoot);
+//    inorder<Team>(teamRoot);
+//    cout << endl;
+//
+//    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+//    cout << endl;
+//
+//
+//    shared_ptr<Team> team18 = make_shared<Team>(18);
+//    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);
+//    addNode(teamRoot, team18Node);
+//    inorderINFO<Team>(teamRoot);
+//    cout << endl;
+//    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+//    cout << teamRoot->right->right->left->value << endl;
+//    cout << teamRoot->right->right->left->right->value << endl;
+////    cout << teamRoot->right->right->left->left->right->value << endl;
+//    cout << endl;
+//    cout << endl;
+//    cout << "HEIGHT OF n:20 should be 0 and not 2 after LL rotation!!, check example from lecture!!!" << endl;
+//    cout << "The error has something to do with updating heights correctly " << endl;
+//    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+//    cout << "the height of node 24 should be 2, but it is " << teamRoot->right->right->height << endl;
+//    cout << "this is the height of the right child of node 24: " << teamRoot->right->right->right->height << endl;
+//    cout << "this is the height of the left child of node 24: " << teamRoot->right->right->left->height << endl;
+//    cout << "the left child of node 24 is correct and is " << teamRoot->right->right->left->value << endl;
+//    cout << "its height is " << teamRoot->right->right->left->height << endl;
+//    cout << "now it works but LL's implementation seems weird and maybe only works for this case" << endl;
+//    cout << "check TODO comments in LL function" << endl;
 //
 //    inorderINFO<Team>(teamRoot);
 //    cout << endl;
