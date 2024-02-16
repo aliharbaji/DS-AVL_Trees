@@ -45,8 +45,8 @@ void LL(shared_ptr<Node<T>>& root) {
     }
 
     // Update heights
-    updateHeight(temp); // Update the height after updating its right child
     updateHeight(temp->right); // Update the height of the right child
+    updateHeight(temp); // Update the height after updating its right child
     updateHeight(root);
     updateHeight(parent);
 }
@@ -82,8 +82,8 @@ void RR(shared_ptr<Node<T>>& root) {
     }
 
     // Update heights
-    updateHeight(temp); // Update the height after updating its left child
     updateHeight(temp->left); // Update the height of the left child
+    updateHeight(temp); // Update the height after updating its left child
     updateHeight(root);
     updateHeight(parent);
 }

@@ -13,9 +13,11 @@ int main() {
     root = insert(root, 10);
     root = insert(root, 20);
     root = insert(root, 30);
-    inorderINFO(root);
+//    inorderINFO(root->parent);
+//    cout << endl;
+    inorderINFO(root); // this is the problem
     cout << endl;
-    cout << root->right->value << endl;
+//    cout << root->right->value << endl;
     cout << "The tree is balanced: " << isBalancedSlowVersion(root) << endl;
     cout << "fixed many of the issues with the rotations, but need to fix the problem in this test" << endl;
     cout << "if we create a שרוך with 3 nodes the tree becomes unbalanced, and to fix we perform an RR rotation" << endl;
