@@ -26,6 +26,8 @@ int main() {
     cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
     cout << teamRoot->right->right->left->left->value << endl;
 //    cout << teamRoot->right->right->left->left->right->value << endl;
+    cout << endl;
+    cout << endl;
     cout << "HEIGHT OF n:20 should be 0 and not 2 after LL rotation!!, check example from lecture!!!" << endl;
     cout << "The error has something to do with updating heights correctly " << endl;
     cout << "the code should perform an LL rotation on Node 20 first but for some reason it is doing it on node 24" << endl;
