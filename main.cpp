@@ -16,12 +16,12 @@ int main() {
 
     cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
 
-    shared_ptr<Team> team30 = make_shared<Team>(30);
-    shared_ptr<Node<Team>> team30Node = make_shared<Node<Team>>(team30);
-    addNode(teamRoot, team30Node);
-    inorderINFO<Team>(teamRoot);
-    cout << endl;
-    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
+//    shared_ptr<Team> team30 = make_shared<Team>(30);
+//    shared_ptr<Node<Team>> team30Node = make_shared<Node<Team>>(team30);
+//    addNode(teamRoot, team30Node);
+//    inorderINFO<Team>(teamRoot);
+//    cout << endl;
+//    cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
 
     shared_ptr<Team> team31 = make_shared<Team>(18);
     shared_ptr<Node<Team>> team31Node = make_shared<Node<Team>>(team31);
@@ -29,7 +29,9 @@ int main() {
     inorderINFO<Team>(teamRoot);
     cout << endl;
     cout << "The tree is balanced: " << isBalancedSlowVersion(teamRoot) << endl;
-
+    cout << teamRoot->right->right->left->right->value << endl;
+    inorderINFO<Team>(teamRoot);
+    cout << endl;
 //
 //    shared_ptr<Team> team18 = make_shared<Team>(18);
 //    shared_ptr<Node<Team>> team18Node = make_shared<Node<Team>>(team18);

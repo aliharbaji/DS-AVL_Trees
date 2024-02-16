@@ -29,10 +29,15 @@ void RR(shared_ptr<Node<T>>& root) {
             parent->right = temp;
         }
     }
+    updateHeight(root->left); //this works for some reason
 }
 
 template <typename T>
 void LL(shared_ptr<Node<T>>& root) {
+//    if(root->value == 20){
+//        cout <<"here" << endl;
+//
+//    }
     shared_ptr<Node<T>> parent = root->parent;
     shared_ptr<Node<T>> temp = root->left;
 
@@ -56,6 +61,7 @@ void LL(shared_ptr<Node<T>>& root) {
             parent->right = temp;
         }
     }
+    updateHeight(root->right); //this works for some reason
 }
 template <typename T>
 void LR(shared_ptr<Node<T>>& root){
@@ -87,12 +93,23 @@ void rotate(shared_ptr<Node<T>>& imbalancedNode){
     }
 }
 
+// TODO: make sure this works in O(1) time
+//this does not work in O(1) time
 template <typename T>
 int getHeight(shared_ptr<Node<T>> root){
-    if(root == nullptr) return 0;
+    if(root == nullptr) return -1;
     int R = getHeight(root->right);
     int L = getHeight(root->left);
-    return 1 + std::max(R, L);
+    //the commented lines give a segmentation fault
+//    int R = (root->right == nullptr ? -1 : root->right->height);
+//    int L = (root->left == nullptr ? -1 : root->left->height);
+
+    int height = 1 + max(R, L);
+    int heightToReturn = (height < Zero) ? Zero : height;
+    if(root->right == nullptr && root->left == nullptr) { // if it's a leaf node
+        return Zero;
+    }
+    return heightToReturn;
 }
 
 // Slow Version meaning it iterates over the tree multiple times and doesn't use the height field
@@ -131,20 +148,26 @@ void printInfo(shared_ptr<Node<T>> root){
 template <typename T>
 void updateHeight(shared_ptr<Node<T>>& node) {
     if (node != nullptr) {
-        int leftHeight = (node->left == nullptr) ? 0 : node->left->height;
-        int rightHeight = (node->right == nullptr) ? 0 : node->right->height;
-        node->height = 1 + max(leftHeight, rightHeight);
+        if(node->value == 20){
+            cout << "Updating height for " << node->value << endl; // delete later
+        }
+        int leftHeight = (node->left == nullptr) ? 0 : getHeight(node->left);
+        int rightHeight = (node->right == nullptr) ? 0 : getHeight(node->right);
+        int height = 1 + max(leftHeight, rightHeight);
+        height = (height < 0) ? 0 : height;
+        node->height = height;
     }
 }
 
 
 
 template <typename T>
-void addAux(shared_ptr<Node<T>> parent, shared_ptr<Node<T>>& son, shared_ptr<Node<T>> newNode){
+void addAux(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>>& son, shared_ptr<Node<T>>& newNode){
     if (son == nullptr){
         son = newNode;
         newNode->parent = parent;
-        updateHeight(parent); // not sure
+//        updateHeight(parent); // not sure
+//        updateHeight(son);
         return;
     }
     if(newNode->value < son->value){
@@ -153,9 +176,6 @@ void addAux(shared_ptr<Node<T>> parent, shared_ptr<Node<T>>& son, shared_ptr<Nod
         addAux(son, son->right, newNode);
     }
 
-    // cold feet
-    updateHeight(son);
-    updateHeight(parent);
 
     // check if the tree is balanced
     if(son->getBF() > One || son->getBF() < -One){
@@ -188,12 +208,12 @@ void addAux(shared_ptr<Node<T>> parent, shared_ptr<Node<T>>& son, shared_ptr<Nod
                 break;
         }
     }
-
-
+    updateHeight(parent);
+    updateHeight(son);
 }
 
 template <typename T>
-void addNode(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>> newNode){
+void addNode(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>>& newNode){
     if(parent == nullptr){
         parent = newNode; // if the tree is empty make the new node the root
         return;
