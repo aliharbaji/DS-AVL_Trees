@@ -40,8 +40,10 @@ public:
         return data->getID();
     }
 
-    int getBF(){
-        int bf = (left != nullptr ? left->height : 0) - (right != nullptr ? right->height : 0);
+    int getBF() {
+        int leftHeight = (left != nullptr) ? left->height : -1;
+        int rightHeight = (right != nullptr) ? right->height : -1;
+        int bf = leftHeight - rightHeight;
         return bf;
     }
 

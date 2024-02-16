@@ -30,9 +30,9 @@ int main() {
     cout << endl;
     cout << "HEIGHT OF n:20 should be 0 and not 2 after LL rotation!!, check example from lecture!!!" << endl;
     cout << "The error has something to do with updating heights correctly " << endl;
-    cout << "the code should perform an LL rotation on Node 20 first but for some reason it is doing it on node 24" << endl;
-    cout << "it is probably calculating Node 20's BF incorrectly and as the recursive call unfolds it skips the fact that"
-            "Node 20 is imbalanced" << endl;
+//    cout << "the code should perform an LL rotation on Node 20 first but for some reason it is doing it on node 24" << endl;
+//    cout << "it is probably calculating Node 20's BF incorrectly and as the recursive call unfolds it skips the fact that"
+//            "Node 20 is imbalanced" << endl;
 
 
 
