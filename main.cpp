@@ -17,20 +17,20 @@ int main() {
 //    insert(root, 30);
 //    inorderINFO(root->parent);
 //    cout << endl;
-    Tree<Team> t;
-    shared_ptr<Team> team10 = make_shared<Team>(10);
-    shared_ptr<Team> team20 = make_shared<Team>(20);
-    shared_ptr<Team> team30 = make_shared<Team>(30);
-    t.insert(team10);
-    t.insert(team20);
-    inorderINFO(t.root);
-    cout << endl;
+//    Tree<Team> t;
+//    shared_ptr<Team> team10 = make_shared<Team>(10);
+//    shared_ptr<Team> team20 = make_shared<Team>(20);
+//    shared_ptr<Team> team30 = make_shared<Team>(30);
+//    t.insert(team10);
+//    t.insert(team20);
+//    inorderINFO(t.root);
+//    cout << endl;
 
 
-    t.insert(team30); // this makes the tree unbalanced and should perform RR on tree.root
-
-    cout << "we must update tree.root to the new root of the tree after performing rotations" << endl;
-    cout <<  t.root->value << ", left - >";
+//    t.insert(team30); // this makes the tree unbalanced and should perform RR on tree.root
+//
+//    cout << "we must update tree.root to the new root of the tree after performing rotations" << endl;
+//    cout <<  t.root->value << ", left - >";
 //    cout <<  t.root->left->value << endl;
 //    cout << t.root->left->value << " left - >" << t.root->value << " right - >" << t.root->right->value << endl;
 //    inorderINFO(t.root); // this is the problem

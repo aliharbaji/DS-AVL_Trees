@@ -26,14 +26,18 @@
 #include "../item/Team.h"
 #include "../item/Contestant.h"
 
+
 class Olympics {
 private:
 	//
 	// Here you may add anything you want
 	//
 	shared_ptr<Tree<Country>> countries;
+    int numberOfCountries;
     shared_ptr<Tree<Team>> teams;
+    int numberOfTeams;
     shared_ptr<Tree<Contestant>> contestants;
+    int numberOfContestants;
 public:
 	// <DO-NOT-MODIFY> {
 	

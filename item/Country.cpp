@@ -4,7 +4,7 @@
 
 #include "Country.h"
 
-Country::Country(int countryID, int medals) : countryID(countryID), numberOfContestants(Zero), strength(Zero), medals(medals){}
+Country::Country(int countryID, int medals) : countryID(countryID), numberOfContestants(Zero), numberOfTeams(Zero), strength(Zero), medals(medals){}
 
 int Country::getID() const {
     return countryID;
@@ -20,4 +20,8 @@ int Country::getStrength() const {
 
 int Country::getNumberOfContestants() const {
     return numberOfContestants;
+}
+
+int Country::getNumberOfTeams() const {
+    return numberOfTeams;
 }

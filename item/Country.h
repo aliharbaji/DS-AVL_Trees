@@ -11,6 +11,7 @@
 class Country {
     int countryID;
     int numberOfContestants;
+    int numberOfTeams;
     int strength;
     int medals;
 public:
@@ -19,6 +20,7 @@ public:
     int getMedals() const;
     int getStrength() const;
     int getNumberOfContestants() const;
+    int getNumberOfTeams() const;
 };
 
 
