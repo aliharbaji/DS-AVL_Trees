@@ -7,7 +7,7 @@
 #include "../node.h"
 #include "../item/item.h"
 #include "../functions.h"
-
+#include "../item/team.h"
 
 shared_ptr<Node<Team>> test3();
 

@@ -6,13 +6,8 @@
 
 #ifndef AVLTREES_NODE_H
 using namespace std;
+
 // const init
-enum class IMBALANCE_TYPE{
-    LL,
-    LR,
-    RL,
-    RR
-};
 const int RIGHT_HEAVY = -2;
 const int LEFT_HEAVY = 2;
 const int BALANCED = 0;
@@ -31,7 +26,7 @@ public:
     shared_ptr<Node> parent;
     int value;
     int height;
-    friend class Tree;
+//    friend class Tree;
 
     Node(shared_ptr<T> data): data(data), value(data->getID()), height(Zero),
     left(nullptr), right(nullptr), parent(nullptr){}

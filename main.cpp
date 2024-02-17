@@ -7,24 +7,42 @@ using namespace std;
 #include "tests/test2.h"
 #include "functions.h"
 #include "tests/test3Rotations.h"
+#include "tree.h"
 
 int main() {
-    shared_ptr<Node<Team>> root;
-    root = insert(root, 10);
-    root = insert(root, 20);
-    root = insert(root, 30);
+//    shared_ptr<Node<Team>> root;
+
+//    insert(root, 10);
+//    insert(root, 20);
+//    insert(root, 30);
 //    inorderINFO(root->parent);
 //    cout << endl;
-    inorderINFO(root); // this is the problem
+    Tree<Team> t;
+    shared_ptr<Team> team10 = make_shared<Team>(10);
+    shared_ptr<Team> team20 = make_shared<Team>(20);
+    shared_ptr<Team> team30 = make_shared<Team>(30);
+    t.insert(team10);
+    t.insert(team20);
+    inorderINFO(t.root);
     cout << endl;
-//    cout << root->right->value << endl;
-    cout << "The tree is balanced: " << isBalancedSlowVersion(root) << endl;
-    cout << "fixed many of the issues with the rotations, but need to fix the problem in this test" << endl;
-    cout << "if we create a שרוך with 3 nodes the tree becomes unbalanced, and to fix we perform an RR rotation" << endl;
-    cout << "the problem that arises is that the pointer root stops pointing to the root of the tree" << endl;
-    cout << "and instead points to the left child of the root" << endl;
-    cout << "this is a problem because the root of the tree is not updated" << endl;
-    cout << "the solution is to return the new root of the tree from the rotation functions" << endl;
+
+
+    t.insert(team30); // this makes the tree unbalanced and should perform RR on tree.root
+
+    cout << "we must update tree.root to the new root of the tree after performing rotations" << endl;
+    cout <<  t.root->value << ", left - >";
+//    cout <<  t.root->left->value << endl;
+//    cout << t.root->left->value << " left - >" << t.root->value << " right - >" << t.root->right->value << endl;
+//    inorderINFO(t.root); // this is the problem
+//    cout << endl;
+////    cout << root->right->value << endl;
+//    cout << "The tree is balanced: " << isBalancedSlowVersion(t.root) << endl;
+//    cout << "fixed many of the issues with the rotations, but need to fix the problem in this test" << endl;
+//    cout << "if we create a שרוך with 3 nodes the tree becomes unbalanced, and to fix we perform an RR rotation" << endl;
+//    cout << "the problem that arises is that the pointer root stops pointing to the root of the tree" << endl;
+//    cout << "and instead points to the left child of the root" << endl;
+//    cout << "this is a problem because the root of the tree is not updated" << endl;
+//    cout << "the solution is to return the new root of the tree from the rotation functions" << endl;
 
 //    shared_ptr<Node<Team>> teamRoot = test2();
 //    inorder<Team>(teamRoot);
