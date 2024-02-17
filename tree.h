@@ -13,6 +13,8 @@ class Tree{
 private:
     shared_ptr<Node<T>> root;
     int size;
+
+    //The recursion takes an insertion node as an argument and returns the root of the subtree which may or may not change depending on insert location.
     shared_ptr<Node<T>> insertRecursively(shared_ptr<Node<T>> node, shared_ptr<T> item){
         if (node == nullptr) return make_shared<Node<T>>(item);
 
