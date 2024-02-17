@@ -12,7 +12,8 @@ Olympics::~Olympics(){
     // teams
     // contestants
 }
-	
+
+// looks good
 StatusType Olympics::add_country(int countryId, int medals){
     if(medals < 0 || countryId <= 0){
         return StatusType::INVALID_INPUT;
@@ -31,7 +32,8 @@ StatusType Olympics::add_country(int countryId, int medals){
     numberOfCountries++;
 	return StatusType::SUCCESS;
 }
-	
+
+// looks good
 StatusType Olympics::remove_country(int countryId){
     if(countryId <= 0){
         return StatusType::INVALID_INPUT;
@@ -50,7 +52,8 @@ StatusType Olympics::remove_country(int countryId){
 	return StatusType::SUCCESS;
 }
 
-StatusType Olympics::add_team(int teamId,int countryId,Sport sport){
+// looks good
+StatusType Olympics::add_team(int teamId, int countryId,Sport sport){
     if(teamId <= 0 || countryId <= 0){
         return StatusType::INVALID_INPUT;
     }
@@ -89,7 +92,8 @@ StatusType Olympics::remove_team(int teamId){
     numberOfTeams--;
     return StatusType::SUCCESS;
 }
-	
+
+// looks good
 StatusType Olympics::add_contestant(int contestantId ,int countryId,Sport sport,int strength){
     if(contestantId <= 0 || countryId <= 0 || strength < 0){
         return StatusType::INVALID_INPUT;
@@ -115,9 +119,11 @@ StatusType Olympics::remove_contestant(int contestantId){
         return StatusType::INVALID_INPUT;
     }
 
-    if(!contestants->contains(contestantId)){ // check if the contestant is in a team if so return failure
-        return StatusType::FAILURE;
-    }
+//    shared_ptr<Node<Contestant>> contestant = contestants->find(contestantId);
+////    check if contestants is in a team
+//    if(contestant == nullptr || contestant->isInAnActiveTeam){ // check if the contestant is in a team if so return failure
+//        return StatusType::FAILURE;
+//    }
 
     try{
 //        contestants->remove(contestantId);
@@ -133,7 +139,6 @@ StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
     if(teamId<=0 || contestantId <=0){
         return StatusType::INVALID_INPUT;
     }
-
 	return StatusType::FAILURE;
 }
 
