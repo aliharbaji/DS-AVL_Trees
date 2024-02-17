@@ -19,14 +19,7 @@ public:
     virtual ~Item() = default;
 };
 
-class Team : public Item{
-    int numberOfContestants;
-    int strength;
-public:
-    explicit Team(int ID) : Item(ID), numberOfContestants(Zero), strength(Zero) {}
-    // country*
-    // allContestants*
-};
+
 
 
 

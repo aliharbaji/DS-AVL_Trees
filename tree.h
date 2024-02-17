@@ -114,18 +114,18 @@ private:
         }
             //RR
         else if (balance < -1 && ID > node->right->getID()){
-            return leftRotate(node);
+            node = leftRotate(node);
         }
 
             //Left-Right Heavy. We rotate the left subtree to the left, then we rotate the current tree to the right.
         else if (balance > 1 && ID > node->left->getID()){
             node->left = leftRotate(node->left);
-            return rightRotate(node);
+            node = rightRotate(node);
         }
             //RL
         else if (balance < - 1 && ID < node->right->getID()){
             node->right = rightRotate(node->right);
-            return leftRotate(node);
+            node = leftRotate(node);
         }
 
 
@@ -194,6 +194,10 @@ private:
 
 public:
 
+    Tree() : root(nullptr), size(0){}
+    Tree(const Tree&) = delete;
+    Tree& operator=(const Tree&)= delete;
+
     bool contains(const int ID) const{
         return containsRecursively(root, ID);
     }
@@ -202,7 +206,7 @@ public:
     bool insert(shared_ptr<T> item){
         if (contains(item->getID())) return false;
         try {
-            insertRecursively(root, item);
+            root=insertRecursively(root, item);
         }
         catch(const bad_alloc& e){
          //Need to manage this exception in the olympics class.
@@ -211,6 +215,12 @@ public:
         return true;
     }
 
+    bool remove(const int ID){
+        if (!contains(ID) || root == nullptr) return false;
+        deleteRecursively(root, ID);
+        size--;
+        return true;
+    }
 
 };
 #define AVLTREES_TREE_H
