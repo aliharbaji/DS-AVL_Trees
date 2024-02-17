@@ -27,7 +27,8 @@ int main() {
     bool hasFourTest = tree.contains(4);
 
 
-    tree.remove(4);
+    tree.remove(2);
+    hasTwoTest = tree.contains(2);
 
 
 

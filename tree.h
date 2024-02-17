@@ -32,24 +32,24 @@ private:
         else throw logic_error("Trying to insert a duplicate after duplication was ruled out");
 
         node->height = 1 + max(getHeight(node->left), getHeight(node->right));
-        int balance = node->getBF();
+        int balance = getBalance(node);
 
         //Left-Left Heavy. We rotate the left child to the right swapping its place with the current node.
-        if (balance > 1 && item->getID() < node->left->getID()){
+        if (balance > 1 && getBalance(node->left) >= 1){
             return rightRotate(node);
         }
         //RR
-        else if (balance < -1 && item->getID() > node->right->getID()){
+        else if (balance < -1 && getBalance(node->right) <= -1){
             return leftRotate(node);
         }
 
         //Left-Right Heavy. We rotate the left subtree to the left, then we rotate the current tree to the right.
-        else if (balance > 1 && item->getID() > node->left->getID()){
+        else if (balance > 1 && getBalance(node->left) <= -1){
             node->left = leftRotate(node->left);
             return rightRotate(node);
         }
         //RL
-        else if (balance < - 1 && item->getID() < node->right->getID()){
+        else if (balance < - 1 && getBalance(node->right) >= 1){
             node->right = rightRotate(node->right);
             return leftRotate(node);
         }
@@ -106,24 +106,24 @@ private:
         if (node==nullptr) return;
 
         node->height = 1 + max(getHeight(node->right), getHeight(node->left));
-        int balance = node->getBF();
+        int balance = getBalance(node);
 
         //Left-Left Heavy. We rotate the left child to the right swapping its place with the current node.
-        if (balance > 1 && ID < node->left->getID()){
+        if (balance > 1 && getBalance(node->left) >= 1){
             node = rightRotate(node);
         }
             //RR
-        else if (balance < -1 && ID > node->right->getID()){
+        else if (balance < -1 && getBalance(node->right)){
             node = leftRotate(node);
         }
 
             //Left-Right Heavy. We rotate the left subtree to the left, then we rotate the current tree to the right.
-        else if (balance > 1 && ID > node->left->getID()){
+        else if (balance > 1 && getBalance(node->left) <= -1){
             node->left = leftRotate(node->left);
             node = rightRotate(node);
         }
             //RL
-        else if (balance < - 1 && ID < node->right->getID()){
+        else if (balance < - 1 && getBalance(node->right) >= 1){
             node->right = rightRotate(node->right);
             node = leftRotate(node);
         }
@@ -191,6 +191,11 @@ private:
         }
         return current;
     }
+    int getBalance(shared_ptr<Node<T>> node) const{
+        if (node == nullptr) return -1;
+        else return node->getBF();
+    }
+
 
 public:
 
