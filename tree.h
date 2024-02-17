@@ -179,6 +179,13 @@ private:
         else return containsRecursively(rootNode->right, ID);
     }
 
+    shared_ptr<T> findRecursively(shared_ptr<Node<T>> node, int ID) const{
+        if (node == nullptr) return nullptr;
+        if (node->data->getID() == ID) return node->data;
+        if (ID < node->data->getID()) return findRecursively(node->left, ID);
+        else return findRecursively(node->right, ID);
+    }
+
     int getHeight(shared_ptr<Node<T>> node) const{
         if (node == nullptr) return -1;
         else return node->height;
@@ -203,6 +210,12 @@ public:
     Tree(const Tree&) = delete;
     Tree& operator=(const Tree&)= delete;
 
+
+    // finds member with ID, returns NULL if he doesn't exist.
+    shared_ptr<T> find(const int ID){
+        return findRecursively(root, ID);
+    }
+
     bool contains(const int ID) const{
         return containsRecursively(root, ID);
     }
@@ -211,7 +224,7 @@ public:
     bool insert(shared_ptr<T> item){
         if (contains(item->getID())) return false;
         try {
-            root=insertRecursively(root, item);
+            root = insertRecursively(root, item);
         }
         catch(const bad_alloc& e){
          //Need to manage this exception in the olympics class.
