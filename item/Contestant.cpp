@@ -4,11 +4,7 @@
 
 #include "Contestant.h"
 
-int Contestant::getID() const {
-    return contestantID;
-}
-
-Contestant::Contestant(int contestantID, int countryID, Sport sport, int strength): contestantID(contestantID), sport(sport), strength(strength) {
+Contestant::Contestant(int contestantID, int countryID, Sport sport, int strength): Item(contestantID), sport(sport), strength(strength) {
     this->countries[0] = countryID;
 }
 

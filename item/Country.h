@@ -7,16 +7,16 @@
 
 
 #include "../tree.h"
+#include "Item.h"
 
-class Country {
-    int countryID;
+class Country : public Item {
+
     int numberOfContestants;
     int numberOfTeams;
     int strength;
     int medals;
 public:
     Country(int countryID, int medals);
-    int getID() const;
     int getMedals() const;
     int getStrength() const;
     int getNumberOfContestants() const;

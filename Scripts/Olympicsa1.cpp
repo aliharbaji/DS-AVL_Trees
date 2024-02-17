@@ -75,12 +75,14 @@ StatusType Olympics::remove_team(int teamId){
         return StatusType::INVALID_INPUT;
     }
 
-    if(!teams->contains(teamId)){ // check if the team has contestants if so return failure
-        return StatusType::FAILURE;
-    }
+//    shared_ptr<Node<Team>> team = teams->find(teamId);
+//    if(team == nullptr || team->data->getNumberOfContestants() > Zero){
+//        return StatusType::FAILURE;
+//    }
 
     try{
 //        teams->remove(teamId);
+//    team->numberOfTeams--; make it a friend class
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
     }
@@ -128,6 +130,10 @@ StatusType Olympics::remove_contestant(int contestantId){
 }
 	
 StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
+    if(teamId<=0 || contestantId <=0){
+        return StatusType::INVALID_INPUT;
+    }
+
 	return StatusType::FAILURE;
 }
 

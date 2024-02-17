@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #ifndef AVLTREES_TREE_H
+
 template <typename T>
 class Tree{
 private:

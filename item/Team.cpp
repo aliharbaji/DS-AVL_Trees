@@ -4,14 +4,11 @@
 
 #include "Team.h"
 
-Team::Team(int teamID, int countryID, Sport sport) : teamID(teamID), sport(sport), strength(Zero),
-numberOfContestants(Zero), contestants() {
+Team::Team(int teamID, int countryID, Sport sport) : Item(teamID), sport(sport), strength(Zero),
+numberOfContestants(Zero) {
     this->countries[0] = countryID;
 }
 
-int Team::getID() const {
-    return teamID;
-}
 
 //int Team::getMedals() const {
 //    return medals;

@@ -6,16 +6,16 @@
 #define AVLTREES_CONTESTANT_H
 
 #include "../Scripts/wet1util.h"
+#include "Item.h"
 
-class Contestant {
-    int contestantID;
+class Contestant : public Item{
+
     Sport sport;
     int strength;
     int countries[];
 public:
     explicit Contestant(int contestantID, int countryID, Sport sport, int strength);
 
-    int getID() const;
 
 };
 

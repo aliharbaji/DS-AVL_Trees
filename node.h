@@ -16,7 +16,8 @@ const int One = 1;
 #define AVLTREES_NODE_H
 #include "memory"
 
-// TODO: remove balance factor field
+//class Tree;
+
 template <class T>
 class Node{
 private:
