@@ -7,6 +7,10 @@
 #include "test2.h"
 #include "../node.h"
 #include "../item/item.h"
+#include "../item/Contestant.h"
+#include "../item/Team.h"
+
+
 #include <memory>
 using namespace std;
 

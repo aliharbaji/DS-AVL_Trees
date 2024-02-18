@@ -21,6 +21,7 @@ public:
     int getStrength() const;
     int getNumberOfContestants() const;
     int getNumberOfTeams() const;
+//    friend class Tree<Country>;
 };
 
 

@@ -23,7 +23,7 @@
 #include "../item/Country.h"
 #include "../item/Team.h"
 #include "../item/Contestant.h"
-
+const int MAX_TEAM_SIZE = 3;
 
 class Olympics {
 private:
