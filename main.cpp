@@ -39,18 +39,60 @@ int main() {
     bool hasFourTest = tree.contains(4);
 
 
+
     tree.remove(4);
     // TODO fix remove's rotation process
     // tree's root is now 5 which is WRONG!! it has to be 3
     // check https://www.cs.usfca.edu/~galles/visualization/AVLtree.html
     // and insert 1,2,3,4,5,6,7,8,9,10 and then remove 4 to see how the tree should look like after removing 4
-    // in https://visualgo.net/en/bst?slide=3 our implementation is correct
+    // in https://visualgo.net/en/bst?slide=3 our implementation seems to be correct
     // I am still not sure which one is correct
     // will investigate further
     // according to https://visualgo.net/en/bst?slide=3 our implementation seems to be correct
 
 
+
+
+
+    /* Test case 2: remove with multiple rotations including at the root
+    auto a1 = make_shared<Item>(50);
+    tree.insert(a1);
+    auto a2 = make_shared<Item>(25);
+    tree.insert(a2);
+    auto a3 = make_shared<Item>(75);
+    tree.insert(a3);
+    auto a4 = make_shared<Item>(15);
+    tree.insert(a4);
+    auto a5 = make_shared<Item>(40);
+    tree.insert(a5);
+    auto a6 = make_shared<Item>(60);
+    tree.insert(a6);
+    auto a7 = make_shared<Item>(80);
+    tree.insert(a7);
+    auto a8 = make_shared<Item>(35);
+    tree.insert(a8);
+    auto a9 = make_shared<Item>(55);
+    tree.insert(a9);
+    auto a10 = make_shared<Item>(65);
+    tree.insert(a10);
+    auto a11 = make_shared<Item>(90);
+    tree.insert(a11);
+    auto a12 = make_shared<Item>(62);
+    tree.insert(a12);
+    tree.remove(15);
+*/
+
+
 //    ~tree();
+
+/*
+    auto a1 = make_shared<Item>(2);
+    tree.insert(a1);
+    auto a2 = make_shared<Item>(4);
+    tree.insert(a2);
+    auto a3 = make_shared<Item>(3);
+    tree.insert(a3);
+*/
 
     return 0;
 }

@@ -35,21 +35,21 @@ private:
         int balance = getBalance(node);
 
         //Left-Left Heavy. We rotate the left child to the right swapping its place with the current node.
-        if (balance > 1 && getBalance(node->left) >= 1){
+        if (balance > 1 && getBalance(node->left) >= 0){
             return rightRotate(node);
         }
         //RR
-        else if (balance < -1 && getBalance(node->right) <= -1){
+        else if (balance < -1 && getBalance(node->right) <= 0){
             return leftRotate(node);
         }
 
         //Left-Right Heavy. We rotate the left subtree to the left, then we rotate the current tree to the right.
-        else if (balance > 1 && getBalance(node->left) <= -1){
+        else if (balance > 1 && getBalance(node->left) < 0){
             node->left = leftRotate(node->left);
             return rightRotate(node);
         }
         //RL
-        else if (balance < - 1 && getBalance(node->right) >= 1){
+        else if (balance < - 1 && getBalance(node->right) > 0){
             node->right = rightRotate(node->right);
             return leftRotate(node);
         }
@@ -109,21 +109,21 @@ private:
         int balance = getBalance(node);
 
         //Left-Left Heavy. We rotate the left child to the right swapping its place with the current node.
-        if (balance > 1 && getBalance(node->left) >= 1){
+        if (balance > 1 && getBalance(node->left) >= 0){
             node = rightRotate(node);
         }
             //RR
-        else if (balance < -1 && getBalance(node->right)){
+        else if (balance < -1 && getBalance(node->right) <= 0){
             node = leftRotate(node);
         }
 
             //Left-Right Heavy. We rotate the left subtree to the left, then we rotate the current tree to the right.
-        else if (balance > 1 && getBalance(node->left) <= -1){
+        else if (balance > 1 && getBalance(node->left) < 0){
             node->left = leftRotate(node->left);
             node = rightRotate(node);
         }
             //RL
-        else if (balance < - 1 && getBalance(node->right) >= 1){
+        else if (balance < - 1 && getBalance(node->right) > 0){
             node->right = rightRotate(node->right);
             node = leftRotate(node);
         }
