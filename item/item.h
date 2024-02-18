@@ -6,7 +6,7 @@
 #define AVLTREES_ITEM_H
 
 #include "../node.h"
-
+#include "../tree.h"
 class Item {
     int ID;
 public:
@@ -15,7 +15,7 @@ public:
     int getID() const {
         return ID;
     }
-
+    friend class Tree<Item>;
     virtual ~Item() = default;
 };
 
