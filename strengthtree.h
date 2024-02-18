@@ -19,59 +19,83 @@ class STree{
 private:
     shared_ptr<Node<T>> root;
     int size;
-    bool Minitree;
+    bool Subtree;
     shared_ptr<Node<T>> maxSNode;
     int ausMeasure;
 
-    //The recursion takes an insertion node as an argument and returns the root of the subtree which may or may not change depending on insert location.
+    //Adjusted logic to compare based on strength and in case of strength equality to compare based on ID.
     shared_ptr<Node<T>> insertRecursively(shared_ptr<Node<T>> node, shared_ptr<T> item){
         if (node == nullptr) return make_shared<Node<T>>(item);
 
-        // Adjusted condition: Items with equal or greater strength go to the right
-        if (item->getStrength() < node->getStrength()){
-            auto leftChild = insertRecursively(node->left, item);
-            node->left = leftChild;
-            if (leftChild) leftChild->parent = node;
-        }
-        else { // This now includes item->getStrength() >= node->getStrength()
-            auto rightChild = insertRecursively(node->right, item);
-            node->right = rightChild;
-            if (rightChild) rightChild->parent = node;
+        bool isLeft = false, isRight = false;
+
+        if (item->getStrength() < node->getStrength() ||
+            (item->getStrength() == node->getStrength() && item->getID() < node->getID())) {
+            isLeft = true;
         }
 
-        // Update height and balance factor, then balance the tree as necessary
+        else if (item->getStrength() > node->getStrength() ||
+                   (item->getStrength() == node->getStrength() && item->getID() > node->getID())) {
+            isRight = true;
+        }
+
+        if (isLeft){
+            auto leftChild = insertRecursively(node->left, item);
+            node->left = leftChild;
+            if (leftChild) leftChild->parent=node;
+
+        }
+        else if (isRight){
+            auto rightChild = insertRecursively(node->right, item);
+            node->right=rightChild;
+            if (rightChild) rightChild->parent=node;
+        }
+        else throw logic_error("Trying to insert a duplicate after duplication was ruled out");
+
         node->height = 1 + max(getHeight(node->left), getHeight(node->right));
         int balance = getBalance(node);
 
-        // Perform rotations if needed based on the balance factor
-        // Left-Left (LL) Case
-        if (balance > 1 && item->getStrength() < node->left->getStrength()) {
+        //Rotation logic stays the same
+        if (balance > 1 && getBalance(node->left) >= 0){
             return rightRotate(node);
         }
-            // Right-Right (RR) Case
-        else if (balance < -1 && item->getStrength() >= node->right->getStrength()) {
+            //RR
+        else if (balance < -1 && getBalance(node->right) <= 0){
             return leftRotate(node);
         }
-            // Left-Right (LR) Case
-        else if (balance > 1 && item->getStrength() >= node->left->getStrength()) {
+
+            //Left-Right Heavy. We rotate the left subtree to the left, then we rotate the current tree to the right.
+        else if (balance > 1 && getBalance(node->left) < 0){
             node->left = leftRotate(node->left);
             return rightRotate(node);
         }
-            // Right-Left (RL) Case
-        else if (balance < -1 && item->getStrength() < node->right->getStrength()) {
+            //RL
+        else if (balance < - 1 && getBalance(node->right) > 0){
             node->right = rightRotate(node->right);
             return leftRotate(node);
         }
-
-        // Return the (potentially new) node after rotations
         return node;
+
     }
 
-
-    void deleteRecursively(shared_ptr<Node<T>>& node, int ID){
+    //delete now searches based on strength and ID
+    void deleteRecursively(shared_ptr<Node<T>>& node, int ID, int strength){
         if (node == nullptr) return;
-        if (ID < node->getID()) deleteRecursively(node->left, ID);
-        else if (ID > node->getID()) deleteRecursively(node->right, ID);
+
+        bool isLeft = false, isRight = false;
+
+        if (strength < node->getStrength() ||
+            (strength == node->getStrength() && ID < node->getID())) {
+            isLeft = true;
+        }
+
+        else if (strength > node->getStrength() ||
+                 (strength == node->getStrength() && ID > node->getID())) {
+            isRight = true;
+        }
+
+        if (isLeft) deleteRecursively(node->left, ID);
+        else if (isRight) deleteRecursively(node->right, ID);
 
             // found the node
         else{
@@ -108,7 +132,7 @@ private:
                 // find the smallest child in the right subtree to become new root
                 auto minNode = getMinNode(node->right);
                 node->data = minNode->data;
-                deleteRecursively(node->right, minNode->getID());
+                deleteRecursively(node->right, minNode->getID(), minNode->getStrength());
             }
 
 
@@ -183,11 +207,18 @@ private:
     }
 
 
-    bool containsRecursively(shared_ptr<Node<T>> rootNode, int ID) const{
-        if (rootNode == nullptr) return false;
-        if (rootNode->data->getID() == ID) return true;
-        if (ID < rootNode->data->getID()) return containsRecursively(rootNode->left, ID);
-        else return containsRecursively(rootNode->right, ID);
+    bool containsRecursively(shared_ptr<Node<T>> node, int ID, int strength) const{
+        if (node == nullptr) return false;
+        bool isLeft = false;
+
+        if (strength < node->getStrength() ||
+            (strength == node->getStrength() && ID < node->getID())) {
+            isLeft = true;
+        }
+
+        if (node->getID() == ID) return true;
+        if (isLeft) return containsRecursively(node->left, ID);
+        else return containsRecursively(node->right, ID);
     }
 
     shared_ptr<T> findRecursively(shared_ptr<Node<T>> node, int ID) const{

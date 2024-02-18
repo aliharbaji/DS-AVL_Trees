@@ -28,6 +28,10 @@ public:
         return data->getID();
     }
 
+    int getStrength() const{
+        return data->getStrength();
+    }
+
     int getBF() const{
         int leftHeight = (left != nullptr) ? left->height : -1;
         int rightHeight = (right != nullptr) ? right->height : -1;
