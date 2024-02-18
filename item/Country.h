@@ -6,8 +6,21 @@
 #define AVLTREES_COUNTRY_H
 
 
-class Country {
+#include "../tree.h"
+#include "Item.h"
 
+class Country : public Item {
+
+    int numberOfContestants;
+    int numberOfTeams;
+    int strength;
+    int medals;
+public:
+    Country(int countryID, int medals);
+    int getMedals() const;
+    int getStrength() const;
+    int getNumberOfContestants() const;
+    int getNumberOfTeams() const;
 };
 
 
