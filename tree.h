@@ -5,22 +5,18 @@
 #include <stdexcept>
 
 #ifndef AVLTREES_TREE_H
-
 template <typename T>
+
 class Tree{
-private:
     template <typename U> friend class Node;
 
-public:
+private:
     shared_ptr<Node<T>> root;
     int size;
-    Tree(): root(nullptr), size(Zero){}
+
     //The recursion takes an insertion node as an argument and returns the root of the subtree which may or may not change depending on insert location.
-    shared_ptr<Node<T>> insertRecursively(shared_ptr<Node<T>>& node, shared_ptr<T> item){
-        if (node == nullptr) {
-            node = make_shared<Node<T>>(item);
-            return node;
-        }
+    shared_ptr<Node<T>> insertRecursively(shared_ptr<Node<T>> node, shared_ptr<T> item){
+        if (node == nullptr) return make_shared<Node<T>>(item);
 
         if (item->getID() < node->getID()){
             auto leftChild = insertRecursively(node->left, item);
@@ -36,24 +32,24 @@ public:
         else throw logic_error("Trying to insert a duplicate after duplication was ruled out");
 
         node->height = 1 + max(getHeight(node->left), getHeight(node->right));
-        int balance = node->getBF();
+        int balance = getBalance(node);
 
         //Left-Left Heavy. We rotate the left child to the right swapping its place with the current node.
-        if (balance > 1 && item->getID() < node->left->getID()){
+        if (balance > 1 && getBalance(node->left) >= 0){
             return rightRotate(node);
         }
             //RR
-        else if (balance < -1 && item->getID() > node->right->getID()){
+        else if (balance < -1 && getBalance(node->right) <= 0){
             return leftRotate(node);
         }
 
             //Left-Right Heavy. We rotate the left subtree to the left, then we rotate the current tree to the right.
-        else if (balance > 1 && item->getID() > node->left->getID()){
+        else if (balance > 1 && getBalance(node->left) < 0){
             node->left = leftRotate(node->left);
             return rightRotate(node);
         }
             //RL
-        else if (balance < - 1 && item->getID() < node->right->getID()){
+        else if (balance < - 1 && getBalance(node->right) > 0){
             node->right = rightRotate(node->right);
             return leftRotate(node);
         }
@@ -110,34 +106,34 @@ public:
         if (node==nullptr) return;
 
         node->height = 1 + max(getHeight(node->right), getHeight(node->left));
-        int balance = node->getBF();
+        int balance = getBalance(node);
 
         //Left-Left Heavy. We rotate the left child to the right swapping its place with the current node.
-        if (balance > 1 && ID < node->left->getID()){
+        if (balance > 1 && getBalance(node->left) >= 0){
             node = rightRotate(node);
         }
             //RR
-        else if (balance < -1 && ID > node->right->getID()){
-            return leftRotate(node);
+        else if (balance < -1 && getBalance(node->right) <= 0){
+            node = leftRotate(node);
         }
 
             //Left-Right Heavy. We rotate the left subtree to the left, then we rotate the current tree to the right.
-        else if (balance > 1 && ID > node->left->getID()){
+        else if (balance > 1 && getBalance(node->left) < 0){
             node->left = leftRotate(node->left);
-            return rightRotate(node);
+            node = rightRotate(node);
         }
             //RL
-        else if (balance < - 1 && ID < node->right->getID()){
+        else if (balance < - 1 && getBalance(node->right) > 0){
             node->right = rightRotate(node->right);
-            return leftRotate(node);
+            node = leftRotate(node);
         }
 
 
     }
 
 
-    shared_ptr<Node<T>> rightRotate(shared_ptr<Node<T>>& node){
-        if(node == this->root) this->root = node->left; // if the root is being rotated, we need to update the root.
+
+    shared_ptr<Node<T>> rightRotate(shared_ptr<Node<T>> node){
         auto leftChild = node->left;
         auto subTree = leftChild->right;
         //rotating
@@ -153,30 +149,27 @@ public:
 
         // returning the new root.
         return leftChild;
+
     }
 
-
-    shared_ptr<Node<T>> leftRotate(shared_ptr<Node<T>>& node){
-        if(node == this->root) this->root = node->right; // if the root is being rotated, update the root.
+    shared_ptr<Node<T>> leftRotate(shared_ptr<Node<T>> node){
         auto rightChild = node->right;
         auto subTree = rightChild->left;
-        // Rotating
+        //rotating
         rightChild->left = node;
         node->right = subTree;
 
-        // Update heights
-        node->height = 1 + max(getHeight(node->left), getHeight(node->right));
+        node->height = 1 + max(getHeight(node->left),getHeight(node->right));
         rightChild->height = 1 + max(getHeight(rightChild->left), getHeight(rightChild->right));
 
-        // Update parent pointers
         if (subTree != nullptr) subTree->parent = node;
         rightChild->parent = node->parent;
         node->parent = rightChild;
 
-        // Return the new root
+        // returning the new root.
         return rightChild;
-    }
 
+    }
 
 
     bool containsRecursively(shared_ptr<Node<T>> rootNode, int ID) const{
@@ -184,6 +177,13 @@ public:
         if (rootNode->data->getID() == ID) return true;
         if (ID < rootNode->data->getID()) return containsRecursively(rootNode->left, ID);
         else return containsRecursively(rootNode->right, ID);
+    }
+
+    shared_ptr<T> findRecursively(shared_ptr<Node<T>> node, int ID) const{
+        if (node == nullptr) return nullptr;
+        if (node->data->getID() == ID) return node->data;
+        if (ID < node->data->getID()) return findRecursively(node->left, ID);
+        else return findRecursively(node->right, ID);
     }
 
     int getHeight(shared_ptr<Node<T>> node) const{
@@ -198,8 +198,23 @@ public:
         }
         return current;
     }
+    int getBalance(shared_ptr<Node<T>> node) const{
+        if (node == nullptr) return -1;
+        else return node->getBF();
+    }
+
 
 public:
+
+    Tree() : root(nullptr), size(0){}
+    Tree(const Tree&) = delete;
+    Tree& operator=(const Tree&)= delete;
+
+
+    // finds member with ID, returns NULL if he doesn't exist.
+    shared_ptr<T> find(const int ID){
+        return findRecursively(root, ID);
+    }
 
     bool contains(const int ID) const{
         return containsRecursively(root, ID);
@@ -209,7 +224,7 @@ public:
     bool insert(shared_ptr<T> item){
         if (contains(item->getID())) return false;
         try {
-            insertRecursively(root, item);
+            root = insertRecursively(root, item);
         }
         catch(const bad_alloc& e){
             //Need to manage this exception in the olympics class.
@@ -218,6 +233,12 @@ public:
         return true;
     }
 
+    bool remove(const int ID){
+        if (!contains(ID) || root == nullptr) return false;
+        deleteRecursively(root, ID);
+        size--;
+        return true;
+    }
 
 };
 #define AVLTREES_TREE_H
