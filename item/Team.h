@@ -11,10 +11,13 @@
 
 class Team : public Item {
     int teamID;
+    Sport sport;
     int numberOfContestants;
     int strength;
-//    Tree<Contestant> contestants;
-    Sport sport;
+//    STree<Contestant> lowerContestants;
+//    STree<Contestant> middleContestants;
+//    STree<Contestant> upperContestants;
+
     int countries[];
 
 public:
@@ -22,6 +25,7 @@ public:
     int getStrength() const;
     int getNumberOfContestants() const;
 
+    void addContestant();
 };
 
 

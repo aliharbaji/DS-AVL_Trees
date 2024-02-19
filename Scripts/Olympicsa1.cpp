@@ -40,12 +40,12 @@ StatusType Olympics::remove_country(int countryId){
     }
 
     shared_ptr<Country> country = countries->find(countryId);
-    if(!country || country->getNumberOfContestants() > Zero || country->getNumberOfTeams() > Zero){
+    if(!country || country->getNumberOfContestants() > 0 || country->getNumberOfTeams() > 0){
         return StatusType::FAILURE;
     }
 
     try{
-//        countries->remove(countryId);
+        countries->remove(countryId);
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
     }
@@ -53,19 +53,20 @@ StatusType Olympics::remove_country(int countryId){
 	return StatusType::SUCCESS;
 }
 
-// looks good
-StatusType Olympics::add_team(int teamId, int countryId,Sport sport){
+// not so sure
+StatusType Olympics::add_team(int teamId, int countryId, Sport sport){
     if(teamId <= 0 || countryId <= 0){
         return StatusType::INVALID_INPUT;
     }
-
-    if(teams->contains(teamId) || !countries->contains(countryId)){
+    shared_ptr<Country> country = countries->find(countryId);
+    if(teams->contains(teamId) || !country){
         return StatusType::FAILURE;
     }
 
     try {
         shared_ptr<Team> team = make_shared<Team>(teamId, countryId, sport);
         teams->insert(team);
+//        country->addTeam(); // updates the number of teams in the country
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
     }
@@ -80,13 +81,12 @@ StatusType Olympics::remove_team(int teamId){
     }
 
     shared_ptr<Team> team = teams->find(teamId);
-    if(!team || team->getNumberOfContestants() > Zero){
+    if(!team || team->getNumberOfContestants() > 0){
         return StatusType::FAILURE;
     }
 
     try{
         teams->remove(teamId);
-//    team->numberOfTeams--; // make it a friend class
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
     }
@@ -94,22 +94,21 @@ StatusType Olympics::remove_team(int teamId){
     return StatusType::SUCCESS;
 }
 
-// TODO implement country->addContestant(shared_ptr<Contestant>& contestant)
-StatusType Olympics::add_contestant(int contestantId ,int countryId,Sport sport,int strength){
+// not so sure about country->addContestant()
+StatusType Olympics::add_contestant(int contestantId ,int countryId, Sport sport,int strength){
     if(contestantId <= 0 || countryId <= 0 || strength < 0){
         return StatusType::INVALID_INPUT;
     }
-    shared_ptr<Country> country = countries->find(countryId);
-//    shared_ptr<Contestant> contestant = contestants->find(contestantId);
+    shared_ptr<Country> count = countries->find(countryId);
 
-    if(contestants->contains(contestantId) || !country){
+    if(contestants->contains(contestantId) || !count){
         return StatusType::FAILURE;
     }
 
     try{
-        shared_ptr<Contestant> contestant = make_shared<Contestant>(contestantId,countryId,sport, strength);
+        shared_ptr<Contestant> contestant = make_shared<Contestant>(contestantId, countryId, sport, strength);
         contestants->insert(contestant);
-//        country->addContestant(contestant); // TODO implement
+//        count->addContestant(); // TODO implement
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
     }

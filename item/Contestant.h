@@ -7,14 +7,18 @@
 
 #include "../Scripts/wet1util.h"
 #include "Item.h"
-
+#include "Team.h"
+#include "Country.h"
 class Contestant : public Item{
 
     Sport sport;
     int strength;
-    int countries[];
+    int numOfTeams;
+//    shared_ptr<Team> myTeams[3];
+//   shared_ptr<Country> myCountry;
+    int country;
 public:
-    explicit Contestant(int contestantID, int countryID, Sport sport, int strength);
+    explicit Contestant(int contestantID, int country, Sport sport, int strength);
 
 
 };

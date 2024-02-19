@@ -4,6 +4,8 @@
 #include "memory"
 #include "item/item.h"
 #include "tree.h"
+
+#include "functions.h"
 using namespace std;
 
 int main() {
@@ -22,16 +24,16 @@ int main() {
 
     Tree<Item> tree;
 
-    tree.insert(One);
-    tree.insert(Two);
-    tree.insert(Three);
-    tree.insert(Four);
-    tree.insert(Five);
-    tree.insert(Six);
-    tree.insert(Seven);
-    tree.insert(Eight);
-    tree.insert(Nine);
-    tree.insert(Ten);
+//    tree.insert(One);
+//    tree.insert(Two);
+//    tree.insert(Three);
+//    tree.insert(Four);
+//    tree.insert(Five);
+//    tree.insert(Six);
+//    tree.insert(Seven);
+//    tree.insert(Eight);
+//    tree.insert(Nine);
+//    tree.insert(Ten);
 
     bool hasOneTest = tree.contains(1);
     bool hasTwoTest = tree.contains(2);
@@ -40,21 +42,9 @@ int main() {
 
 
 
-    tree.remove(4);
-    // TODO fix remove's rotation process
-    // tree's root is now 5 which is WRONG!! it has to be 3
-    // check https://www.cs.usfca.edu/~galles/visualization/AVLtree.html
-    // and insert 1,2,3,4,5,6,7,8,9,10 and then remove 4 to see how the tree should look like after removing 4
-    // in https://visualgo.net/en/bst?slide=3 our implementation seems to be correct
-    // I am still not sure which one is correct
-    // will investigate further
-    // according to https://visualgo.net/en/bst?slide=3 our implementation seems to be correct
 
 
-
-
-
-    /* Test case 2: remove with multiple rotations including at the root
+    // Test case 2: remove with multiple rotations including at the root
     auto a1 = make_shared<Item>(50);
     tree.insert(a1);
     auto a2 = make_shared<Item>(25);
@@ -79,8 +69,15 @@ int main() {
     tree.insert(a11);
     auto a12 = make_shared<Item>(62);
     tree.insert(a12);
-    tree.remove(15);
-*/
+    // 50,25,75,15,40,60,80,35,55,65,90,62
+
+//    // make root and size public fields for this to work
+//    cout << isBalancedSlowVersion(tree.root) << endl;
+//    cout << tree.size << endl;
+//    tree.remove(15);
+//    cout << tree.size << endl;
+//    cout << isBalancedSlowVersion(tree.root) << endl;
+//    inorder(tree.root);
 
 
 //    ~tree();

@@ -4,7 +4,21 @@
 
 #include "Contestant.h"
 
-Contestant::Contestant(int contestantID, int countryID, Sport sport, int strength): Item(contestantID), sport(sport), strength(strength) {
-    this->countries[0] = countryID;
-}
+Contestant::Contestant(int contestantID, int country, Sport sport, int strength):
+Item(contestantID),
+country(country),
+sport(sport),
+strength(strength),
+numOfTeams(0){}
 
+//Contestant::Contestant(int contestantID, int country, Sport sport, int strength):
+//Item(contestantID),
+//country(country),
+//sport(sport),
+//strength(strength),
+//numOfTeams(0){}
+
+//Contestant::Contestant(int contestantID, int country,
+//                       Sport sport, int strength): Item(contestantID),
+//                                                   sport(sport), strength(strength), country(country),
+//                                                   activeTeams(0){}
