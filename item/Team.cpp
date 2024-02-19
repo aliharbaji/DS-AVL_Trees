@@ -4,9 +4,9 @@
 
 #include "Team.h"
 
-Team::Team(int teamID, int countryID, Sport sport) : Item(teamID), sport(sport), strength(Zero),
-numberOfContestants(Zero) {
-    this->countries[0] = countryID;
+Team::Team(int teamID, int countryID, Sport sport) : Item(teamID), sport(sport), strength(0),
+numberOfContestants(0) {
+
 }
 
 
@@ -22,6 +22,9 @@ int Team::getNumberOfContestants() const {
     return numberOfContestants;
 }
 
+void Team::addContestant(){
+    numberOfContestants++;
+}
 
 
 

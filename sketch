@@ -10,8 +10,9 @@ Node* parent
 +setID(int id) // optional
 +getID(int id)
 
-Teams -> Team
+
 Team:
+Sport sport
 int numberOfContestants
 country*
 allContestants*
@@ -23,14 +24,9 @@ allTeams*
 
 Contestants:
 strength
-team*
+activeTeams*
 //country*
 
 Tree<class T>
 int size;
 
-
-needed functions:
-    shared_ptr<T> Tree<T>::find(int id)
-    returns a pointer to Item T
-    if the tree does not find such id, the function returns nullptr

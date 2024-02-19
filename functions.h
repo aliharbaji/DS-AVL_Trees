@@ -164,37 +164,37 @@ void RL(shared_ptr<Node<T>>& root){
 
 
 
-template <typename T>
-void rotate(shared_ptr<Node<T>>& imbalancedNode){
-    if(imbalancedNode == nullptr) return;
-
-    switch(imbalancedNode->getBF()){
-        case LEFT_HEAVY: {
-            int rightHeight = (imbalancedNode->right == nullptr) ? 0 : imbalancedNode->right->height;
-            int leftHeight = (imbalancedNode->left == nullptr) ? 0 : imbalancedNode->left->height;
-            int BF = leftHeight - rightHeight;
-
-            if (BF >= 0) {
-                LL(imbalancedNode);
-            } else {
-                LR(imbalancedNode);
-            }
-            break;
-        }
-        case RIGHT_HEAVY: {
-            int rightHeight = (imbalancedNode->right == nullptr) ? 0 : imbalancedNode->right->height;
-            int leftHeight = (imbalancedNode->left == nullptr) ? 0 : imbalancedNode->left->height;
-            int BF = leftHeight - rightHeight;
-
-            if (BF <= 0) {
-                RR(imbalancedNode);
-            } else {
-                RL(imbalancedNode);
-            }
-            break;
-        }
-    }
-}
+//template <typename T>
+//void rotate(shared_ptr<Node<T>>& imbalancedNode){
+//    if(imbalancedNode == nullptr) return;
+//
+//    switch(imbalancedNode->getBF()){
+//        case LEFT_HEAVY: {
+//            int rightHeight = (imbalancedNode->right == nullptr) ? 0 : imbalancedNode->right->height;
+//            int leftHeight = (imbalancedNode->left == nullptr) ? 0 : imbalancedNode->left->height;
+//            int BF = leftHeight - rightHeight;
+//
+//            if (BF >= 0) {
+//                LL(imbalancedNode);
+//            } else {
+//                LR(imbalancedNode);
+//            }
+//            break;
+//        }
+//        case RIGHT_HEAVY: {
+//            int rightHeight = (imbalancedNode->right == nullptr) ? 0 : imbalancedNode->right->height;
+//            int leftHeight = (imbalancedNode->left == nullptr) ? 0 : imbalancedNode->left->height;
+//            int BF = leftHeight - rightHeight;
+//
+//            if (BF <= 0) {
+//                RR(imbalancedNode);
+//            } else {
+//                RL(imbalancedNode);
+//            }
+//            break;
+//        }
+//    }
+//}
 
 
 template <typename T>
@@ -207,9 +207,9 @@ int getHeight(shared_ptr<Node<T>> root){
     int L = (root->left == nullptr ? -1 : root->left->height);
 
     int height = 1 + max(R, L);
-    int heightToReturn = (height < Zero) ? Zero : height;
+    int heightToReturn = (height < 0) ? 0 : height;
     if(root->right == nullptr && root->left == nullptr) { // if it's a leaf node
-        return Zero;
+        return 0;
     }
     return heightToReturn;
 }
@@ -238,7 +238,7 @@ bool contains(shared_ptr<Node<T>> root, int val){
 template <typename T>
 void print(shared_ptr<Node<T>> root){
     if(root == nullptr) return;
-    cout << root->value << " ";
+    cout << root->getID() << " ";
 }
 
 template <typename T>
@@ -250,37 +250,37 @@ void printInfo(shared_ptr<Node<T>> root){
 
 
 
-template <typename T>
-void addAux(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>>& son, shared_ptr<Node<T>>& newNode) {
-    if (son == nullptr) {
-        son = newNode;
-        son->parent = parent;
-        updateHeight(parent);
-        return;
-    }
-
-    if (newNode->value < son->value) {
-        addAux(son, son->left, newNode);
-    } else {
-        addAux(son, son->right, newNode);
-    }
-
-    cout << "son is " << son->value << " and its BF is " << son->getBF() << endl;
-    cout << "parent is " << parent->value << " and its BF is " << parent->getBF() << endl;
-    // Check if the tree is balanced
-    if (son->getBF() > One || son->getBF() < -One) {
-        cout << "***********PERFORM ROTATION************** on node " << son->value << " its BF is " << son->getBF() << endl;
-        rotate(son);
-    }else if(parent->getBF() > One || parent->getBF() < -One){
-        cout << "***********PERFORM ROTATION************** on node " << parent->value << " its BF is " << parent->getBF() << endl;
-        rotate(parent);
-    }
-
-    // Update son's height after recursive calls
-    updateHeight(son);
-    // Update parent's height after rotations
-    updateHeight(parent);
-}
+//template <typename T>
+//void addAux(shared_ptr<Node<T>>& parent, shared_ptr<Node<T>>& son, shared_ptr<Node<T>>& newNode) {
+//    if (son == nullptr) {
+//        son = newNode;
+//        son->parent = parent;
+//        updateHeight(parent);
+//        return;
+//    }
+//
+//    if (newNode->value < son->value) {
+//        addAux(son, son->left, newNode);
+//    } else {
+//        addAux(son, son->right, newNode);
+//    }
+//
+//    cout << "son is " << son->value << " and its BF is " << son->getBF() << endl;
+//    cout << "parent is " << parent->value << " and its BF is " << parent->getBF() << endl;
+//    // Check if the tree is balanced
+//    if (son->getBF() > One || son->getBF() < -One) {
+//        cout << "***********PERFORM ROTATION************** on node " << son->value << " its BF is " << son->getBF() << endl;
+//        rotate(son);
+//    }else if(parent->getBF() > One || parent->getBF() < -One){
+//        cout << "***********PERFORM ROTATION************** on node " << parent->value << " its BF is " << parent->getBF() << endl;
+//        rotate(parent);
+//    }
+//
+//    // Update son's height after recursive calls
+//    updateHeight(son);
+//    // Update parent's height after rotations
+//    updateHeight(parent);
+//}
 
 
 template <typename T>

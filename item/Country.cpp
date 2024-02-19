@@ -4,7 +4,7 @@
 
 #include "Country.h"
 
-Country::Country(int countryID, int medals) : Item(countryID), numberOfContestants(Zero), numberOfTeams(Zero), strength(Zero), medals(medals){}
+Country::Country(int countryID, int medals) : Item(countryID), numberOfContestants(0), numberOfTeams(0), strength(0), medals(medals){}
 
 
 
@@ -23,3 +23,19 @@ int Country::getNumberOfContestants() const {
 int Country::getNumberOfTeams() const {
     return numberOfTeams;
 }
+
+void Country::addTeam(){
+    numberOfTeams++;
+}
+void Country::addContestant(){
+    numberOfContestants++;
+}
+
+
+//void addContestant(shared_ptr<Contestant>& contestant){
+////    contestants.insert(contestant->getID());
+////    numberOfContestants++;
+////    strength += contestant->getStrength();
+////    myContestants->insert(contestant);
+//
+//}

@@ -11,17 +11,21 @@
 
 class Team : public Item {
     int teamID;
+    Sport sport;
     int numberOfContestants;
     int strength;
-//    Tree<Contestant> contestants;
-    Sport sport;
-    int countries[];
+//    STree<Contestant> lowerContestants;
+//    STree<Contestant> middleContestants;
+//    STree<Contestant> upperContestants;
+
+//    shared_ptr<Country> myCountry;
 
 public:
     Team(int teamID, int countryID, Sport sport);
     int getStrength() const;
     int getNumberOfContestants() const;
 
+    void addContestant();
 };
 
 
