@@ -18,7 +18,7 @@ private:
 public:
     shared_ptr<T> data;
     shared_ptr<Node<T>> left, right;
-    shared_ptr<Node<T>> parent;
+    weak_ptr<Node<T>> parent;
     int height;
 
     Node(shared_ptr<T> data): data(data),  height(0),
