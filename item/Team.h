@@ -18,7 +18,7 @@ class Team : public Item {
 //    STree<Contestant> middleContestants;
 //    STree<Contestant> upperContestants;
 
-    int countries[];
+//    shared_ptr<Country> myCountry;
 
 public:
     Team(int teamID, int countryID, Sport sport);

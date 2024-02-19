@@ -9,6 +9,9 @@
 using namespace std;
 
 int main() {
+
+    cout << "UNCOMMENT shared_ptr<Country> myCountry; in Team.h to see the error" << endl;
+    cout << "UNCOMMENT shared_ptr<Tree<Country>> allCountries; in Country.h to see the error" << endl;
     //Test case 1:
 
     auto One = make_shared<Item>(1);
