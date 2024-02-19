@@ -100,16 +100,16 @@ StatusType Olympics::add_contestant(int contestantId ,int countryId, Sport sport
     if(contestantId <= 0 || countryId <= 0 || strength < 0){
         return StatusType::INVALID_INPUT;
     }
-    shared_ptr<Country> count = countries->find(countryId);
+    shared_ptr<Country> country = countries->find(countryId);
 
-    if(contestants->contains(contestantId) || !count){
+    if(contestants->contains(contestantId) || !country){
         return StatusType::FAILURE;
     }
 
     try{
         shared_ptr<Contestant> contestant = make_shared<Contestant>(contestantId, countryId, sport, strength);
         contestants->insert(contestant);
-//        count->addContestant(); // TODO implement
+        country->addContestant(); // TODO implement
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
     }
