@@ -6,7 +6,7 @@
 #define AVLTREES_CONTESTANT_H
 
 #include "../Scripts/wet1util.h"
-#include "Item.h"
+#include "item.h"
 #include "Team.h"
 #include "Country.h"
 class Contestant : public Item{

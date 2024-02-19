@@ -4,6 +4,8 @@
 #include "memory"
 #include "item/item.h"
 #include "tree.h"
+#include "item/Country.h"
+#include "item/Team.h"
 
 #include "functions.h"
 using namespace std;
@@ -14,6 +16,8 @@ int main() {
     cout << "UNCOMMENT shared_ptr<Tree<Country>> allCountries; in Country.h to see the error" << endl;
     //Test case 1:
 
+    Country someCountry(5,2);//testing Country constructor
+    Team someTeam(3, 5, Sport::SWIMMING);//testing team Constructor
     auto One = make_shared<Item>(1);
     auto Two = make_shared<Item>(2);
     auto Three = make_shared<Item>(3);

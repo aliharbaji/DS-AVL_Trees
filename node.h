@@ -22,7 +22,7 @@ public:
     int height;
 
     Node(shared_ptr<T> data): data(data),  height(0),
-    left(nullptr), right(nullptr), parent(nullptr){}
+    left(nullptr), right(nullptr), parent(){}
 
     int getID() const {
         return data->getID();

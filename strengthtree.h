@@ -19,7 +19,7 @@ class STree{
 private:
     shared_ptr<Node<T>> root;
     int size;
-    bool Subtree;
+    bool miniTree;
     shared_ptr<Node<T>> maxSNode;
     int ausMeasure;
 
@@ -221,10 +221,17 @@ private:
         else return containsRecursively(node->right, ID);
     }
 
-    shared_ptr<T> findRecursively(shared_ptr<Node<T>> node, int ID) const{
+    shared_ptr<T> findRecursively(shared_ptr<Node<T>> node, int ID, int strength) const{
         if (node == nullptr) return nullptr;
+
+        bool isLeft = false;
+        if (strength < node->getStrength() ||
+            (strength == node->getStrength() && ID < node->getID())) {
+            isLeft = true;
+        }
+
         if (node->data->getID() == ID) return node->data;
-        if (ID < node->data->getID()) return findRecursively(node->left, ID);
+        if (isLeft) return findRecursively(node->left, ID);
         else return findRecursively(node->right, ID);
     }
 
@@ -240,6 +247,14 @@ private:
         }
         return current;
     }
+    shared_ptr<Node<T>> getMaxNode(shared_ptr<Node<T>> node){
+        auto current = node;
+        while (current->right != nullptr){
+            current = current->right;
+        }
+        return current;
+    }
+
     int getBalance(shared_ptr<Node<T>> node) const{
         if (node == nullptr) return -1;
         else return node->getBF();
@@ -248,9 +263,9 @@ private:
 
 public:
 
-    Tree() : root(nullptr), size(0){}
-    Tree(const Tree&) = delete;
-    Tree& operator=(const Tree&)= delete;
+    explicit STree(bool miniTree) : root(nullptr), size(0), miniTree(miniTree), maxSNode(nullptr), ausMeasure(0){}
+    STree(const STree&) = delete;
+    STree& operator=(const STree&)= delete;
 
 
     // finds member with ID, returns NULL if he doesn't exist.

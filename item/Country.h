@@ -7,9 +7,8 @@
 
 
 #include "../tree.h"
-#include "Item.h"
+#include "item.h"
 #include "Contestant.h"
-#include "Team.h"
 
 class Country : public Item {
 
@@ -19,7 +18,7 @@ class Country : public Item {
     int medals;
 // not sure if this is the right way to do it
 //    shared_ptr<Tree<Contestant>> myContestants;
-    shared_ptr<Tree<Country>> allCountries;
+    //shared_ptr<Tree<Country>> allCountries; This is unnecessary. The olympics class contains a tree of countries. A country doesn't need access to other countries.
 public:
     Country(int countryID, int medals);
     int getMedals() const;

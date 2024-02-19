@@ -6,9 +6,11 @@
 #define AVLTREES_TEAM_H
 #include "../tree.h"
 #include "../Scripts/wet1util.h"
-#include "Item.h"
+#include "item.h"
 #include "Contestant.h"
+#include "Country.h"
 
+class Country;
 class Team : public Item {
     int teamID;
     Sport sport;
@@ -18,7 +20,7 @@ class Team : public Item {
 //    STree<Contestant> middleContestants;
 //    STree<Contestant> upperContestants;
 
-//    shared_ptr<Country> myCountry;
+    shared_ptr<Country> myCountry;
 
 public:
     Team(int teamID, int countryID, Sport sport);
