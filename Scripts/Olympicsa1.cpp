@@ -53,7 +53,7 @@ StatusType Olympics::remove_country(int countryId){
 	return StatusType::SUCCESS;
 }
 
-// not so sure
+// not so sure, team's constructor should take a pointer to country and not int countryId
 StatusType Olympics::add_team(int teamId, int countryId, Sport sport){
     if(teamId <= 0 || countryId <= 0){
         return StatusType::INVALID_INPUT;
@@ -66,7 +66,7 @@ StatusType Olympics::add_team(int teamId, int countryId, Sport sport){
     try {
         shared_ptr<Team> team = make_shared<Team>(teamId, countryId, sport);
         teams->insert(team);
-//        country->addTeam(); // updates the number of teams in the country
+        country->addTeam(); // updates the number of teams in the country
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
     }
@@ -74,7 +74,7 @@ StatusType Olympics::add_team(int teamId, int countryId, Sport sport){
 	return StatusType::SUCCESS;
 }
 
-// looks good
+// no so sure
 StatusType Olympics::remove_team(int teamId){
     if(teamId <= 0){
         return StatusType::INVALID_INPUT;
@@ -86,6 +86,7 @@ StatusType Olympics::remove_team(int teamId){
     }
 
     try{
+//        team->myCountry->removeTeam(); // updates the number of teams in the country
         teams->remove(teamId);
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
