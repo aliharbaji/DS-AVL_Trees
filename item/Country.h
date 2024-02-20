@@ -9,7 +9,7 @@
 #include "../tree.h"
 #include "item.h"
 #include "Contestant.h"
-
+#include "Team.h"
 class Country : public Item {
 
     int numberOfContestants;
@@ -25,10 +25,11 @@ public:
     int getStrength() const;
     int getNumberOfContestants() const;
     int getNumberOfTeams() const;
-
+    //    friend class Tree<Country>;
     void addTeam();
+    void removeTeam();
     void addContestant();
-//    friend class Tree<Country>;
+    void removeContestant();
 };
 
 

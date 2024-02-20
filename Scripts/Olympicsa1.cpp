@@ -53,7 +53,7 @@ StatusType Olympics::remove_country(int countryId){
 	return StatusType::SUCCESS;
 }
 
-// not so sure, team's constructor should take a pointer to country and not int countryId
+// not so sure about country->addTeam()
 StatusType Olympics::add_team(int teamId, int countryId, Sport sport){
     if(teamId <= 0 || countryId <= 0){
         return StatusType::INVALID_INPUT;
@@ -64,7 +64,7 @@ StatusType Olympics::add_team(int teamId, int countryId, Sport sport){
     }
 
     try {
-        shared_ptr<Team> team = make_shared<Team>(teamId, countryId, sport);
+        shared_ptr<Team> team = make_shared<Team>(teamId, country, sport);
         teams->insert(team);
         country->addTeam(); // updates the number of teams in the country
     }catch (std::bad_alloc& e){
@@ -86,7 +86,7 @@ StatusType Olympics::remove_team(int teamId){
     }
 
     try{
-//        team->myCountry->removeTeam(); // updates the number of teams in the country
+        team->removeTeamFromItsCountry(); // updates the number of teams in the country
         teams->remove(teamId);
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
@@ -117,7 +117,7 @@ StatusType Olympics::add_contestant(int contestantId ,int countryId, Sport sport
 	return StatusType::SUCCESS;
 }
 
-// TODO: implement commented-out functions in Contestant.h
+// not so sure but looks good
 StatusType Olympics::remove_contestant(int contestantId){
     if(contestantId <= 0){
         return StatusType::INVALID_INPUT;
@@ -125,12 +125,12 @@ StatusType Olympics::remove_contestant(int contestantId){
 
     shared_ptr<Contestant> contestant = contestants->find(contestantId);
 //    check if contestants is in a team
-//  if(!contestant || contestant->getNumOfActiveTeams() > Zero){ // checks if the contestant is in a team if so return failure
-//        return StatusType::FAILURE;
-//    }
+  if(!contestant || contestant->getNumOfActiveTeams() > 0){ // checks if the contestant is in a team if so return failure
+        return StatusType::FAILURE;
+    }
     try{
-//        contestant->removeFromTeams(); // updates the number of contestants in the contestant's teams
-//        contestant->removeFromCountry(); // updates the number of contestants in the contestant's country
+        contestant->removeFromTeams(); // updates the number of contestants in the contestant's teams
+        contestant->removeFromCountry(); // updates the number of contestants in the contestant's country
         contestants->remove(contestantId);
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
@@ -140,7 +140,7 @@ StatusType Olympics::remove_contestant(int contestantId){
 	return StatusType::SUCCESS;
 }
 
-// TODO: implement
+// not so sure but looks good
 StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
     if(teamId<=0 || contestantId <=0){
         return StatusType::INVALID_INPUT;
@@ -148,14 +148,13 @@ StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
 
     shared_ptr<Team> team = teams->find(teamId);
     shared_ptr<Contestant> contestant = contestants->find(contestantId);
-//    if(!team || !contestant || contestant->getNumOfActiveTeams() > MAX_TEAM_SIZE
-//    || contestant->getSport() != team->getSport()
-//    || contestant->isActiveInTeam(teamId)){
-//        return StatusType::FAILURE;
-//    }
+    if(!team || !contestant || contestant->getNumOfActiveTeams() > MAX_TEAM_SIZE
+    || contestant->getSport() != team->getSport()
+    || contestant->isActiveInTeam(teamId)){
+        return StatusType::FAILURE;
+    }
 
-//    team->addContestant(contestant);
-//    team->numberOfContestants++;
+    team->addContestant();
 
     return StatusType::SUCCESS;
 }

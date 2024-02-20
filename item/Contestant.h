@@ -7,6 +7,7 @@
 
 #include "../Scripts/wet1util.h"
 #include "item.h"
+#include "Country.h"
 
 class Country;
 class Team;
@@ -17,12 +18,15 @@ class Contestant : public Item{
     int strength;
     int numOfTeams;
     shared_ptr<Team> myTeams[3];
-   shared_ptr<Country> myCountry;
+    shared_ptr<Country> myCountry;
     int country;
 public:
     explicit Contestant(int contestantID, int country, Sport sport, int strength);
-
-
+    int getNumOfActiveTeams() const;
+    void removeFromTeams();
+    void removeFromCountry();
+    Sport getSport() const;
+    bool isActiveInTeam(int teamID);
 };
 
 

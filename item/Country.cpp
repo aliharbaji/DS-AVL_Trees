@@ -31,6 +31,13 @@ void Country::addContestant(){
     numberOfContestants++;
 }
 
+void Country::removeTeam() {
+    numberOfTeams--;
+}
+
+void Country::removeContestant() {
+    numberOfContestants--;
+}
 
 //void addContestant(shared_ptr<Contestant>& contestant){
 ////    contestants.insert(contestant->getID());
