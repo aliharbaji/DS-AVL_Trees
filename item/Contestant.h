@@ -29,6 +29,8 @@ public:
     void addTeam(shared_ptr<Team>& team);
     void removeTeam(int teamID);
     int getCountryID() const;
+    void updateStrength(int change);
+    int getStrength() const;
 };
 
 

@@ -125,9 +125,10 @@ StatusType Olympics::remove_contestant(int contestantId){
 
     shared_ptr<Contestant> contestant = contestants->find(contestantId);
 //    check if contestants is in a team
-  if(!contestant || contestant->getNumOfActiveTeams() > 0){ // checks if the contestant is in a team if so return failure
+    if(!contestant || contestant->getNumOfActiveTeams() > 0){ // checks if the contestant is in a team if so return failure
         return StatusType::FAILURE;
     }
+
     try{
         contestant->removeFromTeams(); // updates the number of contestants in the contestant's teams
         contestant->removeFromCountry(); // updates the number of contestants in the contestant's country
@@ -160,6 +161,7 @@ StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
     return StatusType::SUCCESS;
 }
 
+// not so sure but looks good.
 StatusType Olympics::remove_contestant_from_team(int teamId,int contestantId){
     if(teamId<=0 || contestantId <=0){
         return StatusType::INVALID_INPUT;
@@ -175,12 +177,33 @@ StatusType Olympics::remove_contestant_from_team(int teamId,int contestantId){
 	return StatusType::SUCCESS;
 }
 
+// TODO: make sure to update the strength of the contestant's teams
 StatusType Olympics::update_contestant_strength(int contestantId ,int change){
-	return StatusType::FAILURE;
+    if(contestantId <= 0){
+        return StatusType::INVALID_INPUT;
+    }
+    // log(n) search time in the contestants tree
+    // needed time is log(n) + log(m) where m is the number of teams
+    // this probably is due to the fact that we need to update the strength of the teams
+    shared_ptr<Contestant> contestant = contestants->find(contestantId);
+    if(!contestant || contestant->getStrength() + change < 0){
+        return StatusType::FAILURE;
+    }
+    contestant->updateStrength(change);
+    return StatusType::SUCCESS;
 }
 
+// TODO: not sure about the return type
 output_t<int> Olympics::get_strength(int contestantId){
-	return 0;
+    if(contestantId <= 0){
+        return StatusType::INVALID_INPUT;
+    }
+    shared_ptr<Contestant> contestant = contestants->find(contestantId);
+    if(!contestant){
+        return StatusType::FAILURE;
+    }
+    return contestant->getStrength();
+	return StatusType::SUCCESS;
 }
 
 output_t<int> Olympics::get_medals(int countryId){

@@ -57,14 +57,10 @@ void Contestant::removeTeam(int teamID) {
     }
 }
 
-//Contestant::Contestant(int contestantID, int country, Sport sport, int strength):
-//Item(contestantID),
-//country(country),
-//sport(sport),
-//strength(strength),
-//numOfTeams(0){}
+void Contestant::updateStrength(int change) {
+    strength = (strength + change > 0) ? strength - change : 0;
+}
 
-//Contestant::Contestant(int contestantID, int country,
-//                       Sport sport, int strength): Item(contestantID),
-//                                                   sport(sport), strength(strength), country(country),
-//                                                   activeTeams(0){}
+int Contestant::getStrength() const {
+    return strength;
+}
