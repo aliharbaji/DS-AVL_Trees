@@ -3,7 +3,6 @@
 #include "node.h"
 #include "memory"
 #include "item/item.h"
-#include "tree.h"
 #include "item/Country.h"
 #include "item/Team.h"
 
@@ -76,6 +75,7 @@ int main() {
     tree.insert(a11);
     auto a12 = make_shared<Item>(62);
     tree.insert(a12);
+    tree.remove(15);
     // 50,25,75,15,40,60,80,35,55,65,90,62
 
 //    // make root and size public fields for this to work

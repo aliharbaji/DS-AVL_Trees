@@ -241,7 +241,7 @@ public:
         }
         size++;
         minimum = getMinNode(root);
-        maximum = getMaxNode();
+        maximum = getMaxNode(root);
         return true;
     }
 

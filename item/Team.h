@@ -8,7 +8,6 @@
 #include "../Scripts/wet1util.h"
 #include "item.h"
 #include "../tree.h"
-#include "strengthtree.h"
 
 class Contestant;
 class Country;

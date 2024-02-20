@@ -18,7 +18,7 @@ private:
 public:
     shared_ptr<T> data;
     shared_ptr<Node<T>> left, right;
-    weak_ptr<Node<T>> parent;
+    shared_ptr<Node<T>> parent; //TODO: parent needs to be changed to weak_ptr because we have circular references.
     int height;
 
     Node(shared_ptr<T> data): data(data),  height(0),
