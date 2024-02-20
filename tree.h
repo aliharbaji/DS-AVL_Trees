@@ -64,7 +64,6 @@ private:
 
     void deleteRecursively(shared_ptr<Node<T>>& node, int ID){
         if (node == nullptr) return;
-        bool hasDeleted = false;//flag to keep track of whether a deletion occurred.
         if (ID < node->getID()) deleteRecursively(node->left, ID);
         else if (ID > node->getID()) deleteRecursively(node->right, ID);
 
@@ -112,6 +111,7 @@ private:
         if (node==nullptr) return;
 
         node->height = 1 + max(getHeight(node->right), getHeight(node->left));
+        node->size = 1+ getSize(node->left) + getSize(node->right);
         int balance = getBalance(node);
 
         //Left-Left Heavy. We rotate the left child to the right swapping its place with the current node.
@@ -148,6 +148,8 @@ private:
 
         node->height = 1 + max(getHeight(node->left),getHeight(node->right));
         leftChild->height = 1 + max(getHeight(leftChild->left), getHeight(leftChild->right));
+        node->size = 1 + getSize(node->left) + getSize(node->right);
+        leftChild->size = 1 + getSize(leftChild->left) + getSize(leftChild->right);
 
         if (subTree != nullptr) subTree->parent = node;
         leftChild->parent = node->parent;
@@ -167,6 +169,8 @@ private:
 
         node->height = 1 + max(getHeight(node->left),getHeight(node->right));
         rightChild->height = 1 + max(getHeight(rightChild->left), getHeight(rightChild->right));
+        node->size = 1 + getSize(node->left) + getSize(node->right);
+        rightChild->size = 1 + getSize(rightChild->left) + getSize(rightChild->right);
 
         if (subTree != nullptr) subTree->parent = node;
         rightChild->parent = node->parent;

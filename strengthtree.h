@@ -23,6 +23,7 @@ private:
     shared_ptr<Node<T>> maximum;
     shared_ptr<Node<T>> minimum;
     //Adjusted logic to compare based on strength and in case of strength equality to compare based on ID.
+
     shared_ptr<Node<T>> insertRecursively(shared_ptr<Node<T>> node, shared_ptr<T> item){
         if (node == nullptr) return make_shared<Node<T>>(item);
 
@@ -140,6 +141,8 @@ private:
         if (node==nullptr) return;
 
         node->height = 1 + max(getHeight(node->right), getHeight(node->left));
+        node->size = 1+ getSize(node->left) + getSize(node->right);
+
         int balance = getBalance(node);
 
         //Left-Left Heavy. We rotate the left child to the right swapping its place with the current node.
@@ -176,6 +179,8 @@ private:
 
         node->height = 1 + max(getHeight(node->left),getHeight(node->right));
         leftChild->height = 1 + max(getHeight(leftChild->left), getHeight(leftChild->right));
+        node->size = 1 + getSize(node->left) + getSize(node->right);
+        leftChild->size = 1 + getSize(leftChild->left) + getSize(leftChild->right);
 
         if (subTree != nullptr) subTree->parent = node;
         leftChild->parent = node->parent;
@@ -195,6 +200,9 @@ private:
 
         node->height = 1 + max(getHeight(node->left),getHeight(node->right));
         rightChild->height = 1 + max(getHeight(rightChild->left), getHeight(rightChild->right));
+        node->size = 1 + getSize(node->left) + getSize(node->right);
+        rightChild->size = 1 + getSize(rightChild->left) + getSize(rightChild->right);
+
 
         if (subTree != nullptr) subTree->parent = node;
         rightChild->parent = node->parent;
@@ -361,6 +369,12 @@ public:
     int getSize(shared_ptr<Node<T>> node) const {
         return node ? node->size : 0; // Return 0 if node is nullptr, otherwise node's size
     }
+
+    int getSize() const{
+        if (size && root->size != size) throw logic_error("bug in Tree's node sizekeeping");
+        return size;
+    }
+
 
 
 
