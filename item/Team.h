@@ -4,18 +4,22 @@
 
 #ifndef AVLTREES_TEAM_H
 #define AVLTREES_TEAM_H
-#include "../tree.h"
+
 #include "../Scripts/wet1util.h"
 #include "item.h"
-#include "Contestant.h"
-#include "Country.h"
+#include "../tree.h"
+#include "strengthtree.h"
 
+class Contestant;
 class Country;
+
 class Team : public Item {
     int teamID;
     Sport sport;
     int numberOfContestants;
     int strength;
+    Tree<Contestant> allIDs;
+    //Stree<Contestant> allStrengths;
 //    STree<Contestant> lowerContestants;
 //    STree<Contestant> middleContestants;
 //    STree<Contestant> upperContestants;
