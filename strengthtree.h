@@ -9,6 +9,7 @@
 //
 #include "node.h"
 #include <stdexcept>
+#include <vector>
 
 #ifndef AVLTREES_TREE_H
 template <typename T>
@@ -20,8 +21,8 @@ private:
     shared_ptr<Node<T>> root;
     int size;
     bool miniTree;
-    shared_ptr<Node<T>> maxSNode;
-    int ausMeasure;
+    shared_ptr<Node<T>> maximum;
+    shared_ptr<Node<T>> minimum;
 
     //Adjusted logic to compare based on strength and in case of strength equality to compare based on ID.
     shared_ptr<Node<T>> insertRecursively(shared_ptr<Node<T>> node, shared_ptr<T> item){
@@ -94,8 +95,8 @@ private:
             isRight = true;
         }
 
-        if (isLeft) deleteRecursively(node->left, ID);
-        else if (isRight) deleteRecursively(node->right, ID);
+        if (isLeft) deleteRecursively(node->left, strength, ID);
+        else if (isRight) deleteRecursively(node->right, strength, ID);
 
             // found the node
         else{
@@ -263,7 +264,7 @@ private:
 
 public:
 
-    explicit STree(bool miniTree) : root(nullptr), size(0), miniTree(miniTree), maxSNode(nullptr), ausMeasure(0){}
+    explicit STree(bool miniTree) : root(nullptr), size(0), miniTree(miniTree), maximum(nullptr), minimum(nullptr){}
     STree(const STree&) = delete;
     STree& operator=(const STree&)= delete;
 
@@ -273,13 +274,13 @@ public:
         return findRecursively(root, ID);
     }
 
+    //TODO: adapt contain and find to strength. Probably unecessary because we should check for duplication before insertion into STree.
     bool contains(const int ID) const{
         return containsRecursively(root, ID);
     }
 
     // Inserts item. Returns false in case of duplication. True otherwise.
     bool insert(shared_ptr<T> item){
-        if (contains(item->getID())) return false;
         try {
             root = insertRecursively(root, item);
         }
@@ -287,15 +288,85 @@ public:
             //Need to manage this exception in the olympics class.
         }
         size++;
+        minimum = getMinNode(root);
+        maximum = getMaxNode(root);
         return true;
     }
 
-    bool remove(const int ID){
-        if (!contains(ID) || root == nullptr) return false;
-        deleteRecursively(root, ID);
+    bool remove(const int ID, const int strength){
+        if (!size) return false;
+        deleteRecursively(root, ID, strength);
         size--;
+        minimum = getMinNode(root);
+        maximum = getMaxNode(root);
         return true;
     }
+
+    shared_ptr<T> getMax(){
+        if (size) return maximum->data;
+        else return nullptr;
+    }
+
+    shared_ptr<T> getMin(){
+        if (size) return minimum->data;
+        else return nullptr;
+    }
+
+    // function that returns a vector of the maximum members in the tree in decreasing order. Reverse inorder traversal.
+    vector<shared_ptr<T>> getMaxN(int n) {
+        if (n > size) throw invalid_argument("argument is bigger than container");
+        vector<shared_ptr<T>> result;
+
+        auto current = maximum;
+        while (current != nullptr && n > 0) {
+            result.push_back(current->data);
+            n--;
+
+            if (current->left != nullptr) {
+                current = current->left;
+                while (current->right != nullptr) {
+                    current = current->right;
+                }
+            } else {
+                while (current->parent != nullptr && current == current->parent->left) {
+                    current = current->parent;
+                }
+                current = current->parent;
+            }
+        }
+        return result;
+    }
+
+    vector<shared_ptr<T>> getMinN(int n) {
+        if (n > size) throw invalid_argument("argument is bigger than container");
+        vector<shared_ptr<T>> result;
+        auto current = minimum;
+        while (current != nullptr && n > 0) {
+            result.push_back(current->data);
+            n--;
+
+            if (current->right != nullptr) {
+                current = current->right;
+                while (current->left != nullptr) {
+                    current = current->left;
+                }
+            } else {
+                while (current->parent != nullptr && current == current->parent->right) {
+                    current = current->parent;
+                }
+                current = current->parent;
+            }
+        }
+        return result;
+    }
+
+    int getSize(){
+        return size;
+    }
+
+
+
+
 
 };
 #define AVLTREES_TREE_H
