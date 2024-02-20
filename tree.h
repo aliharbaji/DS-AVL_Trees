@@ -3,6 +3,7 @@
 //
 #include "node.h"
 #include <stdexcept>
+#include <vector>
 
 #ifndef AVLTREES_TREE_H
 template <typename T>
@@ -34,6 +35,8 @@ private:
         else throw logic_error("Trying to insert a duplicate after duplication was ruled out");
 
         node->height = 1 + max(getHeight(node->left), getHeight(node->right));
+        node->size = 1 + getSize(node->left) + getSize(node->right);
+
         int balance = getBalance(node);
 
         //Left-Left Heavy. We rotate the left child to the right swapping its place with the current node.
@@ -61,6 +64,7 @@ private:
 
     void deleteRecursively(shared_ptr<Node<T>>& node, int ID){
         if (node == nullptr) return;
+        bool hasDeleted = false;//flag to keep track of whether a deletion occurred.
         if (ID < node->getID()) deleteRecursively(node->left, ID);
         else if (ID > node->getID()) deleteRecursively(node->right, ID);
 
@@ -255,17 +259,69 @@ public:
     }
 
     // self_explanatory. Returns the data of the biggest member. Returns null in case of empty so careful.
-    shared_ptr<T> getMax(){
+    shared_ptr<T> getMax() const{
         if (size) return maximum->data;
         else return nullptr;
     }
 
-    shared_ptr<T> getMin(){
+    shared_ptr<T> getMin() const{
         if (size) return minimum->data;
         else return nullptr;
     }
 
-    int getSize(){
+    vector<shared_ptr<T>> getMaxN(int n) const{
+        if (n > size) throw invalid_argument("argument is bigger than container");
+        vector<shared_ptr<T>> result;
+
+        auto current = maximum;
+        while (current != nullptr && n > 0) {
+            result.push_back(current->data);
+            n--;
+
+            if (current->left != nullptr) {
+                current = current->left;
+                while (current->right != nullptr) {
+                    current = current->right;
+                }
+            } else {
+                while (current->parent != nullptr && current == current->parent->left) {
+                    current = current->parent;
+                }
+                current = current->parent;
+            }
+        }
+        return result;
+    }
+
+    vector<shared_ptr<T>> getMinN(int n) const{
+        if (n > size) throw invalid_argument("argument is bigger than container");
+        vector<shared_ptr<T>> result;
+        auto current = minimum;
+        while (current != nullptr && n > 0) {
+            result.push_back(current->data);
+            n--;
+
+            if (current->right != nullptr) {
+                current = current->right;
+                while (current->left != nullptr) {
+                    current = current->left;
+                }
+            } else {
+                while (current->parent != nullptr && current == current->parent->right) {
+                    current = current->parent;
+                }
+                current = current->parent;
+            }
+        }
+        return result;
+    }
+
+    int getSize(shared_ptr<Node<T>> node) const {
+        return node ? node->size : 0; // Return 0 if node is nullptr, otherwise node's size aka subtree's size.
+    }
+
+    int getSize() const{
+        if (size && root->size != size) throw logic_error("bug in Tree's node sizekeeping");
         return size;
     }
 

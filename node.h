@@ -20,8 +20,9 @@ public:
     shared_ptr<Node<T>> left, right;
     shared_ptr<Node<T>> parent; //TODO: parent needs to be changed to weak_ptr because we have circular references.
     int height;
+    int size; //We need to know the size of each subtree for efficiently dividing the tree into subtrees.
 
-    Node(shared_ptr<T> data): data(data),  height(0),
+    Node(shared_ptr<T> data): data(data),  height(0), size(0),
     left(nullptr), right(nullptr), parent(){}
 
     int getID() const {

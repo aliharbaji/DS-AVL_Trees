@@ -17,11 +17,6 @@ class Team : public Item {
     Sport sport;
     int numberOfContestants;
     int strength;
-    Tree<Contestant> allIDs;
-    //Stree<Contestant> allStrengths;
-//    STree<Contestant> lowerContestants;
-//    STree<Contestant> middleContestants;
-//    STree<Contestant> upperContestants;
 
     shared_ptr<Country> myCountry;
 

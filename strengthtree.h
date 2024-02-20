@@ -11,19 +11,17 @@
 #include <stdexcept>
 #include <vector>
 
-#ifndef AVLTREES_TREE_H
+
 template <typename T>
 
 class STree{
     template <typename U> friend class Node;
-
 private:
     shared_ptr<Node<T>> root;
     int size;
     bool miniTree;
     shared_ptr<Node<T>> maximum;
     shared_ptr<Node<T>> minimum;
-
     //Adjusted logic to compare based on strength and in case of strength equality to compare based on ID.
     shared_ptr<Node<T>> insertRecursively(shared_ptr<Node<T>> node, shared_ptr<T> item){
         if (node == nullptr) return make_shared<Node<T>>(item);
@@ -264,13 +262,13 @@ private:
 
 public:
 
-    explicit STree(bool miniTree) : root(nullptr), size(0), miniTree(miniTree), maximum(nullptr), minimum(nullptr){}
+    explicit STree(bool miniTree = false) : root(nullptr), size(0), miniTree(miniTree), maximum(nullptr), minimum(nullptr){}
     STree(const STree&) = delete;
     STree& operator=(const STree&)= delete;
 
 
     // finds member with ID, returns NULL if he doesn't exist.
-    shared_ptr<T> find(const int ID){
+    shared_ptr<T> find(const int ID) const{
         return findRecursively(root, ID);
     }
 
@@ -313,7 +311,7 @@ public:
     }
 
     // function that returns a vector of the maximum members in the tree in decreasing order. Reverse inorder traversal.
-    vector<shared_ptr<T>> getMaxN(int n) {
+    vector<shared_ptr<T>> getMaxN(int n) const{
         if (n > size) throw invalid_argument("argument is bigger than container");
         vector<shared_ptr<T>> result;
 
@@ -337,7 +335,7 @@ public:
         return result;
     }
 
-    vector<shared_ptr<T>> getMinN(int n) {
+    vector<shared_ptr<T>> getMinN(int n) const{
         if (n > size) throw invalid_argument("argument is bigger than container");
         vector<shared_ptr<T>> result;
         auto current = minimum;
@@ -360,8 +358,8 @@ public:
         return result;
     }
 
-    int getSize(){
-        return size;
+    int getSize(shared_ptr<Node<T>> node) const {
+        return node ? node->size : 0; // Return 0 if node is nullptr, otherwise node's size
     }
 
 
@@ -369,8 +367,7 @@ public:
 
 
 };
-#define AVLTREES_TREE_H
 
-#endif //AVLTREES_TREE_H
+
 
 #endif //AVLTREES_STRENGTHTREE_H
