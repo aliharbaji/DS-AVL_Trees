@@ -12,6 +12,7 @@ class Tree{
 
 private:
     shared_ptr<Node<T>> root;
+    shared_ptr<Node<T>> minimum; //this is needed for austerity measure.
     int size;
 
     //The recursion takes an insertion node as an argument and returns the root of the subtree which may or may not change depending on insert location.
@@ -230,6 +231,7 @@ public:
          //Need to manage this exception in the olympics class.
         }
         size++;
+        minimum = getMinNode(root);
         return true;
     }
 
@@ -237,6 +239,7 @@ public:
         if (!contains(ID) || root == nullptr) return false;
         deleteRecursively(root, ID);
         size--;
+        minimum = getMinNode(root);
         return true;
     }
 
