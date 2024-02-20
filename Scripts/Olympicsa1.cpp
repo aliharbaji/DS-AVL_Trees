@@ -193,6 +193,7 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
     return StatusType::SUCCESS;
 }
 
+// looks good
 output_t<int> Olympics::get_strength(int contestantId){
     if(contestantId <= 0){
         return output_t<int>(StatusType::INVALID_INPUT);
@@ -205,7 +206,14 @@ output_t<int> Olympics::get_strength(int contestantId){
 }
 
 output_t<int> Olympics::get_medals(int countryId){
-	return 0;
+	if(countryId <= 0){
+        return output_t<int>(StatusType::INVALID_INPUT);
+    }
+    shared_ptr<Country> country = countries->find(countryId);
+    if(!country){
+        return output_t<int>(StatusType::FAILURE);
+    }
+    return output_t<int>(country->getMedals());
 }
 
 output_t<int> Olympics::get_team_strength(int teamId){
