@@ -4,10 +4,6 @@
 
 #include "Team.h"
 
-Team::Team(int teamID, int countryID, Sport sport) : Item(teamID), sport(sport), strength(0),
-numberOfContestants(0) {
-
-}
 
 
 //int Team::getMedals() const {
@@ -19,17 +15,11 @@ int Team::getStrength() const {
 }
 
 int Team::getNumberOfContestants() const {
-    return numberOfContestants;
+    return size;
 }
 
 void Team::addContestant(){
-    numberOfContestants++;
-}
-
-Team::Team(int teamID, shared_ptr<Country>& country, Sport sport) : Item(teamID), sport(sport), strength(0),
-numberOfContestants(0), myCountry(country)
-{
-
+    size++;
 }
 
 void Team::removeTeamFromItsCountry() {
@@ -37,7 +27,7 @@ void Team::removeTeamFromItsCountry() {
 }
 
 void Team::removeContestant() {
-    numberOfContestants--;
+    size--;
 }
 
 Sport Team::getSport() const {

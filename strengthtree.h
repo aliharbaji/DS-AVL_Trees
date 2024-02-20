@@ -16,6 +16,7 @@ template <typename T>
 
 class STree{
     template <typename U> friend class Node;
+    friend class Team;
 private:
     shared_ptr<Node<T>> root;
     int size;
@@ -23,6 +24,33 @@ private:
     shared_ptr<Node<T>> maximum;
     shared_ptr<Node<T>> minimum;
     //Adjusted logic to compare based on strength and in case of strength equality to compare based on ID.
+
+    //necessary for Team
+    shared_ptr<Node<T>> findKthSmallest(shared_ptr<Node<T>> node, int k) {
+        if (!node) return nullptr; // Check for null node
+
+        int leftSize = node->left ? node->left->size : 0;
+
+        if (k <= leftSize) {
+            return findKthSmallest(node->left, k);
+        } else if (k == leftSize + 1) {
+            return nullptr;
+        } else {
+            return findKthSmallest(node->right, k - leftSize - 1);
+        }
+    }
+    void clearParents(std::shared_ptr<Node<T>> node) {
+        if (node != nullptr) {
+            if (node->left != nullptr) {
+                clearParents(node->left);
+                node->left->parent = nullptr; // Clear the parent pointer
+            }
+            if (node->right != nullptr) {
+                clearParents(node->right);
+                node->right->parent = nullptr; // Clear the parent pointer
+            }
+        }
+    }
 
     shared_ptr<Node<T>> insertRecursively(shared_ptr<Node<T>> node, shared_ptr<T> item){
         if (node == nullptr) return make_shared<Node<T>>(item);
@@ -270,9 +298,12 @@ private:
 
 public:
 
-    explicit STree(bool miniTree = false) : root(nullptr), size(0), miniTree(miniTree), maximum(nullptr), minimum(nullptr){}
+    explicit STree(bool miniTree = true) : root(nullptr), size(0), miniTree(miniTree), maximum(nullptr), minimum(nullptr){}
     STree(const STree&) = delete;
     STree& operator=(const STree&)= delete;
+    ~STree(){
+        clearParents(root);
+    }
 
 
     // finds member with ID, returns NULL if he doesn't exist.
@@ -366,6 +397,7 @@ public:
         return result;
     }
 
+
     int getSize(shared_ptr<Node<T>> node) const {
         return node ? node->size : 0; // Return 0 if node is nullptr, otherwise node's size
     }
@@ -374,8 +406,6 @@ public:
         if (size && root->size != size) throw logic_error("bug in Tree's node sizekeeping");
         return size;
     }
-
-
 
 
 
