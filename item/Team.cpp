@@ -44,5 +44,9 @@ Sport Team::getSport() const {
     return sport;
 }
 
+int Team::getCountryID() const {
+    return myCountry->getID();
+}
+
 
 

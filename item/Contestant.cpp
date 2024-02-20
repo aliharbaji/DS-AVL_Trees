@@ -4,9 +4,9 @@
 
 #include "Contestant.h"
 
-Contestant::Contestant(int contestantID, int country, Sport sport, int strength):
+Contestant::Contestant(int contestantID, shared_ptr<Country>& country, Sport sport, int strength):
 Item(contestantID),
-country(country),
+myCountry(country),
 sport(sport),
 strength(strength),
 numOfTeams(0){}
@@ -36,6 +36,25 @@ bool Contestant::isActiveInTeam(int teamID) {
         }
     }
     return false;
+}
+
+void Contestant::addTeam(shared_ptr<Team> &team) {
+    myTeams[numOfTeams] = team;
+    numOfTeams++;
+}
+
+int Contestant::getCountryID() const {
+    return myCountry->getID();
+}
+
+void Contestant::removeTeam(int teamID) {
+    for (int i = 0; i < numOfTeams; i++) {
+        if (myTeams[i]->getID() == teamID) {
+            myTeams[i] = myTeams[numOfTeams - 1];
+            numOfTeams--;
+            return;
+        }
+    }
 }
 
 //Contestant::Contestant(int contestantID, int country, Sport sport, int strength):

@@ -30,6 +30,7 @@ public:
     void addContestant();
     void removeContestant();
     Sport getSport() const;
+    int getCountryID() const;
 };
 
 
