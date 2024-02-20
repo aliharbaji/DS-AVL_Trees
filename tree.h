@@ -13,6 +13,7 @@ class Tree{
 private:
     shared_ptr<Node<T>> root;
     shared_ptr<Node<T>> minimum; //this is needed for austerity measure.
+    shared_ptr<Node<T>> maximum;
     int size;
 
     //The recursion takes an insertion node as an argument and returns the root of the subtree which may or may not change depending on insert location.
@@ -192,6 +193,14 @@ private:
         else return node->height;
     }
 
+    shared_ptr<Node<T>> getMaxNode(shared_ptr<Node<T>> node){
+        auto current = node;
+        while (current->right != nullptr){
+            current = current->right;
+        }
+        return current;
+    }
+
     shared_ptr<Node<T>> getMinNode(shared_ptr<Node<T>> node){
         auto current = node;
         while (current->left != nullptr){
@@ -207,7 +216,7 @@ private:
 
 public:
 
-    Tree() : root(nullptr), size(0){}
+    Tree() : root(nullptr), maximum(nullptr), minimum(nullptr), size(0){}
     Tree(const Tree&) = delete;
     Tree& operator=(const Tree&)= delete;
 
@@ -232,6 +241,7 @@ public:
         }
         size++;
         minimum = getMinNode(root);
+        maximum = getMaxNode();
         return true;
     }
 
@@ -240,7 +250,23 @@ public:
         deleteRecursively(root, ID);
         size--;
         minimum = getMinNode(root);
+        maximum = getMaxNode(root);
         return true;
+    }
+
+    // self_explanatory. Returns the data of the biggest member. Returns null in case of empty so careful.
+    shared_ptr<T> getMax(){
+        if (size) return maximum->data;
+        else return nullptr;
+    }
+
+    shared_ptr<T> getMin(){
+        if (size) return minimum->data;
+        else return nullptr;
+    }
+
+    int getSize(){
+        return size;
     }
 
 };
