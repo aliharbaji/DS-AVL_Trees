@@ -56,11 +56,12 @@ StatusType Olympics::remove_country(int countryId){
 	return StatusType::SUCCESS;
 }
 
-// not so sure about country->addTeam()
+// not so sure about country->addTeam(), other than that the function looks good
 StatusType Olympics::add_team(int teamId, int countryId, Sport sport){
     if(teamId <= 0 || countryId <= 0){
         return StatusType::INVALID_INPUT;
     }
+
     shared_ptr<Country> country = countries->find(countryId);
     if(teams->contains(teamId) || !country){
         return StatusType::FAILURE;
@@ -77,7 +78,7 @@ StatusType Olympics::add_team(int teamId, int countryId, Sport sport){
 	return StatusType::SUCCESS;
 }
 
-// no so sure
+// looks good I think
 StatusType Olympics::remove_team(int teamId){
     if(teamId <= 0){
         return StatusType::INVALID_INPUT;
@@ -98,14 +99,14 @@ StatusType Olympics::remove_team(int teamId){
     return StatusType::SUCCESS;
 }
 
-// not so sure about country->addContestant()
+// looks good I think
 StatusType Olympics::add_contestant(int contestantId ,int countryId, Sport sport,int strength){
     if(contestantId <= 0 || countryId <= 0 || strength < 0){
         return StatusType::INVALID_INPUT;
     }
     shared_ptr<Country> country = countries->find(countryId);
 
-    if(contestants->contains(contestantId) || !country){
+    if(!country || contestants->contains(contestantId)){
         return StatusType::FAILURE;
     }
 
@@ -120,22 +121,21 @@ StatusType Olympics::add_contestant(int contestantId ,int countryId, Sport sport
 	return StatusType::SUCCESS;
 }
 
-// not so sure but looks good
+// looks good, TODO: ask Omar if line 138 is ok
 StatusType Olympics::remove_contestant(int contestantId){
     if(contestantId <= 0){
         return StatusType::INVALID_INPUT;
     }
 
     shared_ptr<Contestant> contestant = contestants->find(contestantId);
-//    check if contestants is in a team
+//    check if the contestant is in a team
     if(!contestant || contestant->getNumOfActiveTeams() > 0){ // checks if the contestant is in a team if so return failure
         return StatusType::FAILURE;
     }
 
     try{
-//        contestant->removeFromTeams(); // updates the number of contestants in the contestant's teams
-//        contestant->removeFromCountry(); // updates the number of contestants in the contestant's country
         contestants->remove(contestantId);
+        contestant->getCountry().lock()->removeContestant();
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
     }
@@ -144,27 +144,30 @@ StatusType Olympics::remove_contestant(int contestantId){
 	return StatusType::SUCCESS;
 }
 
-// not so sure but looks good
+// not final for sure TODO: ask omar why he added myCountry->getMedals()
 StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
-    if(teamId<=0 || contestantId <=0){
+    if(teamId <= 0 || contestantId <= 0){
         return StatusType::INVALID_INPUT;
     }
 
     shared_ptr<Team> team = teams->find(teamId);
     shared_ptr<Contestant> contestant = contestants->find(contestantId);
-    if(!team || !contestant || contestant->getNumOfActiveTeams() >= MAX_TEAM_SIZE
-    || contestant->getSport() != team->getSport()
-    || contestant->getCountryID() != team->getCountryID()
-    || contestant->isActiveInTeam(teamId)){
+    // not so sure about isAvailable 's implementation TODO ask omar why he added myCountry->getMedals()
+    // if he implemented it for a different use-case, roll-back to ->getNumOfActiveTeams()
+    if(!team || !contestant
+    || !contestant->isAvailable() // checks if the contestant is available for another team
+    || contestant->getSport() != team->getSport() // checks sport's compatibility
+    || contestant->getCountryID() != team->getCountryID() // checks nationality
+    || contestant->isActiveInTeam(teamId)){ // checks whether the contestant is already part of the team
         return StatusType::FAILURE;
     }
-    contestant->addTeam(team);
     team->addContestant(contestant);
+    contestant->addTeam(team); // probably redundant because Omar added this to team->addContestant()
 
     return StatusType::SUCCESS;
 }
 
-// not so sure but looks good.
+// not final for sure
 StatusType Olympics::remove_contestant_from_team(int teamId,int contestantId){
     if(teamId<=0 || contestantId <=0){
         return StatusType::INVALID_INPUT;

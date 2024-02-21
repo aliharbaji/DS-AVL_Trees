@@ -125,14 +125,18 @@ void Team::updateStrength() {
 //Maybe can clean this by making "findKthSmallest" just return the value instead of the node itself.
 bool Team::addContestant(shared_ptr<Contestant> contestant){
 
-    //check if contestant has same sport and country as team
+    // redundant, will make sure to check these in Olympic's add_contestant_to_team function for a cleaner code.
+    // it wouldn't hurt to keep as is, will not change that in the time being
+    // check if contestant has same sport and country as team
     if ((sport != contestant->getSport()) || (myCountry.lock()->getID() != contestant->getCountryID())) return false;
-//Check if contestant is not in maximum teams to enter a new team.
+    //Check if contestant is not in maximum teams to enter a new team.
     if (!contestant->isAvailable()) return false;
-
-    if (!contestants->insert(contestant)) return false; // Check if contestant is already in team.
-
+    // Check if contestant is already in team.
+    if (!contestants->insert(contestant)) return false;
     contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
+
+
+
     strengths->insert(contestant);
     auto lowSNode  = contestants->findKthSmallest(contestants->root,contestants->getSize()/3);
     auto midSNode = contestants->findKthSmallest(contestants->root,(contestants->getSize() * 2)/3);

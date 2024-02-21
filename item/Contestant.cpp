@@ -25,7 +25,7 @@ bool Contestant:: isAvailable() const{
     return !(numOfTeams >= MAX_TEAMS || numOfTeams >= myCountry.lock()->getMedals());
 }
 
-bool Contestant::isActiveInTeam(int teamID) {
+bool Contestant::isActiveInTeam(int teamID) const{
     for (int i = 0; i < numOfTeams; i++) {
         if (myTeams[i].lock()->getID() == teamID) {
             return true;
@@ -64,4 +64,8 @@ void Contestant::updateStrength(int change) {
 
 int Contestant::getStrength() const {
     return strength;
+}
+
+weak_ptr<Country> Contestant::getCountry() const {
+    return myCountry;
 }

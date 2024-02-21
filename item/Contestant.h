@@ -31,14 +31,14 @@ public:
     explicit Contestant(int contestantID, weak_ptr<Country> country, Sport sport, int strength);
     int getNumOfActiveTeams() const;
     Sport getSport() const;
-    bool isActiveInTeam(int teamID);
+    bool isActiveInTeam(int teamID) const;
     bool addTeam(weak_ptr<Team> team);
     bool removeTeam(int teamID);
     int getCountryID() const;
     void updateStrength(int change);
     int getStrength() const;
     bool isAvailable() const;
-
+    weak_ptr<Country> getCountry() const;
 };
 
 

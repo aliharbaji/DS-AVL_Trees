@@ -35,7 +35,7 @@ private:
     }
 
     void clearParents(std::shared_ptr<Node<T>> node) {
-        if (node != nullptr) {
+        if (node != nullptr) { // removed unnecessary if statements
             clearParents(node->left);
             clearParents(node->right);
             node->parent = nullptr;
