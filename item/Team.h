@@ -53,9 +53,9 @@ public:
               lowIDTree(std::make_shared<Tree<Contestant>>()),
               midIDTree(std::make_shared<Tree<Contestant>>()),
               highIDTree(std::make_shared<Tree<Contestant>>()),
-              lowStrTree(std::make_shared<STree<Contestant>>(false)),
-              midStrTree(std::make_shared<STree<Contestant>>(false)),
-              highStrTree(std::make_shared<STree<Contestant>>(false))
+              lowStrTree(std::make_shared<STree<Contestant>>(true)),
+              midStrTree(std::make_shared<STree<Contestant>>(true)),
+              highStrTree(std::make_shared<STree<Contestant>>(true))
     {}
     Team(const Team&) = delete;
     Team& operator=(const Team&)= delete;

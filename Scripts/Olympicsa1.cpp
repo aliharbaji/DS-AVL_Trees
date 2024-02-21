@@ -121,7 +121,7 @@ StatusType Olympics::add_contestant(int contestantId ,int countryId, Sport sport
 	return StatusType::SUCCESS;
 }
 
-// looks good, TODO: ask Omar if line 138 is ok
+// looks good
 StatusType Olympics::remove_contestant(int contestantId){
     if(contestantId <= 0){
         return StatusType::INVALID_INPUT;
@@ -144,7 +144,7 @@ StatusType Olympics::remove_contestant(int contestantId){
 	return StatusType::SUCCESS;
 }
 
-// not final for sure TODO: ask omar why he added myCountry->getMedals()
+// not final for sure TODO: make sure myCountry->getMedals() is the correct approach
 StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
     if(teamId <= 0 || contestantId <= 0){
         return StatusType::INVALID_INPUT;
@@ -152,7 +152,7 @@ StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
 
     shared_ptr<Team> team = teams->find(teamId);
     shared_ptr<Contestant> contestant = contestants->find(contestantId);
-    // not so sure about isAvailable 's implementation TODO ask omar why he added myCountry->getMedals()
+
     // if he implemented it for a different use-case, roll-back to ->getNumOfActiveTeams()
     if(!team || !contestant
     || !contestant->isAvailable() // checks if the contestant is available for another team
@@ -167,7 +167,7 @@ StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
     return StatusType::SUCCESS;
 }
 
-// not final for sure
+// looks good. Omar did most of the work in the Team class
 StatusType Olympics::remove_contestant_from_team(int teamId,int contestantId){
     if(teamId<=0 || contestantId <=0){
         return StatusType::INVALID_INPUT;
@@ -178,12 +178,13 @@ StatusType Olympics::remove_contestant_from_team(int teamId,int contestantId){
         return StatusType::FAILURE;
     }
     team->removeContestant(contestantId);
-    contestant->removeTeam(teamId);
+    contestant->removeTeam(teamId); // updates contestant's teams, necessary to keep.
 
 	return StatusType::SUCCESS;
 }
 
-// TODO: make sure to update the strength of the contestant's teams
+// TODO: ask Omar about the implementation of the function, removing -> updating strength -> reinserting
+// TODO FIX FOR LOOPS
 StatusType Olympics::update_contestant_strength(int contestantId ,int change){
     if(contestantId <= 0){
         return StatusType::INVALID_INPUT;
@@ -195,7 +196,26 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
     if(!contestant || contestant->getStrength() + change < 0){
         return StatusType::FAILURE;
     }
+
+
+
+    // -----
+    int numOfTeams = contestant->getNumOfActiveTeams();
+    // TODO: ask omar if having team as a shared_ptr is correct
+    for(int i = 0; i < contestant->getNumOfActiveTeams(); i++){
+        shared_ptr<Team> team = contestant->getTeam(i).lock();
+        // removes the contestant from the team
+        team->removeContestant(contestantId);
+    }
+    // updates the strength of the contestant
     contestant->updateStrength(change);
+    for(int i = 0; i < numOfTeams; i++){
+        shared_ptr<Team> team = contestant->getTeam(i).lock();
+        // reinserts the contestant into the team
+        team->addContestant(contestant);
+    }
+
+
     return StatusType::SUCCESS;
 }
 
@@ -204,11 +224,11 @@ output_t<int> Olympics::get_strength(int contestantId){
     if(contestantId <= 0){
         return output_t<int>(StatusType::INVALID_INPUT);
     }
-    shared_ptr<Contestant> contestant = contestants->find(contestantId);
+    shared_ptr<Contestant> contestant = contestants->find(contestantId); // takes O(log(n)) time
     if(!contestant){
         return output_t<int>(StatusType::FAILURE);
     }
-    return output_t<int>(contestant->getStrength());
+    return output_t<int>(contestant->getStrength()); // takes O(1) time
 }
 
 output_t<int> Olympics::get_medals(int countryId){

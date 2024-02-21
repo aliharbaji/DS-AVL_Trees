@@ -69,3 +69,10 @@ int Contestant::getStrength() const {
 weak_ptr<Country> Contestant::getCountry() const {
     return myCountry;
 }
+
+weak_ptr<Team> Contestant::getTeam(int i) const {
+    if(i < 0 || i >= numOfTeams) {
+        return weak_ptr<Team>(); // returns an empty weak_ptr which is equivalent to nullptr
+    }
+    return myTeams[i];
+}

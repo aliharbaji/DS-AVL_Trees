@@ -240,6 +240,7 @@ private:
         }
         return current;
     }
+
     int getBalance(shared_ptr<Node<T>> node) const{
         if (node == nullptr) return -1;
         else return node->getBF();
@@ -273,6 +274,8 @@ public:
         }
         catch(const bad_alloc& e){
          //Need to manage this exception in the olympics class.
+            // rethrow;
+            throw;
         }
         size++;
         minimum = getMinNode(root);

@@ -173,11 +173,13 @@ bool Team::removeContestant(int contestantID) {
     auto currentContestant = contestants->find(contestantID);
     if (!currentContestant) return false;
 
+    // redundant, already checked and handled error properly in Olympic's remove_contestant_from_team function
     if (!currentContestant->removeTeam(this->getID())) throw logic_error("contestant in team but doesn't know it");
     contestants->remove(contestantID);
     strengths->remove(contestantID,currentContestant->getStrength());
 
-    //the removes do nothing if the contestant isn't the subtree. This just removes the contestant from whatever subtrees he's in
+    // the removes do nothing if the contestant isn't the subtree. This just removes the contestant from whatever subtrees he's in
+    // nice approach
     lowIDTree->remove(contestantID);
     lowStrTree->remove(contestantID,currentContestant->getStrength());
     midIDTree->remove(contestantID);

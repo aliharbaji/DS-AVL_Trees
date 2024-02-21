@@ -39,6 +39,7 @@ public:
     int getStrength() const;
     bool isAvailable() const;
     weak_ptr<Country> getCountry() const;
+    weak_ptr<Team> getTeam(int i) const;
 };
 
 
