@@ -15,7 +15,7 @@ void updateHeight(shared_ptr<Node<T>>& node) {
 }
 
 
-// TODO: fix the height update
+
 template <typename T>
 void LL(shared_ptr<Node<T>>& root) {
     if (root == nullptr) return;

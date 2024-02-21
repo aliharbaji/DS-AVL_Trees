@@ -9,7 +9,7 @@ using namespace std;
 #define AVLTREES_NODE_H
 #include "memory"
 
-// TODO: remove balance factor field
+
 template <class T>
 class Node{
 private:
@@ -18,7 +18,7 @@ private:
 public:
     shared_ptr<T> data;
     shared_ptr<Node<T>> left, right;
-    shared_ptr<Node<T>> parent; //TODO: parent needs to be changed to weak_ptr because we have circular references.
+    shared_ptr<Node<T>> parent;
     int height;
     int size; //We need to know the size of each subtree for efficiently dividing the tree into subtrees.
 

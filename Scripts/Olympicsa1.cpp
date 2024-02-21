@@ -121,7 +121,7 @@ StatusType Olympics::add_contestant(int contestantId ,int countryId, Sport sport
 	return StatusType::SUCCESS;
 }
 
-// looks good
+// looks good,
 StatusType Olympics::remove_contestant(int contestantId){
     if(contestantId <= 0){
         return StatusType::INVALID_INPUT;
@@ -183,7 +183,7 @@ StatusType Olympics::remove_contestant_from_team(int teamId,int contestantId){
 	return StatusType::SUCCESS;
 }
 
-// TODO: ask Omar about the implementation of the function, removing -> updating strength -> reinserting
+
 // TODO FIX FOR LOOPS
 StatusType Olympics::update_contestant_strength(int contestantId ,int change){
     if(contestantId <= 0){
@@ -201,7 +201,7 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
 
     // -----
     int numOfTeams = contestant->getNumOfActiveTeams();
-    // TODO: ask omar if having team as a shared_ptr is correct
+
     for(int i = 0; i < contestant->getNumOfActiveTeams(); i++){
         shared_ptr<Team> team = contestant->getTeam(i).lock();
         // removes the contestant from the team
