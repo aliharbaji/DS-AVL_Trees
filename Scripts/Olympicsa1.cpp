@@ -198,7 +198,6 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
     }
 
 
-
     // -----
     int numOfTeams = contestant->getNumOfActiveTeams();
 
@@ -206,9 +205,12 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
         shared_ptr<Team> team = contestant->getTeam(i).lock();
         // removes the contestant from the team
         team->removeContestant(contestantId);
+
     }
+
     // updates the strength of the contestant
     contestant->updateStrength(change);
+
     for(int i = 0; i < numOfTeams; i++){
         shared_ptr<Team> team = contestant->getTeam(i).lock();
         // reinserts the contestant into the team
