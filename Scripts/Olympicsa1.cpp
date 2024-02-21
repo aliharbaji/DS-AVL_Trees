@@ -6,11 +6,14 @@ Olympics::Olympics(){
     // default constructor
 }
 
+// null parents
+
 Olympics::~Olympics(){
     // destructing the object
     // countries
     // teams
     // contestants
+
 }
 
 // looks good
@@ -64,7 +67,7 @@ StatusType Olympics::add_team(int teamId, int countryId, Sport sport){
     }
 
     try {
-        shared_ptr<Team> team = make_shared<Team>(teamId, country, sport);
+        shared_ptr<Team> team = make_shared<Team>(teamId, sport, country);
         teams->insert(team);
         country->addTeam(); // updates the number of teams in the country
     }catch (std::bad_alloc& e){
@@ -130,8 +133,8 @@ StatusType Olympics::remove_contestant(int contestantId){
     }
 
     try{
-        contestant->removeFromTeams(); // updates the number of contestants in the contestant's teams
-        contestant->removeFromCountry(); // updates the number of contestants in the contestant's country
+//        contestant->removeFromTeams(); // updates the number of contestants in the contestant's teams
+//        contestant->removeFromCountry(); // updates the number of contestants in the contestant's country
         contestants->remove(contestantId);
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
@@ -156,7 +159,7 @@ StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
         return StatusType::FAILURE;
     }
     contestant->addTeam(team);
-    team->addContestant();
+    team->addContestant(contestant);
 
     return StatusType::SUCCESS;
 }
@@ -171,7 +174,7 @@ StatusType Olympics::remove_contestant_from_team(int teamId,int contestantId){
     if(!team || !contestant || !contestant->isActiveInTeam(teamId)){
         return StatusType::FAILURE;
     }
-    team->removeContestant();
+    team->removeContestant(contestantId);
     contestant->removeTeam(teamId);
 
 	return StatusType::SUCCESS;

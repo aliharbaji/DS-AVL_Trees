@@ -16,7 +16,7 @@ int main() {
     //Test case 1:
 
     Country someCountry(5,2);//testing Country constructor
-    Team someTeam(3, 5, Sport::SWIMMING);//testing team Constructor
+    Team someTeam(3, Sport::SWIMMING, make_shared<Country>(someCountry));//testing team Constructor
     auto One = make_shared<Item>(1);
     auto Two = make_shared<Item>(2);
     auto Three = make_shared<Item>(3);

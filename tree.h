@@ -36,14 +36,9 @@ private:
 
     void clearParents(std::shared_ptr<Node<T>> node) {
         if (node != nullptr) {
-            if (node->left != nullptr) {
-                clearParents(node->left);
-                node->left->parent = nullptr; // Clear the parent pointer
-            }
-            if (node->right != nullptr) {
-                clearParents(node->right);
-                node->right->parent = nullptr; // Clear the parent pointer
-            }
+            clearParents(node->left);
+            clearParents(node->right);
+            node->parent = nullptr;
         }
     }
     //The recursion takes an insertion node as an argument and returns the root of the subtree which may or may not change depending on insert location.

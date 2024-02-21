@@ -38,6 +38,7 @@ public:
     void updateStrength(int change);
     int getStrength() const;
     bool isAvailable() const;
+
 };
 
 
