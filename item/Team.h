@@ -10,47 +10,52 @@
 #include "../tree.h"
 #include "Country.h"
 #include "../strengthtree.h"
-#include <vector>
 class Contestant;
 class Country;
 
-
-class Team : public Item {
+//this is apparently necessary if you want to pass "this" instance of a class as a shared_ptr.
+class Team : public Item, public enable_shared_from_this<Team> {
     Sport sport;
-    int size;
     int strength;
     weak_ptr<Country> myCountry; //changed this to weak_ptr
     int ausMeasure;
-    vector<shared_ptr<Contestant>> tempContestants; // We add contestants to the Subtrees 3 at a time.
-    // so this temporarily holds up to 2 contestants when size % 3 != 0.
 
     shared_ptr<Tree<Contestant>> contestants;
     shared_ptr<STree<Contestant>> strengths;
 
-    shared_ptr<Tree<Contestant>> lowID;
-    shared_ptr<Tree<Contestant>> midID;
-    shared_ptr<Tree<Contestant>> highID;
+    shared_ptr<Tree<Contestant>> lowIDTree;
+    shared_ptr<Tree<Contestant>> midIDTree;
+    shared_ptr<Tree<Contestant>> highIDTree;
 
-    shared_ptr<STree<Contestant>> lowStr;
-    shared_ptr<STree<Contestant>> midStr;
-    shared_ptr<STree<Contestant>> highStr;
+    shared_ptr<STree<Contestant>> lowStrTree;
+    shared_ptr<STree<Contestant>> midStrTree;
+    shared_ptr<STree<Contestant>> highStrTree;
 
+
+    void updateSubTrees();
     void updateAusMeasure();
     void updateStrength();
+    void redistribute();
+    void moveHighToMid();
+    void moveMidToLow();
+    void moveMidToHigh();
+    void moveHighToLow();
+    void moveLowToHigh();
+    void moveLowToMid();
 
 
 
 public:
-    explicit Team(int teamID, Sport sport, shared_ptr<Country> myCountry)
-            : Item(teamID), sport(sport), myCountry(myCountry), size(0), strength(0), ausMeasure(0),
+    explicit Team(int teamID, Sport sport, std::shared_ptr<Country> myCountry)
+            : Item(teamID), sport(sport), myCountry(myCountry), strength(0), ausMeasure(0),
               contestants(std::make_shared<Tree<Contestant>>()),
-              strengths(std::make_shared<STree<Contestant>>()),
-              lowID(std::make_shared<Tree<Contestant>>()),
-              midID(std::make_shared<Tree<Contestant>>()),
-              highID(std::make_shared<Tree<Contestant>>()),
-              lowStr(std::make_shared<STree<Contestant>>()),
-              midStr(std::make_shared<STree<Contestant>>()),
-              highStr(std::make_shared<STree<Contestant>>())
+              strengths(std::make_shared<STree<Contestant>>(false)),
+              lowIDTree(std::make_shared<Tree<Contestant>>()),
+              midIDTree(std::make_shared<Tree<Contestant>>()),
+              highIDTree(std::make_shared<Tree<Contestant>>()),
+              lowStrTree(std::make_shared<STree<Contestant>>(false)),
+              midStrTree(std::make_shared<STree<Contestant>>(false)),
+              highStrTree(std::make_shared<STree<Contestant>>(false))
     {}
     Team(const Team&) = delete;
     Team& operator=(const Team&)= delete;
@@ -59,9 +64,10 @@ public:
 
     void removeTeamFromItsCountry();
     int getStrength() const;
+    int getAusMeasure() const;
     int getNumberOfContestants() const;
 
-    // adds contestant. Returns true if successful. False otherwise.
+    //Takes a pointer to the contestant and adds him to the team. Returns true if successful. False otherwise.
     bool addContestant(shared_ptr<Contestant> contestant);
     bool removeContestant(int contestantID);
     Sport getSport() const;

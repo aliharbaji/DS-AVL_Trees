@@ -4,7 +4,8 @@
 
 #include "Contestant.h"
 
-Contestant::Contestant(int contestantID, shared_ptr<Country>& country, Sport sport, int strength):
+
+Contestant::Contestant(int contestantID, weak_ptr<Country> country, Sport sport, int strength):
 Item(contestantID),
 myCountry(country),
 sport(sport),
@@ -15,50 +16,50 @@ int Contestant::getNumOfActiveTeams() const {
     return numOfTeams;
 }
 
-void Contestant::removeFromTeams() {
-    for (int i = 0; i < numOfTeams; i++) {
-        myTeams[i]->removeContestant();
-    }
-}
-
-void Contestant::removeFromCountry() {
-    myCountry->removeContestant();
-}
 
 Sport Contestant::getSport() const {
     return sport;
 }
 
+bool Contestant:: isAvailable() const{
+    return !(numOfTeams >= MAX_TEAMS || numOfTeams >= myCountry.lock()->getMedals());
+}
+
 bool Contestant::isActiveInTeam(int teamID) {
     for (int i = 0; i < numOfTeams; i++) {
-        if (myTeams[i]->getID() == teamID) {
+        if (myTeams[i].lock()->getID() == teamID) {
             return true;
         }
     }
     return false;
 }
 
-void Contestant::addTeam(shared_ptr<Team> &team) {
+//returns false in case adding contestant to the team is illegal.
+bool Contestant::addTeam(weak_ptr<Team> team) {
+    if (!isAvailable()) return false;
     myTeams[numOfTeams] = team;
     numOfTeams++;
+    return true;
 }
 
 int Contestant::getCountryID() const {
-    return myCountry->getID();
+    return myCountry.lock()->getID();
 }
 
-void Contestant::removeTeam(int teamID) {
+bool Contestant::removeTeam(int teamID) {
+    if (!isActiveInTeam(teamID)) return false;
+
     for (int i = 0; i < numOfTeams; i++) {
-        if (myTeams[i]->getID() == teamID) {
+        if (myTeams[i].lock()->getID() == teamID) {
             myTeams[i] = myTeams[numOfTeams - 1];
             numOfTeams--;
-            return;
+            return true;
         }
     }
 }
 
 void Contestant::updateStrength(int change) {
-    strength = (strength + change > 0) ? strength - change : 0;
+    strength = (strength + change > 0) ? strength + change : 0;
 }
 
 int Contestant::getStrength() const {

@@ -3,7 +3,6 @@
 //
 #include "node.h"
 #include <stdexcept>
-#include <vector>
 
 #ifndef AVLTREES_TREE_H
 template <typename T>
@@ -22,14 +21,14 @@ private:
 
     //for team algorithms.
     shared_ptr<Node<T>> findKthSmallest(shared_ptr<Node<T>> node, int k) {
-        if (!node) return nullptr; // Check for null node
+        if (!node || k==0) return nullptr; // Check for null node
 
         int leftSize = node->left ? node->left->size : 0;
 
         if (k <= leftSize) {
             return findKthSmallest(node->left, k);
         } else if (k == leftSize + 1) {
-            return nullptr;
+            return node;
         } else {
             return findKthSmallest(node->right, k - leftSize - 1);
         }
@@ -305,54 +304,6 @@ public:
         if (size) return minimum->data;
         else return nullptr;
     }
-
-    vector<shared_ptr<T>> getMaxN(int n) const{
-        if (n > size) throw invalid_argument("argument is bigger than container");
-        vector<shared_ptr<T>> result;
-
-        auto current = maximum;
-        while (current != nullptr && n > 0) {
-            result.push_back(current->data);
-            n--;
-
-            if (current->left != nullptr) {
-                current = current->left;
-                while (current->right != nullptr) {
-                    current = current->right;
-                }
-            } else {
-                while (current->parent != nullptr && current == current->parent->left) {
-                    current = current->parent;
-                }
-                current = current->parent;
-            }
-        }
-        return result;
-    }
-
-    vector<shared_ptr<T>> getMinN(int n) const{
-        if (n > size) throw invalid_argument("argument is bigger than container");
-        vector<shared_ptr<T>> result;
-        auto current = minimum;
-        while (current != nullptr && n > 0) {
-            result.push_back(current->data);
-            n--;
-
-            if (current->right != nullptr) {
-                current = current->right;
-                while (current->left != nullptr) {
-                    current = current->left;
-                }
-            } else {
-                while (current->parent != nullptr && current == current->parent->right) {
-                    current = current->parent;
-                }
-                current = current->parent;
-            }
-        }
-        return result;
-    }
-
 
     int getSize(shared_ptr<Node<T>> node) const {
         return node ? node->size : 0; // Return 0 if node is nullptr, otherwise node's size aka subtree's size.

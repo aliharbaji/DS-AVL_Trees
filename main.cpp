@@ -77,8 +77,6 @@ int main() {
     tree.insert(a12);
     tree.remove(15);
     // testing functions
-    vector<shared_ptr<Item>> max3 = tree.getMaxN(3);
-    vector<shared_ptr<Item>> min3 = tree.getMinN(3);
 
     // 50,25,75,15,40,60,80,35,55,65,90,62
 
