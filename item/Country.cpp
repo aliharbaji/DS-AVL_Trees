@@ -39,6 +39,10 @@ void Country::removeContestant() {
     numberOfContestants--;
 }
 
+void Country::addMedal() {
+    medals++;
+}
+
 //void addContestant(shared_ptr<Contestant>& contestant){
 ////    contestants.insert(contestant->getID());
 ////    numberOfContestants++;

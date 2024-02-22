@@ -266,6 +266,7 @@ output_t<int> Olympics::get_team_strength(int teamId){
     return output_t<int>(team->getStrength()); //works in O(1)
 }
 
+// looks good, needs to be tested
 StatusType Olympics::unite_teams(int teamId1,int teamId2){
     if(teamId1 <= 0 || teamId2 <= 0 || teamId1 == teamId2){
         return StatusType::INVALID_INPUT;
@@ -281,22 +282,47 @@ StatusType Olympics::unite_teams(int teamId1,int teamId2){
     try{
         // this updates team1
         team1->uniteWith(team2);
+        // destroy team2
+        teams->remove(teamId2);
+        // update team2's country's number of teams
+        team2->removeTeamFromItsCountry();
+        // update the number of teams in the olympics
+        numberOfTeams--;
     }catch (std::bad_alloc& e){
         return StatusType::ALLOCATION_ERROR;
     }
-
-    // destroy team2
-    teams->remove(teamId2);
-    // update team2's country's number of teams
-    team2->removeTeamFromItsCountry();
-    // update the number of teams in the olympics
-    numberOfTeams--;
 
 	return StatusType::SUCCESS;
 }
 
 StatusType Olympics::play_match(int teamId1,int teamId2){
-	return StatusType::FAILURE;
+    if(teamId1 <= 0 || teamId2 <= 0 || teamId1 == teamId2){
+        return StatusType::INVALID_INPUT;
+    }
+    // this code takes O(log(m)) time
+    shared_ptr<Team> team1 = teams->find(teamId1);
+    shared_ptr<Team> team2 = teams->find(teamId2);
+
+    // this code works in O(log(k)) time
+    shared_ptr<Country> country1 = countries->find(team1->getCountryID());
+    shared_ptr<Country> country2 = countries->find(team1->getCountryID());
+
+    if(!team1 || !team2 || team1->getSport() != team2->getSport()){
+        return StatusType::FAILURE;
+    }
+
+    // this works in O(log(m)) time so we are ok =)
+    int strength1 = get_team_strength(teamId1).ans() + country1->getMedals();
+    int strength2 = get_team_strength(teamId2).ans() + country2->getMedals();
+
+    if(strength1 > strength2){
+        country1->addMedal();
+    }
+    else if(strength1 < strength2){
+        country2->addMedal();
+    }
+
+    return StatusType::SUCCESS;
 }
 
 output_t<int> Olympics::austerity_measures(int teamId){

@@ -29,6 +29,7 @@ public:
     void removeTeam();
     void addContestant();
     void removeContestant();
+    void addMedal();
 };
 
 
