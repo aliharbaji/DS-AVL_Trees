@@ -2,8 +2,17 @@
 
 
 
-Olympics::Olympics(): numberOfTeams(0), numberOfCountries(0), numberOfContestants(0){
-    // default constructor
+Olympics::Olympics(): numberOfTeams(0), numberOfCountries(0), numberOfContestants(0),
+countries(new Tree<Country>()),
+teams(new Tree<Team>()),
+contestants(new Tree<Contestant>()){
+    // initializing the object
+    // countries
+    // teams
+    // contestants
+    // allCountries
+    // allTeams
+    // allContestants
 }
 
 // null parents

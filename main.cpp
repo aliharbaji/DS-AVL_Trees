@@ -21,7 +21,7 @@ int main() {
 
 
     Olympics Paris2024;
-    Paris2024.add_country(1, 1); // gives a seg fault
+    Paris2024.add_country(777, 1); // gives a seg fault
 //    Paris2024.add_country(2, 2);
 //    Paris2024.add_country(3, 3);
 
