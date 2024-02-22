@@ -17,14 +17,25 @@ int main() {
 
     //Test case 1:
     Country someCountry(5,2);//testing Country constructor
-    Team someTeam(3, Sport::SWIMMING, make_shared<Country>(someCountry));//testing team Constructor
+
+//    Team someTeam(3, Sport::SWIMMING, make_shared<Country>(someCountry));//testing team Constructor
 
 
     Olympics Paris2024;
-    Paris2024.add_country(777, 1); // gives a seg fault
-//    Paris2024.add_country(2, 2);
-//    Paris2024.add_country(3, 3);
+    Paris2024.add_country(111, 1); // gives a seg fault
+    Paris2024.add_country(222, 2);
+    Paris2024.add_country(333, 3);
 
+    Paris2024.add_team(1, 111, Sport::SWIMMING);
+    Paris2024.add_team(11, 111, Sport::BOULDERING);
+    Paris2024.add_team(111, 111, Sport::ACROBATICS);
+
+    Paris2024.add_contestant(1, 111, Sport::SWIMMING, 1);
+
+
+    Paris2024.add_contestant_to_team(1, 1);
+
+    cout << Paris2024.get_team_strength(1).ans() << endl;
 
     //Test case2:
     Tree<Item> tree;

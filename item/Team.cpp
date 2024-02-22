@@ -136,10 +136,16 @@ bool Team::addContestant(shared_ptr<Contestant> contestant){
 //    contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
 
 
+    shared_ptr<Node<Contestant>> lowSNode, midSNode;
 
     strengths->insert(contestant);
-    auto lowSNode  = contestants->findKthSmallest(contestants->root,contestants->getSize()/3);
-    auto midSNode = contestants->findKthSmallest(contestants->root,(contestants->getSize() * 2)/3);
+    try{
+        lowSNode  = contestants->findKthSmallest(contestants->root,contestants->getSize()/3);
+        midSNode = contestants->findKthSmallest(contestants->root,(contestants->getSize() * 2)/3);
+     }catch (const std::exception& e){
+        std::cout << "------caught an error here!!---------"<< std::endl;
+        return false;
+    }
 
 
     if (contestants->getSize() <= 1) {
@@ -165,6 +171,8 @@ bool Team::addContestant(shared_ptr<Contestant> contestant){
 //        updateStrength();
 //        updateAusMeasure();
     }
+
+
     return true;
 }
 

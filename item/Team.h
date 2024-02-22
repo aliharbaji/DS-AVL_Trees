@@ -10,6 +10,8 @@
 #include "../tree.h"
 #include "Country.h"
 #include "../strengthtree.h"
+#include <iostream>
+
 class Contestant;
 class Country;
 
