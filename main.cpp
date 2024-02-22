@@ -9,9 +9,15 @@
 
 #include "functions.h"
 using namespace std;
-
+void print(StatusType res) {
+    if (res == StatusType::FAILURE) {
+        cout << "FAILURE" << endl;
+    } else {
+        cout << "SUCCESS" << endl;
+    }
+}
 int main() {
-
+    StatusType type;
 //    cout << "UNCOMMENT shared_ptr<Country> myCountry; in Team.h to see the error" << endl;
 //    cout << "UNCOMMENT shared_ptr<Tree<Country>> allCountries; in Country.h to see the error" << endl;
 
@@ -27,7 +33,9 @@ int main() {
     Paris2024.add_country(333, 3);
 
     Paris2024.add_team(1, 111, Sport::SWIMMING);
-    Paris2024.add_team(11, 111, Sport::BOULDERING);
+
+    type = Paris2024.add_team(11, 111, Sport::BOULDERING);
+    print(type);
     Paris2024.add_team(111, 111, Sport::ACROBATICS);
 
     Paris2024.add_contestant(1, 111, Sport::SWIMMING, 1);
@@ -36,10 +44,15 @@ int main() {
 
     // error when adding 3 contestants to the same team
     Paris2024.add_contestant_to_team(1, 1);
-    Paris2024.add_contestant_to_team(1, 1);
+
+    type = Paris2024.add_contestant_to_team(1, 1);
+    print(type);
+
     Paris2024.add_contestant_to_team(1, 2);
-//    Paris2024.add_contestant_to_team(1, 3);
-//    Paris2024.add_contestant_to_team(1, 4);
+    Paris2024.add_contestant_to_team(1, 3);
+
+    type = Paris2024.add_contestant_to_team(1, 4);
+    print(type);
 
 //    Paris2024.add_contestant(4, 111, Sport::SWIMMING, 4);
 
