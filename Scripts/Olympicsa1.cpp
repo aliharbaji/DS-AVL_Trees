@@ -144,7 +144,7 @@ StatusType Olympics::remove_contestant(int contestantId){
 	return StatusType::SUCCESS;
 }
 
-// not final for sure TODO: make sure myCountry->getMedals() is the correct approach
+// not final for sure
 StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
     if(teamId <= 0 || contestantId <= 0){
         return StatusType::INVALID_INPUT;
@@ -184,7 +184,7 @@ StatusType Olympics::remove_contestant_from_team(int teamId,int contestantId){
 }
 
 
-// TODO FIX FOR LOOPS
+// changed contestant's fields to array of ints of teams' IDs
 StatusType Olympics::update_contestant_strength(int contestantId ,int change){
     if(contestantId <= 0){
         return StatusType::INVALID_INPUT;
@@ -200,20 +200,22 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
 
     // -----
     int numOfTeams = contestant->getNumOfActiveTeams();
+    int tempTeams[numOfTeams];
 
-    for(int i = 0; i < contestant->getNumOfActiveTeams(); i++){
-        shared_ptr<Team> team = contestant->getTeam(i).lock();
+    for(int i = 0; i < numOfTeams; i++){
+        int teamID = contestant->getTeamID(i);
         // removes the contestant from the team
+        shared_ptr<Team> team = teams->find(teamID);
         team->removeContestant(contestantId);
-
+        tempTeams[i] = teamID;
     }
 
     // updates the strength of the contestant
     contestant->updateStrength(change);
 
+
     for(int i = 0; i < numOfTeams; i++){
-        shared_ptr<Team> team = contestant->getTeam(i).lock();
-        // reinserts the contestant into the team
+        shared_ptr<Team> team = teams->find(tempTeams[i]);
         team->addContestant(contestant);
     }
 

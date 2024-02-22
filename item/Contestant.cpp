@@ -22,12 +22,15 @@ Sport Contestant::getSport() const {
 }
 
 bool Contestant:: isAvailable() const{
+    return numOfTeams <= MAX_TEAMS;
+    // probably the right approach
+    // TODO: Check this while testing
     return !(numOfTeams >= MAX_TEAMS || numOfTeams >= myCountry.lock()->getMedals());
 }
 
 bool Contestant::isActiveInTeam(int teamID) const{
     for (int i = 0; i < numOfTeams; i++) {
-        if (myTeams[i].lock()->getID() == teamID) {
+        if (myTeams[i] == teamID) {
             return true;
         }
     }
@@ -37,7 +40,7 @@ bool Contestant::isActiveInTeam(int teamID) const{
 //returns false in case adding contestant to the team is illegal.
 bool Contestant::addTeam(weak_ptr<Team> team) {
     if (!isAvailable()) return false;
-    myTeams[numOfTeams] = team;
+    myTeams[numOfTeams] = team.lock()->getID();
     numOfTeams++;
     return true;
 }
@@ -50,7 +53,7 @@ bool Contestant::removeTeam(int teamID) {
     if (!isActiveInTeam(teamID)) return false;
 
     for (int i = 0; i < numOfTeams; i++) {
-        if (myTeams[i].lock()->getID() == teamID) {
+        if (myTeams[i] == teamID) {
             myTeams[i] = myTeams[numOfTeams - 1];
             numOfTeams--;
             return true;
@@ -70,9 +73,16 @@ weak_ptr<Country> Contestant::getCountry() const {
     return myCountry;
 }
 
-weak_ptr<Team> Contestant::getTeam(int i) const {
+//weak_ptr<Team> Contestant::getTeam(int i) const {
+//    if(i < 0 || i >= numOfTeams) {
+//        return weak_ptr<Team>(); // returns an empty weak_ptr which is equivalent to nullptr
+//    }
+//    return myTeams[i];
+//}
+
+int Contestant::getTeamID(int i) const {
     if(i < 0 || i >= numOfTeams) {
-        return weak_ptr<Team>(); // returns an empty weak_ptr which is equivalent to nullptr
+        return -1; // returns an empty weak_ptr which is equivalent to nullptr
     }
     return myTeams[i];
 }

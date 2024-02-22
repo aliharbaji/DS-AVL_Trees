@@ -23,7 +23,9 @@ class Contestant : public Item{
     int numOfTeams;
     //Maybe contestant doesn't need a pointer to his team. The complexity doesn't require it, and it complicates the code.
     //Should probably change it so that he has an array of ints which are his teams' ID.
-    weak_ptr<Team> myTeams[MAX_TEAMS];
+//    weak_ptr<Team> myTeams[MAX_TEAMS];
+
+    int myTeams[MAX_TEAMS];
 
     //On the other hand he definitely needs a pointer to his country because the complexity requires it.
     weak_ptr<Country> myCountry;
@@ -39,6 +41,7 @@ public:
     int getStrength() const;
     bool isAvailable() const;
     weak_ptr<Country> getCountry() const;
+    int getTeamID(int i) const;
     weak_ptr<Team> getTeam(int i) const;
 };
 
