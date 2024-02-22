@@ -5,29 +5,28 @@
 #include "item/item.h"
 #include "item/Country.h"
 #include "item/Team.h"
+#include "Scripts/Olympicsa1.h"
 
 #include "functions.h"
 using namespace std;
 
 int main() {
 
-    cout << "UNCOMMENT shared_ptr<Country> myCountry; in Team.h to see the error" << endl;
-    cout << "UNCOMMENT shared_ptr<Tree<Country>> allCountries; in Country.h to see the error" << endl;
-    //Test case 1:
+//    cout << "UNCOMMENT shared_ptr<Country> myCountry; in Team.h to see the error" << endl;
+//    cout << "UNCOMMENT shared_ptr<Tree<Country>> allCountries; in Country.h to see the error" << endl;
 
+    //Test case 1:
     Country someCountry(5,2);//testing Country constructor
     Team someTeam(3, Sport::SWIMMING, make_shared<Country>(someCountry));//testing team Constructor
-    auto One = make_shared<Item>(1);
-    auto Two = make_shared<Item>(2);
-    auto Three = make_shared<Item>(3);
-    auto Four = make_shared<Item>(4);
-    auto Five = make_shared<Item>(5);
-    auto Six = make_shared<Item>(6);
-    auto Seven = make_shared<Item>(7);
-    auto Eight = make_shared<Item>(8);
-    auto Nine = make_shared<Item>(9);
-    auto Ten = make_shared<Item>(10);
 
+
+    Olympics Paris2024;
+    Paris2024.add_country(1, 1); // gives a seg fault
+//    Paris2024.add_country(2, 2);
+//    Paris2024.add_country(3, 3);
+
+
+    //Test case2:
     Tree<Item> tree;
 
 //    tree.insert(One);

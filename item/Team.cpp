@@ -161,9 +161,9 @@ bool Team::addContestant(shared_ptr<Contestant> contestant){
     }
 
     if (((contestants->getSize() % 3) == 0) && (contestants->getSize() > 0)){
-        redistribute();
-        updateStrength();
-        updateAusMeasure();
+//        redistribute(); commented out for compilation reasons
+//        updateStrength();
+//        updateAusMeasure();
     }
     return true;
 }
@@ -187,9 +187,9 @@ bool Team::removeContestant(int contestantID) {
     highIDTree->remove(contestantID);
     highStrTree->remove(contestantID,currentContestant->getStrength());
 
-    redistribute();
-    updateStrength();
-    updateAusMeasure();
+//    redistribute(); commented out for compilation reasons
+//    updateStrength();
+//    updateAusMeasure();
     return true;
 
 }

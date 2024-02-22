@@ -2,7 +2,7 @@
 
 
 
-Olympics::Olympics(){
+Olympics::Olympics(): numberOfTeams(0), numberOfCountries(0), numberOfContestants(0){
     // default constructor
 }
 
