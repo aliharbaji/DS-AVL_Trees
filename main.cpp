@@ -34,12 +34,16 @@ int main() {
     Paris2024.add_contestant(2, 111, Sport::SWIMMING, 2);
     Paris2024.add_contestant(3, 111, Sport::SWIMMING, 3);
 
-
+    // error when adding 3 contestants to the same team
     Paris2024.add_contestant_to_team(1, 1);
     Paris2024.add_contestant_to_team(1, 1);
-//    Paris2024.add_contestant_to_team(1, 2);
+    Paris2024.add_contestant_to_team(1, 2);
 //    Paris2024.add_contestant_to_team(1, 3);
 //    Paris2024.add_contestant_to_team(1, 4);
+
+//    Paris2024.add_contestant(4, 111, Sport::SWIMMING, 4);
+
+
 //    cout << Paris2024.get_team_strength(1).ans() << endl;
 
     //Test case2:

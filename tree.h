@@ -21,7 +21,10 @@ private:
 
     //for team algorithms.
     shared_ptr<Node<T>> findKthSmallest(shared_ptr<Node<T>> node, int k) {
-        if (!node || k==0) return nullptr; // Check for null node
+//        if (!node || k==0) return nullptr; // Check for null node
+        // this is probably a bug, if k==0, we should return the node, not nullptr
+        if(!node) return nullptr;
+        if (k == 0) return node;
 
         int leftSize = node->left ? node->left->size : 0;
 

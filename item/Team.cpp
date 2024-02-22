@@ -150,7 +150,7 @@ bool Team::addContestant(shared_ptr<Contestant> contestant){
         lowIDTree->insert(contestant);
         lowStrTree->insert(contestant);
     }
-
+        // TODO: add break-point here to see why the error is happening
     else if (contestant->getID() < lowSNode->getID()){
         lowIDTree->insert(contestant);
         lowStrTree->insert(contestant);
