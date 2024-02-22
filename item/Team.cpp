@@ -121,6 +121,9 @@ void Team::updateStrength() {
     strength = sum;
 }
 
+void Team::updateAusMeasure() {
+
+}
 //returns true if Contestant can be inserted successfully into the team. Returns false otherwise.
 //Maybe can clean this by making "findKthSmallest" just return the value instead of the node itself.
 bool Team::addContestant(shared_ptr<Contestant> contestant){
@@ -162,9 +165,9 @@ bool Team::addContestant(shared_ptr<Contestant> contestant){
     }
 
     if (((contestants->getSize() % 3) == 0) && (contestants->getSize() > 0)){
-//        redistribute(); commented out for compilation reasons
-//        updateStrength();
-//        updateAusMeasure();
+        redistribute();
+        updateStrength();
+        updateAusMeasure();
     }
 
 
@@ -190,9 +193,9 @@ bool Team::removeContestant(int contestantID) {
     highIDTree->remove(contestantID);
     highStrTree->remove(contestantID,currentContestant->getStrength());
 
-//    redistribute(); commented out for compilation reasons
-//    updateStrength();
-//    updateAusMeasure();
+    redistribute();
+    updateStrength();
+    updateAusMeasure();
     return true;
 
 }
