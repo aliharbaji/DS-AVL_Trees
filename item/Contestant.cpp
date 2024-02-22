@@ -59,6 +59,7 @@ bool Contestant::removeTeam(int teamID) {
             return true;
         }
     }
+    return false;
 }
 
 void Contestant::updateStrength(int change) {

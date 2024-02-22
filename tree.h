@@ -312,7 +312,12 @@ public:
         return size;
     }
 
-
+//    void inorderedDeletion(shared_ptr<Node<T>> root){
+//        if(root == nullptr) return;
+//        inorderedDeletion(root->left);
+//        inorderedDeletion(root->right);
+//        this->remove(root->data->getID());
+//    }
 
 };
 #define AVLTREES_TREE_H

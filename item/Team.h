@@ -42,8 +42,7 @@ class Team : public Item, public enable_shared_from_this<Team> {
     void moveHighToLow();
     void moveLowToHigh();
     void moveLowToMid();
-
-
+    void uniteAux(shared_ptr<Node<Contestant>> root, int teamId);
 
 public:
     explicit Team(int teamID, Sport sport, std::shared_ptr<Country> myCountry)
@@ -72,6 +71,7 @@ public:
     bool removeContestant(int contestantID);
     Sport getSport() const;
     int getCountryID() const;
+    void uniteWith(shared_ptr<Team> other);
 };
 
 

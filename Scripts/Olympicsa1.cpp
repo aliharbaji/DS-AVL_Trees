@@ -162,7 +162,7 @@ StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
         return StatusType::FAILURE;
     }
     team->addContestant(contestant);
-    contestant->addTeam(team); // probably redundant because Omar added this to team->addContestant()
+    contestant->addTeam(team); //probably redundant because Omar added this to team->addContestant() but I commented it out
 
     return StatusType::SUCCESS;
 }
@@ -255,11 +255,44 @@ output_t<int> Olympics::get_medals(int countryId){
 }
 
 output_t<int> Olympics::get_team_strength(int teamId){
-	return 0;
+    if(teamId <= 0){
+        return output_t<int>(StatusType::INVALID_INPUT);
+    }
+    shared_ptr<Team> team = teams->find(teamId); // works in log(m) where m is the number of all teams in the olympics
+    if(!team){
+        return output_t<int>(StatusType::FAILURE);
+    }
+
+    return output_t<int>(team->getStrength()); //works in O(1)
 }
 
 StatusType Olympics::unite_teams(int teamId1,int teamId2){
-	return StatusType::FAILURE;
+    if(teamId1 <= 0 || teamId2 <= 0 || teamId1 == teamId2){
+        return StatusType::INVALID_INPUT;
+    }
+    // these 2 lines of code require O(logm) time
+    shared_ptr<Team> team1 = teams->find(teamId1);
+    shared_ptr<Team> team2 = teams->find(teamId2);
+
+    if((team1->getSport() != team2->getSport()) || (team1->getCountryID() != team2->getCountryID())){
+        return StatusType::FAILURE;
+    }
+
+    try{
+        // this updates team1
+        team1->uniteWith(team2);
+    }catch (std::bad_alloc& e){
+        return StatusType::ALLOCATION_ERROR;
+    }
+
+    // destroy team2
+    teams->remove(teamId2);
+    // update team2's country's number of teams
+    team2->removeTeamFromItsCountry();
+    // update the number of teams in the olympics
+    numberOfTeams--;
+
+	return StatusType::SUCCESS;
 }
 
 StatusType Olympics::play_match(int teamId1,int teamId2){
