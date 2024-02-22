@@ -10,7 +10,7 @@
 // .. WILL use our file.
 // 
 
-#include "../../../OneDrive - Technion/Semester 3/Intro to Data Structures/Wet1/Scripts/Olympicsa1.h"
+#include "Olympicsa1.h"
 #include <string>
 #include <iostream>
 
