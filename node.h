@@ -22,7 +22,7 @@ public:
     int height;
     int size; //We need to know the size of each subtree for efficiently dividing the tree into subtrees.
 
-    Node(shared_ptr<T> data): data(data),  height(0), size(0),
+    Node(shared_ptr<T> data): data(data),  height(0), size(1),
     left(nullptr), right(nullptr), parent(){}
 
     int getID() const {
