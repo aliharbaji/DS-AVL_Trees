@@ -76,6 +76,23 @@ int main() {
     cout << "Paris 2024 stops containing team 2, this function shouldn't print anything " << endl;
     Paris2024.printTeam(2);
 
+    Paris2024.remove_team(1);
+    cout << "tryting to remove team 1, but it won't be removed because it still "
+            "contains contestants, this function should print team1's info " << endl;
+    Paris2024.printTeam(1);
+
+    cout << "removing contestant 1 from team 1" << endl;
+    Paris2024.remove_contestant_from_team(1, 1);
+    cout << "now team 1 should only contain 3, 2, 4" << endl;
+    cout << "team1's strength shouldn't be 0 and should be calculated properly" << endl;
+    cout << Paris2024.get_team_strength(1).ans() << endl;
+    Paris2024.printTeam(1);
+
+    cout << "*****************LOGIC ERROR*****************" << endl;
+    cout << "team 1's strength should be 9" << endl;
+
+
+    return 0;
 
     //Test case2 for Trees:
 //    Tree<Item> tree;
@@ -166,7 +183,7 @@ int main() {
     // trying invalid input.
     std::cout << "These should print-out INVALID_INPUT" << '\n';
     print(olympus.add_country(-2,0)); // negative country id
-    print(olympus.add_country(39,-1)); // neative medals
+    print(olympus.add_country(39,-1)); // neaative medals
     print(olympus.add_country(0,0)); // null_id
     cout <<"------------------------------------"<<endl;
     // trying failure
