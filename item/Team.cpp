@@ -203,7 +203,7 @@ void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
     auto contestant = root->data;
 
     // check if contestant is already in the team
-    bool contestantIsAlreadyInTargetTeam = contestant->isActiveInTeam(team->getID()); // this takes O(1) time
+    bool contestantIsAlreadyInTargetTeam = contestant->isActiveInTeam(this->getID()); // this takes O(1) time
 
     // unite other contestants with the target team
     uniteAux(root->left, team);
