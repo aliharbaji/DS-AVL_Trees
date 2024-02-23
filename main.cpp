@@ -56,6 +56,7 @@ int main() {
     type = Paris2024.add_contestant_to_team(2, 1);
     print(type);
     auto teamStrength = Paris2024.get_team_strength(2);
+    Paris2024.printTeam(2);
     cout<<teamStrength.ans()<<endl;
 
     type = Paris2024.add_contestant_to_team(2, 555);

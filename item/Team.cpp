@@ -3,6 +3,7 @@
 //
 
 #include "Team.h"
+#include <iostream>
 
 
 
@@ -211,4 +212,42 @@ void Team::uniteWith(shared_ptr<Team> other) {
     uniteAux(other->contestants->root, other);
 }
 
+void Team::print(){
+    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
+    cout<<"Team ID: "<<getID()<<endl;
+    cout<<"PreOrder: [";
+    recursivePrintPreOrder(strengths->root);
+    cout<<"]"<<endl;
+    cout<<"InOrder: [";
+    recursivePrintInOrder(strengths->root);
+    cout<<"]"<<endl;
+    cout<<"Team strength: "<<getStrength()<<endl;
+    cout<<"Austerity measure(not implemented yet): "<<getAusMeasure()<<endl;
+    cout<<"Team Size: "<<strengths->getSize()<<endl;
+    cout<<"Sport: "<<(int)getSport()<<endl;
+    cout<<"Country ID: "<<getCountryID()<<endl;
+    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
+
+
+}
+
+void Team::recursivePrintInOrder(shared_ptr<Node<Contestant>> node) {
+    if (!node) return;
+    recursivePrintInOrder(node->left);
+    cout<<"("<<"str:"<<node->getStrength()<<", "<<"id: "<<node->getID()<<")";
+    recursivePrintInOrder(node->right);
+}
+
+
+void Team::recursivePrintPreOrder(shared_ptr<Node<Contestant>> node) {
+    if (!node) return;
+    cout<<"("<<"str:"<<node->getStrength()<<", "<<"id: "<<node->getID()<<")";
+    recursivePrintPreOrder(node->left);
+    recursivePrintPreOrder(node->right);
+}
+
+// need implementation
+int Team::getAusMeasure() const{
+    return 0;
+}
 

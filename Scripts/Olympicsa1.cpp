@@ -340,5 +340,8 @@ output_t<int> Olympics::austerity_measures(int teamId){
 	return 0;
 }
 
-
+void Olympics::printTeam(int teamID) {
+    auto team = teams->find(teamID);
+    team->print();
+}
 
