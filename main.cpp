@@ -64,15 +64,17 @@ int main() {
     Paris2024.printTeam(1);
     Paris2024.printTeam(2);
 
-
     // team 11: has: 1, 3
     // team 2: has: 2, 4
 
     Paris2024.unite_teams(1, 2); // team 1 should now have players 1, 3, 2, 4
+//    return 0;
     Paris2024.printTeam(2);
     cout << "UNITED TEAM 1 AND 2" << endl;
     Paris2024.printTeam(1);
 
+    cout << "Paris 2024 stops containing team 2, this function shouldn't print anything " << endl;
+    Paris2024.printTeam(2);
 
 
     //Test case2 for Trees:
