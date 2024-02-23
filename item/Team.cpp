@@ -200,13 +200,19 @@ bool Team::removeContestant(int contestantID) {
 void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
     if(!root) return;
 
+    auto contestant = root->data;
+
     // check if contestant is already in the team
-    bool cont = this->contestants->contains(root->data->getID());
+    bool contestantIsAlreadyInTargetTeam = contestant->isActiveInTeam(team->getID()); // this takes O(1) time
+
+    // unite other contestants with the target team
     uniteAux(root->left, team);
     uniteAux(root->right, team);
-    if(cont) return;
 
-    auto contestant = root->data;
+    if(contestantIsAlreadyInTargetTeam) return;
+    // if the contestant is already in target team, we don't want to add him again so this part of the code becomes unreachable
+
+
     team->removeContestant(contestant->getID()); // important in order to make sure that the contestant can join a new team.
     addContestant(root->data);
     //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
