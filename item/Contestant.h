@@ -29,7 +29,7 @@ public:
     int getNumOfActiveTeams() const;
     Sport getSport() const;
     bool isActiveInTeam(int teamID) const;
-    bool addTeam(weak_ptr<Team> team);
+    bool addTeam(int teamID);
     bool removeTeam(int teamID);
     int getCountryID() const;
     void updateStrength(int change);

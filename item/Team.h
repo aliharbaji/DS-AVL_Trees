@@ -16,7 +16,7 @@ class Contestant;
 class Country;
 
 //this is apparently necessary if you want to pass "this" instance of a class as a shared_ptr.
-class Team : public Item, public enable_shared_from_this<Team> {
+class Team : public Item {
     Sport sport;
     int strength;
     weak_ptr<Country> myCountry; //changed this to weak_ptr
@@ -34,7 +34,6 @@ class Team : public Item, public enable_shared_from_this<Team> {
     shared_ptr<STree<Contestant>> highStrTree;
 
 
-    void updateSubTrees();
     void updateAusMeasure();
     void updateStrength();
     void redistribute();

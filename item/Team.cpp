@@ -196,12 +196,13 @@ bool Team::removeContestant(int contestantID) {
 
 
 
+// TODO: this function and other methods that depend on it need refactoring as a result of changing myTeams into array of ints
 void Team::uniteAux(shared_ptr<Node<Contestant>> root, int teamId){
     if(!root) return;
     auto contestant = root->data;
     contestant->removeTeam(teamId); // important in order to make sure that the contestant can join a new team.
     addContestant(root->data);
-    contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
+    //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
 
     uniteAux(root->left, teamId);
     uniteAux(root->right, teamId);
