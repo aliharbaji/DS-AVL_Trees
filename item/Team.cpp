@@ -122,9 +122,7 @@ void Team::updateStrength() {
     strength = sum;
 }
 
-void Team::updateAusMeasure() {
 
-}
 //returns true if Contestant can be inserted successfully into the team. Returns false otherwise.
 //Maybe can clean this by making "findKthSmallest" just return the value instead of the node itself.
 bool Team::addContestant(shared_ptr<Contestant> contestant){
@@ -264,6 +262,16 @@ void Team::recursivePrintPreOrder(shared_ptr<Node<Contestant>> node) {
 
 // need implementation
 int Team::getAusMeasure() const{
-    return 0;
+    if ((contestants->size % 3) != 0) return 0;
+
+    int max=0;
+    if (lowIDTree->size >= 3) {
+        int hypoStr3Low; //hypothetical strength 3 low. Meaning what would the strength be if we removed the 3 weakest people from low subtree.
+
+    }
+}
+
+void Team::updateAusMeasure(){
+
 }
 
