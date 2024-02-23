@@ -199,6 +199,11 @@ bool Team::removeContestant(int contestantID) {
 //Did a small change. Because before contestant removing himself from the team doesn't mean the team got updated. Seems fine.
 void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
     if(!root) return;
+
+    // check if contestant is already in the team
+    bool cont = this->contestants->contains(root->data->getID());
+    if(cont) return;
+
     auto contestant = root->data;
     team->removeContestant(contestant->getID()); // important in order to make sure that the contestant can join a new team.
     addContestant(root->data);
@@ -208,11 +213,12 @@ void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
     uniteAux(root->right, team);
 }
 
-void Team::uniteWith(shared_ptr<Team> other) {
+void Team::uniteWith(shared_ptr<Team>& other) {
     uniteAux(other->contestants->root, other);
 }
 
 void Team::print(){
+    if(this == nullptr) return;
     cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
     cout<<"Team ID: "<<getID()<<endl;
     cout<<"PreOrder: [";

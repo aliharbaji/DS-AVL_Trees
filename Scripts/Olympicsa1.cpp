@@ -291,7 +291,7 @@ StatusType Olympics::unite_teams(int teamId1,int teamId2){
     }
 
     try{
-        // this updates team1
+        // this updates team1 (takes O(N2) time)
         team1->uniteWith(team2);
         // destroy team2
         teams->remove(teamId2);
