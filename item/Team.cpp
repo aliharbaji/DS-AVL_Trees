@@ -209,7 +209,10 @@ void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
     uniteAux(root->left, team);
     uniteAux(root->right, team);
 
-    if(contestantIsAlreadyInTargetTeam) return;
+    if(contestantIsAlreadyInTargetTeam){
+        team->removeContestant(contestant->getID());
+        return;
+    }
     // if the contestant is already in target team, we don't want to add him again so this part of the code becomes unreachable
 
 
