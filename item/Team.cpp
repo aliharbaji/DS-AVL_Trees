@@ -202,6 +202,8 @@ void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
 
     // check if contestant is already in the team
     bool cont = this->contestants->contains(root->data->getID());
+    uniteAux(root->left, team);
+    uniteAux(root->right, team);
     if(cont) return;
 
     auto contestant = root->data;
@@ -209,8 +211,7 @@ void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
     addContestant(root->data);
     //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
 
-    uniteAux(root->left, team);
-    uniteAux(root->right, team);
+
 }
 
 void Team::uniteWith(shared_ptr<Team>& other) {

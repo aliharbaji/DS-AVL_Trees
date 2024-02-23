@@ -53,6 +53,7 @@ int main() {
     Paris2024.add_contestant_to_team(2, 2);
     Paris2024.add_contestant_to_team(2, 4);
 
+    Paris2024.add_contestant_to_team(2, 1);
 //    type = Paris2024.add_contestant_to_team(2, 1);
 //    print(type);
 //
