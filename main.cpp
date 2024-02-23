@@ -64,16 +64,43 @@ int main() {
     Paris2024.printTeam(1);
     Paris2024.printTeam(2);
 
-
     // team 11: has: 1, 3
     // team 2: has: 2, 4
 
     Paris2024.unite_teams(1, 2); // team 1 should now have players 1, 3, 2, 4
+//    return 0;
     Paris2024.printTeam(2);
     cout << "UNITED TEAM 1 AND 2" << endl;
     Paris2024.printTeam(1);
 
+    cout << "Paris 2024 stops containing team 2, this function shouldn't print anything " << endl;
+    Paris2024.printTeam(2);
 
+    Paris2024.remove_team(1);
+    cout << "tryting to remove team 1, but it won't be removed because it still "
+            "contains contestants, this function should print team1's info " << endl;
+    Paris2024.printTeam(1);
+
+    cout << "removing contestant 1 from team 1" << endl;
+    Paris2024.remove_contestant_from_team(1, 1);
+    cout << "now team 1 should only contain 3, 2, 4" << endl;
+    Paris2024.printTeam(1);
+    cout << "ADD BREAKPOINT HERE AND OPEN DEBUGGER" << endl;
+    cout << "GO TO PARIS2024 AND LOOK AT ITS ONLY TEAM, TEAM 1 " << endl;
+    cout << "TEAM1 CORRECTLY CONTAINS CONTESTANTS 3, 2, 4" << endl;
+    cout << "LOWERID MIDDLEID AND HIGHERID ARE CORRECTLY UPDATED" << endl;
+    cout << "TEAM1'S LOWERSTRTREE AND MIDDLE AND HIGHER CONTAIN 0 ELEMENTS (THEY SHOULD CONTAIN 1 EACH)" << endl;
+    cout << "CHECK TODO COMMENTS" << endl;
+    cout << "team1's strength shouldn't be 0 and should be calculated properly" << endl;
+    cout << "99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999" << endl;
+//    cout << Paris2024.get_team_strength(1).ans() << endl;
+//    Paris2024.printTeam(1);
+    cout << endl;
+    cout << "*****************LOGIC ERROR*****************" << endl;
+    cout << "team 1's strength should be 9" << endl;
+
+
+    return 0;
 
     //Test case2 for Trees:
 //    Tree<Item> tree;
@@ -149,55 +176,58 @@ int main() {
 */
 
     // Test from whatsapp regarding adding and removing countries
-//     Olympics olympus;
-//     cout <<"------------------------------------"<<endl;
-//    // trying successful things.
-//    std::cout << "These should print-out SUCCESS" << '\n';
-//    print(olympus.add_country(1,1)); // canada
-//    print(olympus.add_country(40,2)); // romania
-//    print(olympus.add_country(972,3)); // israel
-//    print(olympus.add_country(44,4)); // uk
-//    print(olympus.add_country(46,5)); // sweden
-//    print(olympus.add_country(7,6)); // russia
-//    print(olympus.add_country(39,0)); // italy
-//    // trying invalid input.
-//    std::cout << "These should print-out INVALID_INPUT" << '\n';
-//    print(olympus.add_country(-2,0)); // negative country id
-//    print(olympus.add_country(39,-1)); // neative medals
-//    print(olympus.add_country(0,0)); // null_id
-//    // trying failure
-//    std::cout << "These should print-out FAILURE" << '\n';
-//    print(olympus.add_country(39,0)); // italy again
-//
-//    cout << "Medal Counts" << endl;
-//    // trying to get medal count successfully
-//    output_t<int> value = olympus.get_medals(1);
-//    std::cout << '(' << (int)value.status() << ',' << value.ans() << ')' << "\n";
-//    output_t<int> value2 = olympus.get_medals(972);
-//    std::cout << '(' << (int)value2.status() << ',' << value2.ans() << ')' << "\n\n";
-//    // trying invalid input
-//    output_t<int> value3 = olympus.get_medals(0); // null id
-//    std::cout << '(' << (int)value3.status() << ',' << value3.ans() << ')' << "\n\n";
-//    // trying failure
-//    output_t<int> value4 = olympus.get_medals(54); // argentina
-//    std::cout << '(' << (int)value4.status() << ',' << value4.ans() << ')' << "\n\n";
-//
-//    cout << "Removing countries (SUCCESS)" << endl;
-//    // trying to remove successfully
-//    print(olympus.remove_country(7)); // russia
-//    print(olympus.remove_country(39)); // italy
-//    print(olympus.remove_country(40)); // romania
-//
-//    // trying invalid input
-//    cout << "Removing countries (INVALID_INPUT)" << endl;
-//    print(olympus.remove_country(-7)); // negative country id
-//    print(olympus.remove_country(0)); // null id
-//
-//
-//    // trying failure
-//    cout << "Removing countries (FAILURE)" << endl;
-//    print(olympus.remove_country(7)); // russia again (supposed to be removed already)
-//    print(olympus.remove_country(254)); // kenya
-//    print(olympus.remove_country(359)); // bulgaria
+     Olympics olympus;
+     cout <<"------------------------------------"<<endl;
+    // trying successful things.
+    std::cout << "These should print-out SUCCESS" << '\n';
+    print(olympus.add_country(1,1)); // canada
+    print(olympus.add_country(40,2)); // romania
+    print(olympus.add_country(972,3)); // israel
+    print(olympus.add_country(44,4)); // uk
+    print(olympus.add_country(46,5)); // sweden
+    print(olympus.add_country(7,6)); // russia
+    print(olympus.add_country(39,0)); // italy
+    cout <<"------------------------------------"<<endl;
+    // trying invalid input.
+    std::cout << "These should print-out INVALID_INPUT" << '\n';
+    print(olympus.add_country(-2,0)); // negative country id
+    print(olympus.add_country(39,-1)); // neaative medals
+    print(olympus.add_country(0,0)); // null_id
+    cout <<"------------------------------------"<<endl;
+    // trying failure
+    std::cout << "These should print-out FAILURE" << '\n';
+    print(olympus.add_country(39,0)); // italy again
+    cout <<"------------------------------------"<<endl;
+    cout << "Medal Counts" << endl;
+    // trying to get medal count successfully
+    output_t<int> value = olympus.get_medals(1);
+    std::cout << '(' << (int)value.status() << ',' << value.ans() << ')' << "\n";
+    output_t<int> value2 = olympus.get_medals(972);
+    std::cout << '(' << (int)value2.status() << ',' << value2.ans() << ')' << "\n\n";
+    // trying invalid input
+    output_t<int> value3 = olympus.get_medals(0); // null id
+    std::cout << '(' << (int)value3.status() << ',' << value3.ans() << ')' << "\n\n";
+    // trying failure
+    output_t<int> value4 = olympus.get_medals(54); // argentina
+    std::cout << '(' << (int)value4.status() << ',' << value4.ans() << ')' << "\n\n";
+    cout <<"------------------------------------"<<endl;
+    cout << "Removing countries (SUCCESS)" << endl;
+    // trying to remove successfully
+    print(olympus.remove_country(7)); // russia
+    print(olympus.remove_country(39)); // italy
+    print(olympus.remove_country(40)); // romania
+    cout <<"------------------------------------"<<endl;
+    // trying invalid input
+    cout << "Removing countries (INVALID_INPUT)" << endl;
+    print(olympus.remove_country(-7)); // negative country id
+    print(olympus.remove_country(0)); // null id
+    cout <<"------------------------------------"<<endl;
+
+    // trying failure
+    cout << "Removing countries (FAILURE)" << endl;
+    print(olympus.remove_country(7)); // russia again (supposed to be removed already)
+    print(olympus.remove_country(254)); // kenya
+    print(olympus.remove_country(359)); // bulgaria
+    cout <<"------------------------------------"<<endl;
     return 0;
 }

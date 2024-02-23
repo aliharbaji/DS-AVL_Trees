@@ -180,10 +180,12 @@ bool Team::removeContestant(int contestantID) {
     // nice approach
     lowIDTree->remove(contestantID);
     lowStrTree->remove(contestantID,currentContestant->getStrength());
-    midIDTree->remove(contestantID);
-    midStrTree->remove(contestantID,currentContestant->getStrength());
+    midIDTree->remove(contestantID); //
+
+    midStrTree->remove(contestantID,currentContestant->getStrength()); // this is incorrectly removing contestant 2 from the midStrTree
     highIDTree->remove(contestantID);
-    highStrTree->remove(contestantID,currentContestant->getStrength());
+
+    highStrTree->remove(contestantID,currentContestant->getStrength()); // this is incorrectly removing contestant 3 from the highStrTree
 
     redistribute();
     updateStrength();
@@ -217,11 +219,9 @@ void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
     team->removeContestant(contestant->getID()); // important in order to make sure that the contestant can join a new team.
     addContestant(root->data);
     //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
-
-
 }
 
-void Team::uniteWith(shared_ptr<Team>& other) {
+void Team::uniteWith(shared_ptr<Team> other) {
     uniteAux(other->contestants->root, other);
 }
 

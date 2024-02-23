@@ -72,8 +72,8 @@ public:
     bool removeContestant(int contestantID);
     Sport getSport() const;
     int getCountryID() const;
-    void uniteWith(shared_ptr<Team>& other);
-    void print(); // TODO: remove before submission
+    void uniteWith(shared_ptr<Team> other);
+    void print();
     void recursivePrintPreOrder(shared_ptr<Node<Contestant>> node);
     void recursivePrintInOrder(shared_ptr<Node<Contestant>> node);
 };

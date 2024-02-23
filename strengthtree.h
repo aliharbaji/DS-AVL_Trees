@@ -105,19 +105,19 @@ private:
 
     }
 
-    //delete now searches based on strength and ID
+    //delete now searches based on strength and ID TODO: fix this, it contains a bug
     void deleteRecursively(shared_ptr<Node<T>>& node, int ID, int strength){
         if (node == nullptr) return;
 
         bool isLeft = false, isRight = false;
 
         if (strength < node->getStrength() ||
-            (strength == node->getStrength() && ID < node->getID())) {
+           (strength == node->getStrength() && ID < node->getID())) {
             isLeft = true;
         }
 
         else if (strength > node->getStrength() ||
-                 (strength == node->getStrength() && ID > node->getID())) {
+                (strength == node->getStrength() && ID > node->getID())) {
             isRight = true;
         }
 
@@ -334,6 +334,8 @@ public:
     bool remove(const int ID, const int strength){
         if (!size) return false;
         deleteRecursively(root, ID, strength);
+        // TODO: I think that we should add an if statement here to check whether or not the deletion was successful,
+        //  before updating the size and minimum and maximum.
         size--;
         minimum = getMinNode(root);
         maximum = getMaxNode(root);

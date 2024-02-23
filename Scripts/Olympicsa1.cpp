@@ -339,9 +339,10 @@ StatusType Olympics::play_match(int teamId1,int teamId2){
 output_t<int> Olympics::austerity_measures(int teamId){
 	return 0;
 }
-
+// TODO: this function was added for testing purposes. Must be removed later!
 void Olympics::printTeam(int teamID) {
     auto team = teams->find(teamID);
+    if(team == nullptr) return;
     team->print();
 }
 
