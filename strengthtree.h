@@ -343,6 +343,16 @@ public:
         else return nullptr;
     }
 
+    int getMaxStrength(){
+        if (size) return maximum->data->getStrength();
+        else return 0;
+    }
+
+    int getMinStrength(){
+        if (size) return maximum->data->getStrength();
+        else return 0;
+    }
+
     shared_ptr<T> getMin(){
         if (size) return minimum->data;
         else return nullptr;

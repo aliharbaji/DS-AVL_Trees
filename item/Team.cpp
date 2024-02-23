@@ -115,9 +115,9 @@ void Team::redistribute() {
 
 void Team::updateStrength() {
     int sum = 0;
-    sum += lowStrTree->getMax()->getStrength();
-    sum += midStrTree->getMax()->getStrength();
-    sum += highStrTree->getMax()->getStrength();
+    sum += lowStrTree->getMaxStrength();
+    sum += midStrTree->getMaxStrength();
+    sum += highStrTree->getMaxStrength();
     strength = sum;
 }
 
@@ -136,7 +136,7 @@ bool Team::addContestant(shared_ptr<Contestant> contestant){
     if (!contestant->isAvailable()) return false;
     // Check if contestant is already in team.
     if (!contestants->insert(contestant)) return false;
-//    contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
+    contestant->addTeam(this->getID());
 
     strengths->insert(contestant);
 

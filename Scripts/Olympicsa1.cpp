@@ -154,6 +154,7 @@ StatusType Olympics::remove_contestant(int contestantId){
 }
 
 // not final for sure
+//TODO: decide whether team updates contestant itself or contestant does it himself. Should probably decide based on what makes implementing unite function easier.
 StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
     if(teamId <= 0 || contestantId <= 0){
         return StatusType::INVALID_INPUT;
@@ -171,11 +172,11 @@ StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
         return StatusType::FAILURE;
     }
     team->addContestant(contestant);
-    contestant->addTeam(team); //probably redundant because Omar added this to team->addContestant() but I commented it out
+    //contestant->addTeam(team); //probably redundant because Omar added this to team->addContestant() but I commented it out
 
     return StatusType::SUCCESS;
 }
-
+//
 // looks good. Omar did most of the work in the Team class
 StatusType Olympics::remove_contestant_from_team(int teamId,int contestantId){
     if(teamId<=0 || contestantId <=0){
@@ -187,7 +188,8 @@ StatusType Olympics::remove_contestant_from_team(int teamId,int contestantId){
         return StatusType::FAILURE;
     }
     team->removeContestant(contestantId);
-    contestant->removeTeam(teamId); // updates contestant's teams, necessary to keep.
+    //As of right now this is already done in team->removeContestant
+    //contestant->removeTeam(teamId); // updates contestant's teams, necessary to keep.
 
 	return StatusType::SUCCESS;
 }
