@@ -16,7 +16,7 @@ class Contestant;
 class Country;
 
 //this is apparently necessary if you want to pass "this" instance of a class as a shared_ptr.
-class Team : public Item, public enable_shared_from_this<Team> {
+class Team : public Item {
     Sport sport;
     int strength;
     weak_ptr<Country> myCountry; //changed this to weak_ptr
@@ -34,7 +34,6 @@ class Team : public Item, public enable_shared_from_this<Team> {
     shared_ptr<STree<Contestant>> highStrTree;
 
 
-    void updateSubTrees();
     void updateAusMeasure();
     void updateStrength();
     void redistribute();
@@ -44,7 +43,7 @@ class Team : public Item, public enable_shared_from_this<Team> {
     void moveHighToLow();
     void moveLowToHigh();
     void moveLowToMid();
-    void uniteAux(shared_ptr<Node<Contestant>> root, int teamId);
+    void uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team);
 
 public:
     explicit Team(int teamID, Sport sport, std::shared_ptr<Country> myCountry)
@@ -74,6 +73,9 @@ public:
     Sport getSport() const;
     int getCountryID() const;
     void uniteWith(shared_ptr<Team> other);
+    void print();
+    void recursivePrintPreOrder(shared_ptr<Node<Contestant>> node);
+    void recursivePrintInOrder(shared_ptr<Node<Contestant>> node);
 };
 
 

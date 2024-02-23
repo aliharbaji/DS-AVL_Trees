@@ -229,6 +229,7 @@ private:
     }
 
     shared_ptr<Node<T>> getMaxNode(shared_ptr<Node<T>> node){
+        if (!node) return nullptr;
         auto current = node;
         while (current->right != nullptr){
             current = current->right;
@@ -237,6 +238,7 @@ private:
     }
 
     shared_ptr<Node<T>> getMinNode(shared_ptr<Node<T>> node){
+        if (!node) return nullptr;
         auto current = node;
         while (current->left != nullptr){
             current = current->left;

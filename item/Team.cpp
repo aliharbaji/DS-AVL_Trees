@@ -3,6 +3,7 @@
 //
 
 #include "Team.h"
+#include <iostream>
 
 
 
@@ -99,12 +100,12 @@ void Team::redistribute() {
                 }
             }
 
-            // Address deficit in lowIDTree by moving from mid or high
-            while (lowIDTree->getSize() < desiredSize) {
-                if (midIDTree->getSize() > desiredSize) {
-                    moveMidToLow();
-                } else if (highIDTree->getSize() > desiredSize) {
-                    moveHighToLow();
+            // Address excess in lowIDTree
+            while (lowIDTree->getSize() > desiredSize) {
+                if (midIDTree->getSize() < desiredSize) {
+                    moveLowToMid();
+                } else {
+                    moveLowToHigh();
                 }
             }
         }
@@ -115,9 +116,9 @@ void Team::redistribute() {
 
 void Team::updateStrength() {
     int sum = 0;
-    sum += lowStrTree->getMax()->getStrength();
-    sum += midStrTree->getMax()->getStrength();
-    sum += highStrTree->getMax()->getStrength();
+    sum += lowStrTree->getMaxStrength();
+    sum += midStrTree->getMaxStrength();
+    sum += highStrTree->getMaxStrength();
     strength = sum;
 }
 
@@ -136,26 +137,19 @@ bool Team::addContestant(shared_ptr<Contestant> contestant){
     if (!contestant->isAvailable()) return false;
     // Check if contestant is already in team.
     if (!contestants->insert(contestant)) return false;
-//    contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
-
-
-    shared_ptr<Node<Contestant>> lowSNode, midSNode;
+    contestant->addTeam(this->getID());
 
     strengths->insert(contestant);
-        lowSNode  = contestants->findKthSmallest(contestants->root,contestants->getSize()/3);
-        midSNode = contestants->findKthSmallest(contestants->root,(contestants->getSize() * 2)/3);
-
 
     if (contestants->getSize() <= 1) {
         lowIDTree->insert(contestant);
         lowStrTree->insert(contestant);
     }
-        // TODO: add break-point here to see why the error is happening
-    else if (contestant->getID() < lowSNode->getID()){
+    else if (contestant->getID() < lowIDTree->maximum->getID()){
         lowIDTree->insert(contestant);
         lowStrTree->insert(contestant);
 
-    } else if(contestant->getID() < midSNode->getID()){
+    } else if(midIDTree->getSize() == 0 ||(contestant->getID() < midIDTree->maximum->getID())){
         midIDTree->insert(contestant);
         midStrTree->insert(contestant);
 
@@ -202,20 +196,58 @@ bool Team::removeContestant(int contestantID) {
 
 
 
-
-void Team::uniteAux(shared_ptr<Node<Contestant>> root, int teamId){
+//Did a small change. Because before contestant removing himself from the team doesn't mean the team got updated. Seems fine.
+void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
     if(!root) return;
     auto contestant = root->data;
-    contestant->removeTeam(teamId); // important in order to make sure that the contestant can join a new team.
+    team->removeContestant(contestant->getID()); // important in order to make sure that the contestant can join a new team.
     addContestant(root->data);
-    contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
+    //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
 
-    uniteAux(root->left, teamId);
-    uniteAux(root->right, teamId);
+    uniteAux(root->left, team);
+    uniteAux(root->right, team);
 }
 
 void Team::uniteWith(shared_ptr<Team> other) {
-    uniteAux(other->contestants->root, other->getID());
+    uniteAux(other->contestants->root, other);
 }
 
+void Team::print(){
+    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
+    cout<<"Team ID: "<<getID()<<endl;
+    cout<<"PreOrder: [";
+    recursivePrintPreOrder(strengths->root);
+    cout<<"]"<<endl;
+    cout<<"InOrder: [";
+    recursivePrintInOrder(strengths->root);
+    cout<<"]"<<endl;
+    cout<<"Team strength: "<<getStrength()<<endl;
+    cout<<"Austerity measure(not implemented yet): "<<getAusMeasure()<<endl;
+    cout<<"Team Size: "<<strengths->getSize()<<endl;
+    cout<<"Sport: "<<(int)getSport()<<endl;
+    cout<<"Country ID: "<<getCountryID()<<endl;
+    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
+
+
+}
+
+void Team::recursivePrintInOrder(shared_ptr<Node<Contestant>> node) {
+    if (!node) return;
+    recursivePrintInOrder(node->left);
+    cout<<"("<<"str:"<<node->getStrength()<<", "<<"id: "<<node->getID()<<")";
+    recursivePrintInOrder(node->right);
+}
+
+
+void Team::recursivePrintPreOrder(shared_ptr<Node<Contestant>> node) {
+    if (!node) return;
+    cout<<"("<<"str:"<<node->getStrength()<<", "<<"id: "<<node->getID()<<")";
+    recursivePrintPreOrder(node->left);
+    recursivePrintPreOrder(node->right);
+}
+
+// need implementation
+int Team::getAusMeasure() const{
+    return 0;
+}
 

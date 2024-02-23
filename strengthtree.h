@@ -275,6 +275,7 @@ private:
     }
 
     shared_ptr<Node<T>> getMinNode(shared_ptr<Node<T>> node){
+        if (!node) return nullptr;
         auto current = node;
         while (current->left != nullptr){
             current = current->left;
@@ -282,6 +283,7 @@ private:
         return current;
     }
     shared_ptr<Node<T>> getMaxNode(shared_ptr<Node<T>> node){
+        if (!node) return nullptr;
         auto current = node;
         while (current->right != nullptr){
             current = current->right;
@@ -343,6 +345,16 @@ public:
         else return nullptr;
     }
 
+    int getMaxStrength(){
+        if (size) return maximum->data->getStrength();
+        else return 0;
+    }
+
+    int getMinStrength(){
+        if (size) return maximum->data->getStrength();
+        else return 0;
+    }
+
     shared_ptr<T> getMin(){
         if (size) return minimum->data;
         else return nullptr;
@@ -354,7 +366,6 @@ public:
     }
 
     int getSize() const{
-        if (size && root->size != size) throw logic_error("bug in Tree's node sizekeeping");
         return size;
     }
 

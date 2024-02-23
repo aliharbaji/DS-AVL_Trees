@@ -38,9 +38,9 @@ bool Contestant::isActiveInTeam(int teamID) const{
 }
 
 //returns false in case adding contestant to the team is illegal.
-bool Contestant::addTeam(weak_ptr<Team> team) {
+bool Contestant::addTeam(int teamID) {
     if (!isAvailable()) return false;
-    myTeams[numOfTeams] = team.lock()->getID();
+    myTeams[numOfTeams] = teamID;
     numOfTeams++;
     return true;
 }

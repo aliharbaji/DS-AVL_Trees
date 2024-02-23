@@ -38,7 +38,10 @@ private:
     int numberOfContestants;
 public:
 	// <DO-NOT-MODIFY> {
-	
+
+    //TODO: this function was added for testing purposes. Must be removed later!
+    void printTeam(int teamID);
+
 	Olympics();
 
 	virtual ~Olympics();
