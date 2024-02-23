@@ -84,10 +84,18 @@ int main() {
     cout << "removing contestant 1 from team 1" << endl;
     Paris2024.remove_contestant_from_team(1, 1);
     cout << "now team 1 should only contain 3, 2, 4" << endl;
-    cout << "team1's strength shouldn't be 0 and should be calculated properly" << endl;
-    cout << Paris2024.get_team_strength(1).ans() << endl;
     Paris2024.printTeam(1);
-
+    cout << "ADD BREAKPOINT HERE AND OPEN DEBUGGER" << endl;
+    cout << "GO TO PARIS2024 AND LOOK AT ITS ONLY TEAM, TEAM 1 " << endl;
+    cout << "TEAM1 CORRECTLY CONTAINS CONTESTANTS 3, 2, 4" << endl;
+    cout << "LOWERID MIDDLEID AND HIGHERID ARE CORRECTLY UPDATED" << endl;
+    cout << "TEAM1'S LOWERSTRTREE AND MIDDLE AND HIGHER CONTAIN 0 ELEMENTS (THEY SHOULD CONTAIN 1 EACH)" << endl;
+    cout << "CHECK TODO COMMENTS" << endl;
+    cout << "team1's strength shouldn't be 0 and should be calculated properly" << endl;
+    cout << "99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999" << endl;
+//    cout << Paris2024.get_team_strength(1).ans() << endl;
+//    Paris2024.printTeam(1);
+    cout << endl;
     cout << "*****************LOGIC ERROR*****************" << endl;
     cout << "team 1's strength should be 9" << endl;
 
