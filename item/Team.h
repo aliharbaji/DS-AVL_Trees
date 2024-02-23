@@ -43,7 +43,7 @@ class Team : public Item {
     void moveHighToLow();
     void moveLowToHigh();
     void moveLowToMid();
-    void uniteAux(shared_ptr<Node<Contestant>> root, int teamId);
+    void uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team);
 
 public:
     explicit Team(int teamID, Sport sport, std::shared_ptr<Country> myCountry)

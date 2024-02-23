@@ -195,21 +195,20 @@ bool Team::removeContestant(int contestantID) {
 
 
 
-
-// TODO: this function and other methods that depend on it need refactoring as a result of changing myTeams into array of ints
-void Team::uniteAux(shared_ptr<Node<Contestant>> root, int teamId){
+//Did a small change. Because before contestant removing himself from the team doesn't mean the team got updated. Seems fine.
+void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
     if(!root) return;
     auto contestant = root->data;
-    contestant->removeTeam(teamId); // important in order to make sure that the contestant can join a new team.
+    team->removeContestant(contestant->getID()); // important in order to make sure that the contestant can join a new team.
     addContestant(root->data);
     //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
 
-    uniteAux(root->left, teamId);
-    uniteAux(root->right, teamId);
+    uniteAux(root->left, team);
+    uniteAux(root->right, team);
 }
 
 void Team::uniteWith(shared_ptr<Team> other) {
-    uniteAux(other->contestants->root, other->getID());
+    uniteAux(other->contestants->root, other);
 }
 
 
