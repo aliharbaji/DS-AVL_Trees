@@ -262,6 +262,8 @@ void Team::recursivePrintPreOrder(shared_ptr<Node<Contestant>> node) {
 
 // need implementation
 int Team::getAusMeasure() const{
+    //need to finish this
+    return 0;
     if ((contestants->size % 3) != 0) return 0;
 
     int max=0;

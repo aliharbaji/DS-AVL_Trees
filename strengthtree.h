@@ -106,10 +106,11 @@ private:
     }
 
     //delete now searches based on strength and ID TODO: fix this, it contains a bug
-    void deleteRecursively(shared_ptr<Node<T>>& node, int ID, int strength){
-        if (node == nullptr) return;
+    bool deleteRecursively(shared_ptr<Node<T>>& node, int ID, int strength){
+        if (node == nullptr) return false;
 
         bool isLeft = false, isRight = false;
+        bool deleted = false;
 
         if (strength < node->getStrength() ||
            (strength == node->getStrength() && ID < node->getID())) {
@@ -121,12 +122,13 @@ private:
             isRight = true;
         }
 
-        if (isLeft) deleteRecursively(node->left, strength, ID);
-        else if (isRight) deleteRecursively(node->right, strength, ID);
+        if (isLeft) deleted = deleteRecursively(node->left, strength, ID);
+        else if (isRight) deleted = deleteRecursively(node->right, strength, ID);
 
             // found the node
         else{
             // node has 1 or fewer children
+            deleted = true;
             if (node->right == nullptr || node->left == nullptr){
                 auto child = (node->left == nullptr) ? node->right : node->left;
                 // no child case
@@ -165,7 +167,7 @@ private:
 
         }
 
-        if (node==nullptr) return;
+        if (node==nullptr) return deleted;
 
         node->height = 1 + max(getHeight(node->right), getHeight(node->left));
         node->size = 1+ getSize(node->left) + getSize(node->right);
@@ -191,6 +193,8 @@ private:
             node->right = rightRotate(node->right);
             node = leftRotate(node);
         }
+
+        return deleted;
 
 
     }
@@ -333,13 +337,17 @@ public:
 
     bool remove(const int ID, const int strength){
         if (!size) return false;
-        deleteRecursively(root, ID, strength);
-        // TODO: I think that we should add an if statement here to check whether or not the deletion was successful,
-        //  before updating the size and minimum and maximum.
-        size--;
-        minimum = getMinNode(root);
-        maximum = getMaxNode(root);
-        return true;
+
+        if (deleteRecursively(root, ID, strength)) {
+            // TODO: I think that we should add an if statement here to check whether or not the deletion was successful,
+            //  before updating the size and minimum and maximum.
+            //You're absolutely right.
+            size--;
+            minimum = getMinNode(root);
+            maximum = getMaxNode(root);
+            return true;
+        }
+        else return false;
     }
 
     shared_ptr<T> getMax(){
