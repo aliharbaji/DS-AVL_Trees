@@ -99,12 +99,12 @@ void Team::redistribute() {
                 }
             }
 
-            // Address deficit in lowIDTree by moving from mid or high
-            while (lowIDTree->getSize() < desiredSize) {
-                if (midIDTree->getSize() > desiredSize) {
-                    moveMidToLow();
-                } else if (highIDTree->getSize() > desiredSize) {
-                    moveHighToLow();
+            // Address excess in lowIDTree
+            while (lowIDTree->getSize() > desiredSize) {
+                if (midIDTree->getSize() < desiredSize) {
+                    moveLowToMid();
+                } else {
+                    moveLowToHigh();
                 }
             }
         }
@@ -138,24 +138,17 @@ bool Team::addContestant(shared_ptr<Contestant> contestant){
     if (!contestants->insert(contestant)) return false;
 //    contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
 
-
-    shared_ptr<Node<Contestant>> lowSNode, midSNode;
-
     strengths->insert(contestant);
-        lowSNode  = contestants->findKthSmallest(contestants->root,contestants->getSize()/3);
-        midSNode = contestants->findKthSmallest(contestants->root,(contestants->getSize() * 2)/3);
-
 
     if (contestants->getSize() <= 1) {
         lowIDTree->insert(contestant);
         lowStrTree->insert(contestant);
     }
-        // TODO: add break-point here to see why the error is happening
-    else if (contestant->getID() < lowSNode->getID()){
+    else if (contestant->getID() < lowIDTree->maximum->getID()){
         lowIDTree->insert(contestant);
         lowStrTree->insert(contestant);
 
-    } else if(contestant->getID() < midSNode->getID()){
+    } else if(midIDTree->getSize() == 0 ||(contestant->getID() < midIDTree->maximum->getID())){
         midIDTree->insert(contestant);
         midStrTree->insert(contestant);
 
