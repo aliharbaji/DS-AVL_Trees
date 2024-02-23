@@ -73,7 +73,7 @@ public:
     Sport getSport() const;
     int getCountryID() const;
     void uniteWith(shared_ptr<Team> other);
-    void print();
+    void print(); // TODO: remove before submission
     void recursivePrintPreOrder(shared_ptr<Node<Contestant>> node);
     void recursivePrintInOrder(shared_ptr<Node<Contestant>> node);
 };
