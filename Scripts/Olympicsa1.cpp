@@ -213,14 +213,16 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
     int numOfTeams = contestant->getNumOfActiveTeams();
     int tempTeams[numOfTeams];
 
-    for(int i = 0; i < numOfTeams; i++){
-        int teamID = contestant->getTeamID(i);
-        // removes the contestant from the team
-        shared_ptr<Team> team = teams->find(teamID);
-        team->removeContestant(contestantId);
 
-        // updates tempTeams, needed for reinserting the contestant
-        tempTeams[i] = teamID;
+    tempTeams[0] = contestant->getTeamID(0);
+    tempTeams[1] = contestant->getTeamID(1);
+    tempTeams[2] = contestant->getTeamID(2);
+
+    for(int i = 0; i < MAX_TEAM_SIZE; i++){
+        if(tempTeams[i] == -1) break;
+        // removes the contestant from the team
+        shared_ptr<Team> team = teams->find(tempTeams[i]);
+        team->removeContestant(contestantId);
     }
 
     // remove Contestant from allContestants
@@ -229,7 +231,7 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
     // updates the strength of the contestant
     contestant->updateStrength(change);
 
-
+    // TODO: check if unnecessary, it probably isn't
     // reinsert the updated Contestant to allContestants
     contestants->insert(contestant);
 
@@ -286,7 +288,7 @@ StatusType Olympics::unite_teams(int teamId1,int teamId2){
     shared_ptr<Team> team1 = teams->find(teamId1);
     shared_ptr<Team> team2 = teams->find(teamId2);
 
-    if((team1->getSport() != team2->getSport()) || (team1->getCountryID() != team2->getCountryID())){
+    if(!team1 || !team2 || (team1->getSport() != team2->getSport()) || (team1->getCountryID() != team2->getCountryID())){
         return StatusType::FAILURE;
     }
 
@@ -313,14 +315,13 @@ StatusType Olympics::play_match(int teamId1,int teamId2){
     // this code takes O(log(m)) time
     shared_ptr<Team> team1 = teams->find(teamId1);
     shared_ptr<Team> team2 = teams->find(teamId2);
-
-    // this code works in O(log(k)) time
-    shared_ptr<Country> country1 = countries->find(team1->getCountryID());
-    shared_ptr<Country> country2 = countries->find(team1->getCountryID());
-
     if(!team1 || !team2 || team1->getSport() != team2->getSport()){
         return StatusType::FAILURE;
     }
+
+    // this code works in O(log(k)) time
+    shared_ptr<Country> country1 = countries->find(team1->getCountryID());
+    shared_ptr<Country> country2 = countries->find(team2->getCountryID());
 
     // this works in O(log(m)) time so we are ok =)
     int strength1 = get_team_strength(teamId1).ans() + country1->getMedals();

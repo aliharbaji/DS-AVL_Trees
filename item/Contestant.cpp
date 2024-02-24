@@ -50,7 +50,10 @@ int Contestant::getCountryID() const {
 
 bool Contestant::removeTeam(int teamID) {
     if (!isActiveInTeam(teamID)) return false;
-
+    if(numOfTeams == 1) {
+        numOfTeams--;
+        return true;
+    }
     for (int i = 0; i < numOfTeams; i++) {
         if (myTeams[i] == teamID) {
             myTeams[i] = myTeams[numOfTeams - 1];
