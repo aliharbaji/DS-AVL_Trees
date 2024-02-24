@@ -225,15 +225,11 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
         team->removeContestant(contestantId);
     }
 
-    // remove Contestant from allContestants
-    contestants->remove(contestantId);
-
     // updates the strength of the contestant
     contestant->updateStrength(change);
 
-    // TODO: check if unnecessary, it probably isn't
-    // reinsert the updated Contestant to allContestants
-    contestants->insert(contestant);
+
+
 
     for(int i = 0; i < numOfTeams; i++){
         shared_ptr<Team> team = teams->find(tempTeams[i]);

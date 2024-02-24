@@ -132,7 +132,7 @@ bool Team::addAux(shared_ptr<Contestant> contestant){
     // check if contestant has same sport and country as team
     if ((sport != contestant->getSport()) || (myCountry.lock()->getID() != contestant->getCountryID())) return false;
     //Check if contestant is not in maximum teams to enter a new team.
-    if (!contestant->isAvailable()) return false;
+    if (!contestant->isAvailable() || contestant->isActiveInTeam(this->getID())) return false;
     // Check if contestant is already in team.
     if (!contestants->insert(contestant)) return false;
     contestant->addTeam(this->getID());
@@ -228,14 +228,20 @@ void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
     }
     // if the contestant is already in target team, we don't want to add him again so this part of the code becomes unreachable
 
-
+    //TODO: ugly bug! removing contestants from the other team changes that team's tree! After removal the tree could rebalance and change its shape. Meaning we have to go back to the root!
+    //TODO: we can reset contestant to point to the root after removal but this would change complexity O(nlogn)
+    //TODO: better traverse the other tree save the contestants in an array and then insert into "this" tree.
     team->removeContestant(contestant->getID()); // important in order to make sure that the contestant can join a new team.
     addContestant(root->data);
+
     //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
 }
 
 void Team::uniteWith(shared_ptr<Team> other) {
+    print();
+    other->print();
     uniteAux(other->contestants->root, other);
+    print();
 }
 
 void Team::print(){
@@ -273,7 +279,7 @@ void Team::recursivePrintPreOrder(shared_ptr<Node<Contestant>> node) {
 }
 
 int Team::getAusMeasure() const{
-    if ( (contestants->getSize() > 0) && ((contestants->getSize() % 3) == 0) ) return ausMeasure;
+    if ( ( (contestants->getSize() - 3) > 0) && ((contestants->getSize() % 3) == 0) ) return ausMeasure;
     else return 0;
 }
 
