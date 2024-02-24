@@ -216,9 +216,14 @@ void Team::uniteTeamsIntoThis(shared_ptr<Team> otherTeam){
     auto* arr = copyTeamIntoArrayAndUpdateContestants(otherTeam);
 
     auto currentContestant = arr[0];
-    bool contestantIsAlreadyInTargetTeam = currentContestant->isActiveInTeam(this->getID());
+    bool contestantIsAlreadyInTargetTeam;
+
     for (int i=0; i<numOfContestants; i++){
+
+        contestantIsAlreadyInTargetTeam = currentContestant->isActiveInTeam(this->getID());
+
         if (contestantIsAlreadyInTargetTeam) continue;
+
         addContestant(arr[i]);
     }
     delete[] arr;
