@@ -143,7 +143,8 @@ bool Team::addAux(shared_ptr<Contestant> contestant){
         lowIDTree->insert(contestant);
         lowStrTree->insert(contestant);
     }
-    else if (contestant->getID() < lowIDTree->maximum->getID()){
+    // lowIDTree's maximum is nullptr, this gives out a seg-fault
+    else if (lowIDTree->getSize() == 0 || contestant->getID() < lowIDTree->maximum->getID()){
         lowIDTree->insert(contestant);
         lowStrTree->insert(contestant);
 
