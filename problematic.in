@@ -115,5 +115,12 @@ get_team_strength 16
 update_contestant_strength 0 100
 update_contestant_strength 35 100
 update_contestant_strength 30 -800
-
 update_contestant_strength 21 200
+play_match 2 2
+play_match 2 0
+play_match 0 2
+play_match 12 33
+
+play_match 35 12
+play_match 13 12
+play_match 10 11

@@ -318,7 +318,7 @@ StatusType Olympics::play_match(int teamId1,int teamId2){
 
     // this code works in O(log(k)) time
     shared_ptr<Country> country1 = countries->find(team1->getCountryID());
-    shared_ptr<Country> country2 = countries->find(team1->getCountryID());
+    shared_ptr<Country> country2 = countries->find(team2->getCountryID());
 
     if(!team1 || !team2 || team1->getSport() != team2->getSport()){
         return StatusType::FAILURE;
