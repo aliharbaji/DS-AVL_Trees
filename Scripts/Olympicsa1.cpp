@@ -337,7 +337,14 @@ StatusType Olympics::play_match(int teamId1,int teamId2){
 }
 
 output_t<int> Olympics::austerity_measures(int teamId){
-	return 0;
+    if(teamId <= 0){
+        return output_t<int>(StatusType::INVALID_INPUT);
+    }
+    shared_ptr<Team> team = teams->find(teamId); // works in log(m) where m is the number of all teams in the olympics
+    if(!team || (team->getNumberOfContestants() < 3)){
+        return output_t<int>(StatusType::FAILURE);
+    }
+    return output_t<int>(team->getAusMeasure());
 }
 // TODO: this function was added for testing purposes. Must be removed later!
 void Olympics::printTeam(int teamID) {

@@ -110,7 +110,7 @@ private:
         if (node == nullptr) return false;
 
         bool isLeft = false, isRight = false;
-        bool deleted = false;
+        bool deleted;
 
         if (strength < node->getStrength() ||
            (strength == node->getStrength() && ID < node->getID())) {
@@ -122,8 +122,8 @@ private:
             isRight = true;
         }
 
-        if (isLeft) deleted = deleteRecursively(node->left, strength, ID);
-        else if (isRight) deleted = deleteRecursively(node->right, strength, ID);
+        if (isLeft) deleted = deleteRecursively(node->left, ID, strength);
+        else if (isRight) deleted = deleteRecursively(node->right, ID, strength);
 
             // found the node
         else{
@@ -337,7 +337,6 @@ public:
 
     bool remove(const int ID, const int strength){
         if (!size) return false;
-
         if (deleteRecursively(root, ID, strength)) {
             // TODO: I think that we should add an if statement here to check whether or not the deletion was successful,
             //  before updating the size and minimum and maximum.
@@ -378,8 +377,6 @@ public:
     int getSize() const{
         return size;
     }
-
-
 
 
 };

@@ -24,8 +24,7 @@ Sport Contestant::getSport() const {
 bool Contestant:: isAvailable() const{
     return numOfTeams < MAX_TEAMS;
     // probably the right approach
-    // TODO: Check this while testing
-    return !(numOfTeams >= MAX_TEAMS || numOfTeams >= myCountry.lock()->getMedals());
+
 }
 
 bool Contestant::isActiveInTeam(int teamID) const{

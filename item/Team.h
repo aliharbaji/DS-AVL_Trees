@@ -34,7 +34,7 @@ class Team : public Item {
     shared_ptr<STree<Contestant>> highStrTree;
 
 
-    void updateAusMeasure();
+    bool updateAusMeasure();
     void updateStrength();
     void redistribute();
     void moveHighToMid();
@@ -76,6 +76,8 @@ public:
     void print();
     void recursivePrintPreOrder(shared_ptr<Node<Contestant>> node);
     void recursivePrintInOrder(shared_ptr<Node<Contestant>> node);
+    bool addAux(shared_ptr<Contestant> contestant);
+    bool removeAux(int contestantID);
 };
 
 

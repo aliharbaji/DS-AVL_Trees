@@ -125,7 +125,7 @@ void Team::updateStrength() {
 
 //returns true if Contestant can be inserted successfully into the team. Returns false otherwise.
 //Maybe can clean this by making "findKthSmallest" just return the value instead of the node itself.
-bool Team::addContestant(shared_ptr<Contestant> contestant){
+bool Team::addAux(shared_ptr<Contestant> contestant){
 
     // redundant, will make sure to check these in Olympic's add_contestant_to_team function for a cleaner code.
     // it wouldn't hurt to keep as is, will not change that in the time being
@@ -159,15 +159,26 @@ bool Team::addContestant(shared_ptr<Contestant> contestant){
     if (((contestants->getSize() % 3) == 0) && (contestants->getSize() > 0)){
         redistribute();
         updateStrength();
-        updateAusMeasure();
     }
 
 
     return true;
 }
+bool Team::addContestant(shared_ptr<Contestant> contestant) {
+    if (!addAux(contestant)) return false;
+
+    if ((contestants->getSize() % 3) == 0) updateAusMeasure();
+    return true;
+}
+bool Team::removeContestant(int contestantID){
+    if(!removeAux(contestantID)) return false;
+
+    if ((contestants->getSize() % 3) == 0) updateAusMeasure();
+    return true;
+}
 
 //returns true if contestant is in team. Returns false otherwise.
-bool Team::removeContestant(int contestantID) {
+bool Team::removeAux(int contestantID) {
     auto currentContestant = contestants->find(contestantID);
     if (!currentContestant) return false;
 
@@ -187,9 +198,10 @@ bool Team::removeContestant(int contestantID) {
 
     highStrTree->remove(contestantID,currentContestant->getStrength()); // this is incorrectly removing contestant 3 from the highStrTree
 
-    redistribute();
-    updateStrength();
-    updateAusMeasure();
+    if (((contestants->getSize() % 3) == 0) && (contestants->getSize() > 0)){
+        redistribute();
+        updateStrength();
+    }
     return true;
 
 }
@@ -226,7 +238,6 @@ void Team::uniteWith(shared_ptr<Team> other) {
 }
 
 void Team::print(){
-    if(this == nullptr) return;
     cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
     cout<<"Team ID: "<<getID()<<endl;
     cout<<"PreOrder: [";
@@ -236,7 +247,7 @@ void Team::print(){
     recursivePrintInOrder(strengths->root);
     cout<<"]"<<endl;
     cout<<"Team strength: "<<getStrength()<<endl;
-    cout<<"Austerity measure(not implemented yet): "<<getAusMeasure()<<endl;
+    cout<<"Austerity measure(implemented now): "<<getAusMeasure()<<endl;
     cout<<"Team Size: "<<strengths->getSize()<<endl;
     cout<<"Sport: "<<(int)getSport()<<endl;
     cout<<"Country ID: "<<getCountryID()<<endl;
@@ -260,20 +271,167 @@ void Team::recursivePrintPreOrder(shared_ptr<Node<Contestant>> node) {
     recursivePrintPreOrder(node->right);
 }
 
-// need implementation
 int Team::getAusMeasure() const{
-    //need to finish this
-    return 0;
-    if ((contestants->size % 3) != 0) return 0;
-
-    int max=0;
-    if (lowIDTree->size >= 3) {
-        int hypoStr3Low; //hypothetical strength 3 low. Meaning what would the strength be if we removed the 3 weakest people from low subtree.
-
-    }
+    if ( (contestants->getSize() > 0) && ((contestants->getSize() % 3) == 0) ) return ausMeasure;
+    else return 0;
 }
 
-void Team::updateAusMeasure(){
+// We remove the minimums calculate and then reinsert so we don't alter the tree for every scenario
+// returns true if AusMeasure was updated 0 if not.
 
+//Solution is "inefficient" but it is still O(logn). Other solutions are too complicated and require writing new logic.
+//I prefer relying on our previous logic which is more tested and reliable. And the complexity is still O(logn) so it's fine.
+bool Team::updateAusMeasure(){
+    if ( ((contestants->getSize() % 3) != 0 ) || (contestants->getSize() == 0) ) return false;
+
+    int initialStr = getStrength();
+    int max = initialStr; //current strength
+
+    //first scenario we remove the 3 weakest from the lower subtree.
+    if (lowIDTree->getSize() >= 3){
+        auto contestant1 = lowStrTree->minimum->data;// smallest
+        removeAux(contestant1->getID());
+        auto contestant2 = lowStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
+        removeAux(contestant2->getID());
+        auto contestant3 = lowStrTree->minimum->data;
+        removeAux(contestant3->getID());
+        max = getStrength() > max ? getStrength() : max; //calculating strength in this scenario
+
+        //returning the contestants back to the team, so it remains ultimately unaltered.
+        addAux(contestant1);
+        addAux(contestant2);
+        addAux(contestant3);
+    }
+
+    //exact same logic
+    if (midIDTree->getSize() >= 3){
+        auto contestant1 = midStrTree->minimum->data;// smallest
+        removeAux(contestant1->getID());
+        auto contestant2 = midStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
+        removeAux(contestant2->getID());
+        auto contestant3 = midStrTree->minimum->data;
+        removeAux(contestant3->getID());
+        max = getStrength() > max ? getStrength() : max;
+        addAux(contestant1);
+        addAux(contestant2);
+        addAux(contestant3);
+    }
+
+    if (highIDTree->getSize() >= 3){
+        auto contestant1 = highStrTree->minimum->data;// smallest
+        removeAux(contestant1->getID());
+        auto contestant2 = highStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
+        removeAux(contestant2->getID());
+        auto contestant3 = highStrTree->minimum->data;
+        removeAux(contestant3->getID());
+        max = getStrength() > max ? getStrength() : max;
+        addAux(contestant1);
+        addAux(contestant2);
+        addAux(contestant3);
+    }
+
+    //Scenario 4: removing 2 weakest from lower and 1 from middle
+    if (lowIDTree->getSize() >= 2 ){ //if lowIDTree has 2 contestants then midID should also have 2 because they're the same size before removal.
+        auto contestant1 = lowStrTree->minimum->data;// smallest
+        removeAux(contestant1->getID());
+        auto contestant2 = lowStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
+        removeAux(contestant2->getID());
+        auto contestant3 = midStrTree->minimum->data;
+        removeAux(contestant3->getID());
+        max = getStrength() > max ? getStrength() : max;
+        addAux(contestant1);
+        addAux(contestant2);
+        addAux(contestant3);
+    }
+
+    //Scenario 5: removing 2 weakest from lower and 1 from high
+    if (lowIDTree->getSize() >= 2 ){ //if lowIDTree has 2 contestants then midID should also have 2 because they're the same size before removal.
+        auto contestant1 = lowStrTree->minimum->data;// smallest
+        removeAux(contestant1->getID());
+        auto contestant2 = lowStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
+        removeAux(contestant2->getID());
+        auto contestant3 = highStrTree->minimum->data;
+        removeAux(contestant3->getID());
+        max = getStrength() > max ? getStrength() : max;
+        addAux(contestant1);
+        addAux(contestant2);
+        addAux(contestant3);
+    }
+
+    //Scenario 6: removing 2 weakest from middle and 1 from low
+    if (midIDTree->getSize() >= 2 ){ //if lowIDTree has 2 contestants then midID should also have 2 because they're the same size before removal.
+        auto contestant1 = midStrTree->minimum->data;// smallest
+        removeAux(contestant1->getID());
+        auto contestant2 = midStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
+        removeAux(contestant2->getID());
+        auto contestant3 = lowStrTree->minimum->data;
+        removeAux(contestant3->getID());
+        max = getStrength() > max ? getStrength() : max;
+        addAux(contestant1);
+        addAux(contestant2);
+        addAux(contestant3);
+    }
+
+    //Scenario 7: removing 2 weakest from middle and 1 from high
+    if (midIDTree->getSize() >= 2 ){ //if lowIDTree has 2 contestants then midID should also have 2 because they're the same size before removal.
+        auto contestant1 = midStrTree->minimum->data;// smallest
+        removeAux(contestant1->getID());
+        auto contestant2 = midStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
+        removeAux(contestant2->getID());
+        auto contestant3 = highStrTree->minimum->data;
+        removeAux(contestant3->getID());
+        max = getStrength() > max ? getStrength() : max;
+        addAux(contestant1);
+        addAux(contestant2);
+        addAux(contestant3);
+    }
+
+    //Scenario 8: removing 2 weakest from high and 1 from low
+    if (highIDTree->getSize() >= 2 ){ //if lowIDTree has 2 contestants then midID should also have 2 because they're the same size before removal.
+        auto contestant1 = highStrTree->minimum->data;// smallest
+        removeAux(contestant1->getID());
+        auto contestant2 = highStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
+        removeAux(contestant2->getID());
+        auto contestant3 = lowStrTree->minimum->data;
+        removeAux(contestant3->getID());
+        max = getStrength() > max ? getStrength() : max;
+        addAux(contestant1);
+        addAux(contestant2);
+        addAux(contestant3);
+    }
+
+    //Scenario 9: removing 2 weakest from high and 1 from mid
+    if (highIDTree->getSize() >= 2 ){ //if lowIDTree has 2 contestants then midID should also have 2 because they're the same size before removal. And we only enter function if we're checking scenarios where size is divisible by 3
+        auto contestant1 = highStrTree->minimum->data;// smallest
+        removeAux(contestant1->getID());
+        auto contestant2 = highStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
+        removeAux(contestant2->getID());
+        auto contestant3 = midStrTree->minimum->data;
+        removeAux(contestant3->getID());
+        max = getStrength() > max ? getStrength() : max;
+        addAux(contestant1);
+        addAux(contestant2);
+        addAux(contestant3);
+    }
+
+    //Scenario 10: removing weakest from each
+    if (lowIDTree->getSize() >= 1 ){
+        print();
+        auto contestant1 = lowStrTree->minimum->data;// smallest
+        removeAux(contestant1->getID());
+        auto contestant2 = midStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
+        removeAux(contestant2->getID());
+        auto contestant3 = highStrTree->minimum->data;
+        removeAux(contestant3->getID());
+        max = getStrength() > max ? getStrength() : max;
+        print();
+        addAux(contestant1);
+        addAux(contestant2);
+        addAux(contestant3);
+    }
+
+    //LOTS of copy paste
+    ausMeasure = max;
+    return (initialStr != max);
 }
 

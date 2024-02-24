@@ -26,7 +26,7 @@ int main() {
 //    cout << "UNCOMMENT shared_ptr<Tree<Country>> allCountries; in Country.h to see the error" << endl;
 
     //Test case 1:
-    Country someCountry(5,2);//testing Country constructor
+//testing Country constructor
 
 //    Team someTeam(3, Sport::SWIMMING, make_shared<Country>(someCountry));//testing team Constructor
 
@@ -36,6 +36,7 @@ int main() {
     Paris2024.add_country(222, 2);
     Paris2024.add_country(333, 3);
 
+    /*
     Paris2024.add_team(1, 111, Sport::SWIMMING);
     Paris2024.add_team(2, 111, Sport::SWIMMING);
 
@@ -98,6 +99,37 @@ int main() {
     cout << endl;
     cout << "*****************LOGIC ERROR*****************" << endl;
     cout << "team 1's strength should be 9" << endl;
+    */
+
+    cout<< "testing the example in the PDF for get_team_strength and get_aus_measure"<<endl;
+    Paris2024.add_team(3, 333, Sport::SWIMMING);
+    Paris2024.add_contestant(1, 333, Sport::SWIMMING, 2);
+    Paris2024.add_contestant(4, 333, Sport::SWIMMING, 5);
+    Paris2024.add_contestant(6, 333, Sport::SWIMMING, 3);
+    Paris2024.add_contestant(10, 333, Sport::SWIMMING, 10);
+    Paris2024.add_contestant(16, 333, Sport::SWIMMING, 11);
+    Paris2024.add_contestant(20, 333, Sport::SWIMMING, 15);
+    Paris2024.add_contestant(100, 333, Sport::SWIMMING, 7);
+    Paris2024.add_contestant(101, 333, Sport::SWIMMING, 6);
+    Paris2024.add_contestant(102, 333, Sport::SWIMMING, 4);
+
+    Paris2024.add_contestant_to_team(3, 1);
+    Paris2024.add_contestant_to_team(3, 4);
+    Paris2024.add_contestant_to_team(3, 6);
+    Paris2024.add_contestant_to_team(3, 10);
+    Paris2024.add_contestant_to_team(3, 16);
+    Paris2024.add_contestant_to_team(3, 20);
+    Paris2024.add_contestant_to_team(3, 100);
+    Paris2024.add_contestant_to_team(3, 101);
+    Paris2024.add_contestant_to_team(3, 102);
+
+    cout<<"get team strength = ";
+    cout<<Paris2024.get_team_strength(3).ans()<<endl;
+    cout<<"get aus measure = ";
+    cout<<Paris2024.austerity_measures(3).ans()<<endl;
+
+
+
 
 
     return 0;
