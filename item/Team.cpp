@@ -213,9 +213,8 @@ bool Team::removeAux(int contestantID) {
 void Team::uniteTeamsIntoThis(shared_ptr<Team> otherTeam){
 
     int numOfContestants = otherTeam->getNumberOfContestants();
-    auto* arr = copyTeamIntoArrayAndUpdateContestants(otherTeam);
 
-    auto currentContestant = arr[0];
+    auto* arr = copyTeamIntoArrayAndUpdateContestants(otherTeam);
 
     for (int i=0; i<numOfContestants; i++){
         if (arr[i]->isActiveInTeam(this->getID())) continue;
