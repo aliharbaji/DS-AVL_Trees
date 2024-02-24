@@ -210,39 +210,22 @@ bool Team::removeAux(int contestantID) {
 
 
 //Did a small change. Because before contestant removing himself from the team doesn't mean the team got updated. Seems fine.
-void Team::uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team){
-    if(!root) return;
+void Team::uniteTeamsIntoThis(shared_ptr<Team> otherTeam){
 
-    auto contestant = root->data;
+    int numOfContestants = otherTeam->getNumberOfContestants();
+    auto* arr = copyTeamIntoArrayAndUpdateContestants(otherTeam);
 
-    // check if contestant is already in the team
-    bool contestantIsAlreadyInTargetTeam = contestant->isActiveInTeam(this->getID()); // this takes O(1) time
-
-    // unite other contestants with the target team
-    uniteAux(root->left, team);
-    uniteAux(root->right, team);
-
-    if(contestantIsAlreadyInTargetTeam){
-        team->removeContestant(contestant->getID());
-        return;
+    auto currentContestant = arr[0];
+    bool contestantIsAlreadyInTargetTeam = currentContestant->isActiveInTeam(this->getID());
+    for (int i=0; i<numOfContestants; i++){
+        if (contestantIsAlreadyInTargetTeam) continue;
+        addContestant(arr[i]);
     }
-    // if the contestant is already in target team, we don't want to add him again so this part of the code becomes unreachable
-
-    //TODO: ugly bug! removing contestants from the other team changes that team's tree! After removal the tree could rebalance and change its shape. Meaning we have to go back to the root!
-    //TODO: we can reset contestant to point to the root after removal but this would change complexity O(nlogn)
-    //TODO: better traverse the other tree save the contestants in an array and then insert into "this" tree.
-    team->removeContestant(contestant->getID()); // important in order to make sure that the contestant can join a new team.
-    addContestant(root->data);
+    delete[] arr;
 
     //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
 }
 
-void Team::uniteWith(shared_ptr<Team> other) {
-    print();
-    other->print();
-    uniteAux(other->contestants->root, other);
-    print();
-}
 
 void Team::print(){
     cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
@@ -439,4 +422,24 @@ bool Team::updateAusMeasure(){
     ausMeasure = max;
     return (initialStr != max);
 }
+
+
+shared_ptr<Contestant>* Team::copyTeamIntoArrayAndUpdateContestants(shared_ptr<Team> team) {
+    int numOfContestants = team->getNumberOfContestants();
+    auto* arr = new shared_ptr<Contestant>[numOfContestants];
+    int i=0;
+    auxCopy(team->contestants->root, arr, i, team);
+    if (i != numOfContestants) throw logic_error("bug in copyArray");
+    return arr;
+}
+
+void Team::auxCopy(shared_ptr<Node<Contestant>> root, shared_ptr<Contestant>* arr, int& index, shared_ptr<Team> team) {
+    if (!root || !team || !arr) return; // Handle base case where root is null.
+
+    arr[index++] = root->data; // Use pre-calculated index, then increment.
+    root->data->removeTeam(team->getID());
+    if (root->right) auxCopy(root->right, arr, index, team); // Pass index by reference.
+    if (root->left) auxCopy(root->left, arr, index, team); // Pass index by reference.
+}
+
 

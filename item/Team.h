@@ -14,7 +14,7 @@
 
 class Contestant;
 class Country;
-
+//TODO: clean code and remove all cases of throwing logic_error which was mainly for debugging.
 //this is apparently necessary if you want to pass "this" instance of a class as a shared_ptr.
 class Team : public Item {
     Sport sport;
@@ -43,7 +43,10 @@ class Team : public Item {
     void moveHighToLow();
     void moveLowToHigh();
     void moveLowToMid();
-    void uniteAux(shared_ptr<Node<Contestant>> root, shared_ptr<Team> team);
+    bool addAux(shared_ptr<Contestant> contestant);
+    bool removeAux(int contestantID);
+    static shared_ptr<Contestant>* copyTeamIntoArrayAndUpdateContestants(shared_ptr<Team> team);
+    static void auxCopy(shared_ptr<Node<Contestant>> root, shared_ptr<Contestant>* arr, int& index, shared_ptr<Team> team);
 
 public:
     explicit Team(int teamID, Sport sport, std::shared_ptr<Country> myCountry)
@@ -72,12 +75,13 @@ public:
     bool removeContestant(int contestantID);
     Sport getSport() const;
     int getCountryID() const;
-    void uniteWith(shared_ptr<Team> other);
     void print();
     void recursivePrintPreOrder(shared_ptr<Node<Contestant>> node);
     void recursivePrintInOrder(shared_ptr<Node<Contestant>> node);
-    bool addAux(shared_ptr<Contestant> contestant);
-    bool removeAux(int contestantID);
+
+    void uniteTeamsIntoThis(shared_ptr<Team> team);
+
+
 };
 
 

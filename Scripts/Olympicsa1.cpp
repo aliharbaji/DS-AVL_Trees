@@ -290,9 +290,9 @@ StatusType Olympics::unite_teams(int teamId1,int teamId2){
 
     try{
         // this updates team1 (takes O(N2) time)
-        team1->uniteWith(team2);
+        team1->uniteTeamsIntoThis(team2);
         // destroy team2
-        teams->remove(teamId2);
+        teams->remove(teamId2); // this should effectively destruct team2 since it has no external references after we leave this scope.
         // update team2's country's number of teams
         team2->removeTeamFromItsCountry();
         // update the number of teams in the olympics
