@@ -26,7 +26,7 @@ int main() {
 //    cout << "UNCOMMENT shared_ptr<Tree<Country>> allCountries; in Country.h to see the error" << endl;
 
     //Test case 1:
-//testing Country constructor
+    //testing Country constructor
 
 //    Team someTeam(3, Sport::SWIMMING, make_shared<Country>(someCountry));//testing team Constructor
 
@@ -91,7 +91,7 @@ int main() {
     cout << "TEAM1 CORRECTLY CONTAINS CONTESTANTS 3, 2, 4" << endl;
     cout << "LOWERID MIDDLEID AND HIGHERID ARE CORRECTLY UPDATED" << endl;
     cout << "TEAM1'S LOWERSTRTREE AND MIDDLE AND HIGHER CONTAIN 0 ELEMENTS (THEY SHOULD CONTAIN 1 EACH)" << endl;
-    cout << "CHECK TODO COMMENTS" << endl;
+
     cout << "team1's strength shouldn't be 0 and should be calculated properly" << endl;
     cout << "99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999" << endl;
 //    cout << Paris2024.get_team_strength(1).ans() << endl;
