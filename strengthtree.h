@@ -327,6 +327,7 @@ public:
             root = insertRecursively(root, item);
         }
         catch(const bad_alloc& e){
+            throw;
             //Need to manage this exception in the olympics class.
         }
         size++;
