@@ -148,7 +148,7 @@ bool Team::addAux(shared_ptr<Contestant> contestant){
         lowIDTree->insert(contestant);
         lowStrTree->insert(contestant);
 
-    } else if(midIDTree->getSize() == 0 ||(contestant->getID() < midIDTree->maximum->getID())){
+    } else if(midIDTree->getSize() == 0 || (contestant->getID() < midIDTree->maximum->getID())){
         midIDTree->insert(contestant);
         midStrTree->insert(contestant);
 

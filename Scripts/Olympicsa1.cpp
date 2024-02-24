@@ -213,14 +213,16 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
     int numOfTeams = contestant->getNumOfActiveTeams();
     int tempTeams[numOfTeams];
 
-    for(int i = 0; i < numOfTeams; i++){
-        int teamID = contestant->getTeamID(i);
-        // removes the contestant from the team
-        shared_ptr<Team> team = teams->find(teamID);
-        team->removeContestant(contestantId);
 
-        // updates tempTeams, needed for reinserting the contestant
-        tempTeams[i] = teamID;
+    tempTeams[0] = contestant->getTeamID(0);
+    tempTeams[1] = contestant->getTeamID(1);
+    tempTeams[2] = contestant->getTeamID(2);
+
+    for(int i = 0; i < MAX_TEAM_SIZE; i++){
+        if(tempTeams[i] == -1) break;
+        // removes the contestant from the team
+        shared_ptr<Team> team = teams->find(tempTeams[i]);
+        team->removeContestant(contestantId);
     }
 
     // remove Contestant from allContestants
@@ -229,7 +231,7 @@ StatusType Olympics::update_contestant_strength(int contestantId ,int change){
     // updates the strength of the contestant
     contestant->updateStrength(change);
 
-
+    // TODO: check if unnecessary, it probably isn't
     // reinsert the updated Contestant to allContestants
     contestants->insert(contestant);
 
