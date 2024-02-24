@@ -123,3 +123,31 @@ play_match 12 33
 play_match 35 12
 play_match 13 12
 play_match 10 11
+get_team_strength 11
+get_team_strength 12
+get_medals 5
+get_medals 1
+play_match 12 11
+get_team_strength 11
+get_team_strength 12
+get_medals 5
+get_medals 1
+remove_contestant_from_team 10 26
+get_team_strength 10
+get_team_strength 14
+unite_teams 0 0
+get_medals 5
+get_medals 5
+play_match 10 14
+get_team_strength 10
+get_team_strength 14
+get_medals 5
+get_medals 5
+austerity_measures 10
+unite_teams 30 10
+unite_teams 10 30
+unite_teams 10 10
+unite_teams 10 -2
+unite_teams -3 10
+unite_teams 13 10
+unite_teams 13 12

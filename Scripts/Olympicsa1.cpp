@@ -288,7 +288,7 @@ StatusType Olympics::unite_teams(int teamId1,int teamId2){
     shared_ptr<Team> team1 = teams->find(teamId1);
     shared_ptr<Team> team2 = teams->find(teamId2);
 
-    if((team1->getSport() != team2->getSport()) || (team1->getCountryID() != team2->getCountryID())){
+    if(!team1 || !team2 || (team1->getSport() != team2->getSport()) || (team1->getCountryID() != team2->getCountryID())){
         return StatusType::FAILURE;
     }
 
