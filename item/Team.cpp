@@ -416,7 +416,6 @@ bool Team::updateAusMeasure(){
 
     //Scenario 10: removing weakest from each
     if (lowIDTree->getSize() >= 1 ){
-        print();
         auto contestant1 = lowStrTree->minimum->data;// smallest
         removeAux(contestant1->getID());
         auto contestant2 = midStrTree->minimum->data; //2nd smallest(because we removed the smallest so now 2nd smallest is the new smallest
@@ -424,7 +423,6 @@ bool Team::updateAusMeasure(){
         auto contestant3 = highStrTree->minimum->data;
         removeAux(contestant3->getID());
         max = getStrength() > max ? getStrength() : max;
-        print();
         addAux(contestant1);
         addAux(contestant2);
         addAux(contestant3);
