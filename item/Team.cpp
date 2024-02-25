@@ -213,15 +213,18 @@ bool Team::removeAux(int contestantID) {
 void Team::uniteTeamsIntoThis(shared_ptr<Team> otherTeam){
 
     int numOfContestants = otherTeam->getNumberOfContestants();
+    shared_ptr<Contestant>* arr;
+    try {
+        arr = copyTeamIntoArrayAndUpdateContestants(otherTeam);
 
-    auto* arr = copyTeamIntoArrayAndUpdateContestants(otherTeam);
-
-    for (int i=0; i<numOfContestants; i++){
+    } catch (exception& e) {
+        throw e;
+    }
+    for (int i = 0; i < numOfContestants; i++) {
         if (arr[i]->isActiveInTeam(this->getID())) continue;
         addContestant(arr[i]);
     }
     delete[] arr;
-
     //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
 }
 
@@ -425,7 +428,13 @@ bool Team::updateAusMeasure(){
 
 shared_ptr<Contestant>* Team::copyTeamIntoArrayAndUpdateContestants(shared_ptr<Team> team) {
     int numOfContestants = team->getNumberOfContestants();
-    auto* arr = new shared_ptr<Contestant>[numOfContestants];
+    shared_ptr<Contestant>* arr;
+    try{
+        arr = new shared_ptr<Contestant>[numOfContestants];
+
+    }catch(bad_alloc& e){
+        throw e;
+    }
     int i=0;
     auxCopy(team->contestants->root, arr, i, team);
     if (i != numOfContestants) throw logic_error("bug in copyArray");
