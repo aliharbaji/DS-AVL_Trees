@@ -3,7 +3,7 @@
 //
 #include "node.h"
 #include <stdexcept>
-
+#include "math.h"
 #ifndef AVLTREES_TREE_H
 template <typename T>
 
@@ -323,7 +323,64 @@ public:
 //        inorderedDeletion(root->right);
 //        this->remove(root->data->getID());
 //    }
+    // TODO: ***************************************************************************************
+    // TODO: CHECK THESE CODE BLOCKS FOR AN IDEA OF HOW TO IMPLEMENT THE MERGING PROCESS,
+    //  all functions seem to work as expected, except for the outOrderDeletion function,
+    //  that performs an adjusted inOrder traversal to delete the last elements of the tree as explained in tutorial #4.
+    //  I called the function outOrderDeletion, because it should perform a traversal from the rightmost node to the leftmost node,
+    //  which is the opposite of the inOrder traversal.
+    //
 
+    // TODO: move to private
+    void inorderAddToArray(shared_ptr<Node<T>> root, shared_ptr<T>* arr, int& index){
+        if (root == nullptr) return;
+        inorderAddToArray(root->left, arr, index);
+        arr[index++] = root->data;
+        inorderAddToArray(root->right, arr, index);
+    }
+    //this function returns a sorted array of the elements in the tree.
+    shared_ptr<T>* returnSortedArrayOfElements(){
+        if (size == 0) return nullptr;
+        auto arr = new shared_ptr<T>[size];
+        int index = 0;
+        inorderAddToArray(root, arr, index);
+        return arr;
+    }
+
+    // TODO: move to private
+    void outOrderDeletion(int numOfDeletions, shared_ptr<Node<T>> node){
+        if(numOfDeletions <= 0 || !node) return;
+
+        outOrderDeletion(numOfDeletions - 1, node->right);
+        shared_ptr<Node<T>> max = getMaxNode(node);
+        max = nullptr;
+        outOrderDeletion(numOfDeletions - 1, node->left);
+    }
+    // this function makes a complete tree with floor(log2(numOfElements + 1)) height and then deletes the extra nodes.
+    // ourOrderDeletion is used to delete the extra nodes.
+    void makeEmptyCompleteTree(int numOfElements){
+        int h = ceil(log2(numOfElements + 1));
+        root = makeEmptyCompleteTreeAux(h);
+        // TODO: fix outOrderDeletion to remove nodes that have no ID and whose data field is nullptr
+        outOrderDeletion(size - numOfElements, root);
+        root->size = numOfElements;
+        size = numOfElements;
+        minimum = getMinNode(root);
+        maximum = getMaxNode(root);
+    }
+
+    // TODO: move to private
+    shared_ptr<Node<T>> makeEmptyCompleteTreeAux(int h){
+        if (h == 0) return nullptr;
+
+        auto node = make_shared<Node<T>>(nullptr);
+        node->left = makeEmptyCompleteTreeAux(h-1);
+        node->right = makeEmptyCompleteTreeAux(h-1);
+        if (node->left) node->left->parent = node;
+        if (node->right) node->right->parent = node;
+        return node;
+    }
+    // TODO: ***************************************************************************************
 };
 #define AVLTREES_TREE_H
 

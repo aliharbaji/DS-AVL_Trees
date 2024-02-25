@@ -79,6 +79,7 @@ public:
     void recursivePrintPreOrder(shared_ptr<Node<Contestant>> node);
     void recursivePrintInOrder(shared_ptr<Node<Contestant>> node);
 
+    void uniteWith(shared_ptr<Team> other);
     void uniteTeamsIntoThis(shared_ptr<Team> team);
 
 

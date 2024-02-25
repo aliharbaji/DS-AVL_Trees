@@ -21,6 +21,35 @@ void print(StatusType res) {
 
 
 int main() {
+
+    Tree<Country> emptyTree;
+    emptyTree.makeEmptyCompleteTree(5);
+
+    cout << "emptyTree size: " << emptyTree.getSize() << endl;
+
+
+
+    return 0;
+    Tree<Country> tree;
+    shared_ptr<Country> c1 = make_shared<Country>(1, 1);
+    shared_ptr<Country> c2 = make_shared<Country>(2, 2);
+    shared_ptr<Country> c3 = make_shared<Country>(3, 3);
+    shared_ptr<Country> c4 = make_shared<Country>(4, 4);
+    shared_ptr<Country> c5 = make_shared<Country>(5, 5);
+
+    tree.insert(c1);
+    tree.insert(c2);
+    tree.insert(c3);
+    tree.insert(c4);
+    tree.insert(c5);
+
+    auto a1 = tree.returnSortedArrayOfElements();
+
+    for (int i = 0; i < 5; i++) {
+        cout << a1[i]->getID() << endl;
+    }
+
+
     StatusType type;
 //    cout << "UNCOMMENT shared_ptr<Country> myCountry; in Team.h to see the error" << endl;
 //    cout << "UNCOMMENT shared_ptr<Tree<Country>> allCountries; in Country.h to see the error" << endl;
@@ -35,6 +64,7 @@ int main() {
     Paris2024.add_country(111, 1); // gives a seg fault
     Paris2024.add_country(222, 2);
     Paris2024.add_country(333, 3);
+
 
     /*
     Paris2024.add_team(1, 111, Sport::SWIMMING);
@@ -101,7 +131,7 @@ int main() {
     cout << "team 1's strength should be 9" << endl;
     */
 
-    cout<< "testing the example in the PDF for get_team_strength and get_aus_measure"<<endl;
+//    cout<< "testing the example in the PDF for get_team_strength and get_aus_measure"<<endl;
     Paris2024.add_team(3, 333, Sport::SWIMMING);
     Paris2024.add_contestant(1, 333, Sport::SWIMMING, 2);
     Paris2024.add_contestant(4, 333, Sport::SWIMMING, 5);

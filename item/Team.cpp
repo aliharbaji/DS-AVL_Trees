@@ -447,4 +447,14 @@ void Team::auxCopy(shared_ptr<Node<Contestant>> root, shared_ptr<Contestant>* ar
     if (root->left) auxCopy(root->left, arr, index, team); // Pass index by reference.
 }
 
+void Team::uniteWith(shared_ptr<Team> other) {
+    auto contestants1 = contestants->returnSortedArrayOfElements();
+    auto contestants2 = other->contestants->returnSortedArrayOfElements();
+    // this function should also unite the 6 sub-trees this is beginning to stress me out
+
+    // emptyTree = makeEmptyTree(n1 + n2);
+    // perform inorder on emptyTree and insert the elements from the two trees
+    // contestants = emptyTree
+}
+
 
