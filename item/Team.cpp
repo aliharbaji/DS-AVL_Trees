@@ -79,7 +79,7 @@ void Team::redistribute() {
     int desiredSize = totalSize / 3;
 
     if (totalSize % 3 == 0) {
-        //this function is O(logn) complexity because the excess in one subtree is at most 3 before we redistribute.
+        //this function is O(log(n)) complexity because the excess in one subtree is at most 3 before we redistribute.
         //we call this only after insert and deletion.
         while (lowIDTree->getSize() != desiredSize || midIDTree->getSize() != desiredSize || highIDTree->getSize() != desiredSize) {
             // Address excess in highIDTree
@@ -127,9 +127,7 @@ void Team::updateStrength() {
 //Maybe can clean this by making "findKthSmallest" just return the value instead of the node itself.
 bool Team::addAux(shared_ptr<Contestant> contestant){
 
-    // redundant, will make sure to check these in Olympic's add_contestant_to_team function for a cleaner code.
-    // it wouldn't hurt to keep as is, will not change that in the time being
-    // check if contestant has same sport and country as team
+
     if ((sport != contestant->getSport()) || (myCountry.lock()->getID() != contestant->getCountryID())) return false;
     //Check if contestant is not in maximum teams to enter a new team.
     if (!contestant->isAvailable() || contestant->isActiveInTeam(this->getID())) return false;
@@ -216,7 +214,6 @@ void Team::uniteTeamsIntoThis(shared_ptr<Team> otherTeam){
     shared_ptr<Contestant>* arr;
     try {
         arr = copyTeamIntoArrayAndUpdateContestants(otherTeam);
-
     } catch (exception& e) {
         throw e;
     }
@@ -268,11 +265,11 @@ int Team::getAusMeasure() const{
     else return 0;
 }
 
-// We remove the minimums calculate and then reinsert so we don't alter the tree for every scenario
+// We remove the minimums calculate and then reinsert, so we don't alter the tree for every scenario
 // returns true if AusMeasure was updated 0 if not.
 
-//Solution is "inefficient" but it is still O(logn). Other solutions are too complicated and require writing new logic.
-//I prefer relying on our previous logic which is more tested and reliable. And the complexity is still O(logn) so it's fine.
+//Solution is "inefficient" but it is still O(log(n)). Other solutions are too complicated and require writing new logic.
+//I prefer relying on our previous logic which is more tested and reliable. And the complexity is still O(log(n)) so it's fine.
 bool Team::updateAusMeasure(){
     if ( ((contestants->getSize() % 3) != 0 ) || (contestants->getSize() == 0) ) return false;
 
@@ -420,7 +417,7 @@ bool Team::updateAusMeasure(){
         addAux(contestant3);
     }
 
-    //LOTS of copy paste
+
     ausMeasure = max;
     return (initialStr != max);
 }
