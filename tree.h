@@ -351,10 +351,13 @@ public:
     void outOrderDeletion(int numOfDeletions, shared_ptr<Node<T>> node){
         if(numOfDeletions <= 0 || !node) return;
 
-        outOrderDeletion(numOfDeletions - 1, node->right);
-        shared_ptr<Node<T>> max = getMaxNode(node);
-        max = nullptr;
-        outOrderDeletion(numOfDeletions - 1, node->left);
+        outOrderDeletion(numOfDeletions, node->right);
+        if(node->right == nullptr && node->left == nullptr) {
+            auto parent = node->parent;
+            node = nullptr;
+            numOfDeletions--;
+        }
+        outOrderDeletion(numOfDeletions , node->left);
     }
     // this function makes a complete tree with floor(log2(numOfElements + 1)) height and then deletes the extra nodes.
     // ourOrderDeletion is used to delete the extra nodes.
