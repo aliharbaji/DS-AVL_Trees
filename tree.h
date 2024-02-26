@@ -353,7 +353,7 @@ public:
             return;
 
         outOrderDeletion(numOfDeletions, node->right);
-
+        if(node == nullptr) return;
         // this should delete the node if it is a leaf
         if (node->right == nullptr && node->left == nullptr && numOfDeletions) { // if this node is a leaf delete it
             auto parent = node->parent;
@@ -363,7 +363,7 @@ public:
                     parent->left = nullptr;
                 else if (parent->right == node)
                     parent->right = nullptr;
-
+                node->parent = nullptr;
                 // update height and size of the parent
                 parent->height = 1 + max(getHeight(parent->left), getHeight(parent->right));
                 parent->size = 1 + getSize(parent->left) + getSize(parent->right);
