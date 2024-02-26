@@ -332,11 +332,11 @@ public:
     //
 
     // TODO: move to private
-    void inorderAddToArray(shared_ptr<Node<T>> root, shared_ptr<T>* arr, int& index){
-        if (root == nullptr) return;
-        inorderAddToArray(root->left, arr, index);
-        arr[index++] = root->data;
-        inorderAddToArray(root->right, arr, index);
+    void inorderAddToArray(shared_ptr<Node<T>> node, shared_ptr<T>* arr, int& index){
+        if (node == nullptr || arr == nullptr) return;
+        inorderAddToArray(node->left, arr, index);
+        arr[index++] = node->data;
+        inorderAddToArray(node->right, arr, index);
     }
     //this function returns a sorted array of the elements in the tree.
     shared_ptr<T>* returnSortedArrayOfElements(){
@@ -348,24 +348,40 @@ public:
     }
 
     // TODO: move to private
-    void outOrderDeletion(int numOfDeletions, shared_ptr<Node<T>> node){
-        if(numOfDeletions <= 0 || !node) return;
+    void outOrderDeletion(int& numOfDeletions, shared_ptr<Node<T>>& node) {
+        if (numOfDeletions <= 0 || !node)
+            return;
 
         outOrderDeletion(numOfDeletions, node->right);
-        if(node->right == nullptr && node->left == nullptr) {
+
+        if (node->right == nullptr && node->left == nullptr) { // if this node is a leaf delete it
             auto parent = node->parent;
-            node = nullptr;
+
+            if (parent) {
+                if (parent->left == node)
+                    parent->left = nullptr;
+                else if (parent->right == node)
+                    parent->right = nullptr;
+            }
+            node = nullptr; // Set node to nullptr to release memory.
             numOfDeletions--;
+            // update height and size of the parent
+            parent->height = 1 + max(getHeight(parent->left), getHeight(parent->right));
+            parent->size = 1 + getSize(parent->left) + getSize(parent->right);
+
         }
-        outOrderDeletion(numOfDeletions , node->left);
+
+        outOrderDeletion(numOfDeletions, node->left);
     }
+
     // this function makes a complete tree with floor(log2(numOfElements + 1)) height and then deletes the extra nodes.
     // ourOrderDeletion is used to delete the extra nodes.
     void makeEmptyCompleteTree(int numOfElements){
         int h = ceil(log2(numOfElements + 1));
         root = makeEmptyCompleteTreeAux(h);
         // TODO: fix outOrderDeletion to remove nodes that have no ID and whose data field is nullptr
-        outOrderDeletion(size - numOfElements, root);
+        int numOfDeletions = size - numOfElements;
+        outOrderDeletion(numOfDeletions, root);
         root->size = numOfElements;
         size = numOfElements;
         minimum = getMinNode(root);
@@ -377,6 +393,7 @@ public:
         if (h == 0) return nullptr;
 
         auto node = make_shared<Node<T>>(nullptr);
+        node->height = h;
         node->left = makeEmptyCompleteTreeAux(h-1);
         node->right = makeEmptyCompleteTreeAux(h-1);
         if (node->left) node->left->parent = node;

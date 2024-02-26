@@ -23,13 +23,11 @@ void print(StatusType res) {
 int main() {
 
     Tree<Country> emptyTree;
-    emptyTree.makeEmptyCompleteTree(5);
+    emptyTree.makeEmptyCompleteTree(8);
 
     cout << "emptyTree size: " << emptyTree.getSize() << endl;
 
 
-
-    return 0;
     Tree<Country> tree;
     shared_ptr<Country> c1 = make_shared<Country>(1, 1);
     shared_ptr<Country> c2 = make_shared<Country>(2, 2);
@@ -48,6 +46,9 @@ int main() {
     for (int i = 0; i < 5; i++) {
         cout << a1[i]->getID() << endl;
     }
+    cout << "the function returnSortedArrayOfElements works" << endl;
+    return 0;
+
 
 
     StatusType type;
