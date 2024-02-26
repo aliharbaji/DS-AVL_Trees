@@ -27,7 +27,7 @@ int main() {
 
     cout << "emptyTree size: " << emptyTree.getSize() << endl;
 
-
+    return 0;
     Tree<Country> tree;
     shared_ptr<Country> c1 = make_shared<Country>(1, 1);
     shared_ptr<Country> c2 = make_shared<Country>(2, 2);

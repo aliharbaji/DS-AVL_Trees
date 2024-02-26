@@ -384,6 +384,7 @@ public:
         // h should be the smallest height that can hold numOfElements
         int h = ceil(log2(numOfElements + 1));
         root = makeEmptyCompleteTreeAux(h);
+        size = pow(2, h) - 1;
         // TODO: fix outOrderDeletion to remove nodes that have no ID and whose data field is nullptr
         int numOfDeletions = size - numOfElements;
         outOrderDeletion(numOfDeletions, root);
@@ -399,6 +400,7 @@ public:
 
         auto node = make_shared<Node<T>>(nullptr);
         node->height = h;
+        node->size = pow(2, h) - 1;
         node->left = makeEmptyCompleteTreeAux(h-1);
         node->right = makeEmptyCompleteTreeAux(h-1);
         if (node->left) node->left->parent = node;
