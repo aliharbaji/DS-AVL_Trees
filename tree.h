@@ -362,12 +362,14 @@ public:
                     parent->left = nullptr;
                 else if (parent->right == node)
                     parent->right = nullptr;
+
+                // update height and size of the parent
+                parent->height = 1 + max(getHeight(parent->left), getHeight(parent->right));
+                parent->size = 1 + getSize(parent->left) + getSize(parent->right);
             }
             node = nullptr; // Set node to nullptr to release memory.
             numOfDeletions--;
-            // update height and size of the parent
-            parent->height = 1 + max(getHeight(parent->left), getHeight(parent->right));
-            parent->size = 1 + getSize(parent->left) + getSize(parent->right);
+
 
         }
 
