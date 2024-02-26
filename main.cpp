@@ -23,7 +23,7 @@ void print(StatusType res) {
 int main() {
 
     Tree<Country> emptyTree;
-    emptyTree.makeEmptyCompleteTree(8);
+    emptyTree.makeEmptyCompleteTree(6);
 
     cout << "emptyTree size: " << emptyTree.getSize() << endl;
 

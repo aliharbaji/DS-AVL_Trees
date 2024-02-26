@@ -354,7 +354,8 @@ public:
 
         outOrderDeletion(numOfDeletions, node->right);
 
-        if (node->right == nullptr && node->left == nullptr) { // if this node is a leaf delete it
+        // this should delete the node if it is a leaf
+        if (node->right == nullptr && node->left == nullptr && numOfDeletions) { // if this node is a leaf delete it
             auto parent = node->parent;
 
             if (parent) {
@@ -379,6 +380,8 @@ public:
     // this function makes a complete tree with floor(log2(numOfElements + 1)) height and then deletes the extra nodes.
     // ourOrderDeletion is used to delete the extra nodes.
     void makeEmptyCompleteTree(int numOfElements){
+
+        // h should be the smallest height that can hold numOfElements
         int h = ceil(log2(numOfElements + 1));
         root = makeEmptyCompleteTreeAux(h);
         // TODO: fix outOrderDeletion to remove nodes that have no ID and whose data field is nullptr
