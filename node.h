@@ -17,10 +17,10 @@ private:
 
 public:
     shared_ptr<T> data;
-    shared_ptr<Node<T>> left, right;
-    shared_ptr<Node<T>> parent;
     int height;
     int size; //We need to know the size of each subtree for efficiently dividing the tree into subtrees.
+    shared_ptr<Node<T>> left, right;
+    shared_ptr<Node<T>> parent;
 
     Node(shared_ptr<T> data): data(data),  height(0), size(1),
     left(nullptr), right(nullptr), parent(){}

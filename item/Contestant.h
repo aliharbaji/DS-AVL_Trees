@@ -18,12 +18,11 @@ class Team;
 
 class Contestant : public Item{
 
+    weak_ptr<Country> myCountry;
     Sport sport;
     int strength;
     int numOfTeams;
     int myTeams[MAX_TEAMS];
-    //On the other hand he definitely needs a pointer to his country because the complexity requires it.
-    weak_ptr<Country> myCountry;
 public:
     explicit Contestant(int contestantID, weak_ptr<Country> country, Sport sport, int strength);
     int getNumOfActiveTeams() const;

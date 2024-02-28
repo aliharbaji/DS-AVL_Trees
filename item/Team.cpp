@@ -207,23 +207,23 @@ bool Team::removeAux(int contestantID) {
 
 
 
-//Did a small change. Because before contestant removing himself from the team doesn't mean the team got updated. Seems fine.
-void Team::uniteTeamsIntoThis(shared_ptr<Team> otherTeam){
-
-    int numOfContestants = otherTeam->getNumberOfContestants();
-    shared_ptr<Contestant>* arr;
-    try {
-        arr = copyTeamIntoArrayAndUpdateContestants(otherTeam);
-    } catch (exception& e) {
-        throw e;
-    }
-    for (int i = 0; i < numOfContestants; i++) {
-        if (arr[i]->isActiveInTeam(this->getID())) continue;
-        addContestant(arr[i]);
-    }
-    delete[] arr;
-    //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
-}
+////Did a small change. Because before contestant removing himself from the team doesn't mean the team got updated. Seems fine.
+//void Tea m: :  uniteTeamsIntoThis(shared_ptr<Team> otherTeam){
+//
+//    int numOfContestants = otherTeam->getNumberOfContestants();
+//    shared_ptr<Contestant>* arr;
+//    try {
+//        arr = copyTeamIntoArrayAndUpdateContestants(otherTeam);
+//    } catch (exception& e) {
+//        throw e;
+//    }
+//    for (int i = 0; i < numOfContestants; i++) {
+//        if (arr[i]->isActiveInTeam(this->getID())) continue;
+//        addContestant(arr[i]);
+//    }
+//    delete[] arr;
+//    //contestant->addTeam(shared_from_this()); //argument is method which converts the "this" pointer into shared_ptr
+//}
 
 
 //void Team::print(){

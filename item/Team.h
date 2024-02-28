@@ -18,8 +18,8 @@ class Country;
 //this is apparently necessary if you want to pass "this" instance of a class as a shared_ptr.
 class Team : public Item {
     Sport sport;
-    int strength;
     weak_ptr<Country> myCountry; //changed this to weak_ptr
+    int strength;
     int ausMeasure;
 
     shared_ptr<Tree<Contestant>> contestants;
@@ -81,7 +81,7 @@ public:
     void recursivePrintInOrder(shared_ptr<Node<Contestant>> node);
 
     void uniteWith(shared_ptr<Team> other);
-    void uniteTeamsIntoThis(shared_ptr<Team> team);
+//    void uniteTeamsIntoThis(shared_ptr<Team> team);
 
 
 };

@@ -27,15 +27,12 @@ const int MAX_TEAM_SIZE = 3;
 
 class Olympics {
 private:
-	//
-	// Here you may add anything you want
-	//
-	shared_ptr<Tree<Country>> countries;
     int numberOfCountries;
-    shared_ptr<Tree<Team>> teams;
     int numberOfTeams;
-    shared_ptr<Tree<Contestant>> contestants;
     int numberOfContestants;
+	shared_ptr<Tree<Country>> countries;
+    shared_ptr<Tree<Team>> teams;
+    shared_ptr<Tree<Contestant>> contestants;
 public:
 	// <DO-NOT-MODIFY> {
 
