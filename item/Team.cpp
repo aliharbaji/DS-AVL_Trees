@@ -466,25 +466,27 @@ void Team::uniteWith(shared_ptr<Team> other) {
     int mergedMidIDSize = (totalIDSize / 3) + (((totalIDSize % 3) == 2 ) ? 1 : 0);
     int mergedHighIDSize = totalIDSize / 3;
 
-
     this->contestants = make_shared<Tree<Contestant>>(mergedIDArr, totalIDSize);
     this->strengths = make_shared<STree<Contestant>>(mergedStrArr, totalStrSize);
     this->lowIDTree = make_shared<Tree<Contestant>>(mergedIDArr, mergedLowIDSize);
-    this->midIDTree = make_shared<Tree<Contestant>>(mergedIDArr, mergedMidIDSize);
-    this->highIDTree = make_shared<Tree<Contestant>>(mergedIDArr, mergedHighIDSize);
+    this->midIDTree = make_shared<Tree<Contestant>>(mergedIDArr+mergedLowIDSize, mergedMidIDSize);
+    this->highIDTree = make_shared<Tree<Contestant>>(mergedIDArr+mergedLowIDSize+mergedMidIDSize, mergedHighIDSize);
 
-    auto mergedLowStr = new shared_ptr<Contestant>[mergedLowIDSize+3];
-    auto mergedMidStr = new shared_ptr<Contestant>[mergedMidIDSize+3];
-    auto mergedHighStr = new shared_ptr<Contestant>[mergedHighIDSize+3];
+    auto mergedLowStr = new shared_ptr<Contestant>[mergedLowIDSize];
+    auto mergedMidStr = new shared_ptr<Contestant>[mergedMidIDSize];
+    auto mergedHighStr = new shared_ptr<Contestant>[mergedHighIDSize];
 
 
     int l = 0, m = 0, h = 0;
     for (int i = 0; i < totalStrSize; i++) {
-        if (mergedStrArr[i]->getID() < lowIDTree->maximum->getID()) {
+        //update new contestants that they joined the team.
+        if (!mergedStrArr[i]->isActiveInTeam(this->getID())) mergedStrArr[i]->addTeam(this->getID());
+
+        if (mergedStrArr[i]->getID() <= lowIDTree->maximum->getID()) {
             mergedLowStr[l] = mergedStrArr[i];
             l++;
         }
-        else if (mergedStrArr[i]->getID() < midIDTree->maximum->getID()) {
+        else if (mergedStrArr[i]->getID() <= midIDTree->maximum->getID()) {
             mergedMidStr[m] = mergedStrArr[i];
             m++;
         }

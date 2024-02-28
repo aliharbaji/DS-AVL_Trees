@@ -9,6 +9,7 @@
 //
 #include "node.h"
 #include <stdexcept>
+#include <iostream>
 
 
 template <typename T>
@@ -423,7 +424,29 @@ public:
         return arr;
     }
 
+    void printTree(){
+        cout<<"PreOrder: [";
+        TreePrintPreOrder(root);
+        cout<<"]"<<endl;
+        cout<<"InOrder: [";
+        TreePrintInOrder(root);
+        cout<<"]"<<endl;
+    }
 
+    void TreePrintInOrder(shared_ptr<Node<T>> node) {
+        if (!node) return;
+        TreePrintInOrder(node->left);
+        cout<<"("<<"str:"<<node->getStrength()<<", "<<"id: "<<node->getID()<<")";
+        TreePrintInOrder(node->right);
+    }
+
+
+    void TreePrintPreOrder(shared_ptr<Node<T>> node) {
+        if (!node) return;
+        cout<<"("<<"str:"<<node->getStrength()<<", "<<"id: "<<node->getID()<<")";
+        TreePrintPreOrder(node->left);
+        TreePrintPreOrder(node->right);
+    }
 };
 
 
