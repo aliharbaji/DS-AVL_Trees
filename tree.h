@@ -353,13 +353,6 @@ public:
 //        inorderedDeletion(root->right);
 //        this->remove(root->data->getID());
 //    }
-    // TODO: ***************************************************************************************
-    // TODO: CHECK THESE CODE BLOCKS FOR AN IDEA OF HOW TO IMPLEMENT THE MERGING PROCESS,
-    //  all functions seem to work as expected, except for the outOrderDeletion function,
-    //  that performs an adjusted inOrder traversal to delete the last elements of the tree as explained in tutorial #4.
-    //  I called the function outOrderDeletion, because it should perform a traversal from the rightmost node to the leftmost node,
-    //  which is the opposite of the inOrder traversal.
-    //
 
     // TODO: move to private
     void inorderAddToArray(shared_ptr<Node<T>> node, shared_ptr<T>* arr, int& index){

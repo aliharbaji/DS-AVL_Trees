@@ -226,24 +226,24 @@ void Team::uniteTeamsIntoThis(shared_ptr<Team> otherTeam){
 }
 
 
-void Team::print(){
-    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
-    cout<<"Team ID: "<<getID()<<endl;
-    cout<<"PreOrder: [";
-    recursivePrintPreOrder(strengths->root);
-    cout<<"]"<<endl;
-    cout<<"InOrder: [";
-    recursivePrintInOrder(strengths->root);
-    cout<<"]"<<endl;
-    cout<<"Team strength: "<<getStrength()<<endl;
-    cout<<"Austerity measure(implemented now): "<<getAusMeasure()<<endl;
-    cout<<"Team Size: "<<strengths->getSize()<<endl;
-    cout<<"Sport: "<<(int)getSport()<<endl;
-    cout<<"Country ID: "<<getCountryID()<<endl;
-    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
-
-
-}
+//void Team::print(){
+//    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
+//    cout<<"Team ID: "<<getID()<<endl;
+//    cout<<"PreOrder: [";
+//    recursivePrintPreOrder(strengths->root);
+//    cout<<"]"<<endl;
+//    cout<<"InOrder: [";
+//    recursivePrintInOrder(strengths->root);
+//    cout<<"]"<<endl;
+//    cout<<"Team strength: "<<getStrength()<<endl;
+//    cout<<"Austerity measure(implemented now): "<<getAusMeasure()<<endl;
+//    cout<<"Team Size: "<<strengths->getSize()<<endl;
+//    cout<<"Sport: "<<(int)getSport()<<endl;
+//    cout<<"Country ID: "<<getCountryID()<<endl;
+//    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
+//
+//
+//}
 
 void Team::recursivePrintInOrder(shared_ptr<Node<Contestant>> node) {
     if (!node) return;

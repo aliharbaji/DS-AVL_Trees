@@ -21,9 +21,6 @@ void print(string cmd, output_t<int> res);
 
 int main()
 {
-    // TODO: remove later
-	cout << "RUN THIS WITH newTest.in" << endl;
-    cout << "go to https://www.diffchecker.com/text-compare/ to compare with the contents of newTestOut.in" << endl;
     int d1, d2, d3, g1;
     string b1;
     bool b;

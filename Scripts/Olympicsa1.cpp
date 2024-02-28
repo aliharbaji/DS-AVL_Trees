@@ -154,7 +154,6 @@ StatusType Olympics::remove_contestant(int contestantId){
 }
 
 // not final for sure
-//TODO: decide whether team updates contestant itself or contestant does it himself. Should probably decide based on what makes implementing unite function easier.
 StatusType Olympics::add_contestant_to_team(int teamId,int contestantId){
     if(teamId <= 0 || contestantId <= 0){
         return StatusType::INVALID_INPUT;
@@ -343,10 +342,5 @@ output_t<int> Olympics::austerity_measures(int teamId){
     }
     return output_t<int>(team->getAusMeasure());
 }
-// TODO: this function was added for testing purposes. Must be removed later!
-void Olympics::printTeam(int teamID) {
-    auto team = teams->find(teamID);
-    if(team == nullptr) return;
-    team->print();
-}
+
 
