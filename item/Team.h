@@ -47,18 +47,20 @@ class Team : public Item {
     bool removeAux(int contestantID);
     static shared_ptr<Contestant>* copyTeamIntoArrayAndUpdateContestants(shared_ptr<Team> team);
     static void auxCopy(shared_ptr<Node<Contestant>> root, shared_ptr<Contestant>* arr, int& index, shared_ptr<Team> team);
+    static shared_ptr<Contestant>* mergeIDArrays(shared_ptr<Contestant>* arr1, shared_ptr<Contestant>* arr2, int size1, int size2, int* totalSize);
+    static shared_ptr<Contestant>* mergeStrArrays(shared_ptr<Contestant>* arr1, shared_ptr<Contestant>* arr2, int size1, int size2, int* totalSize);
 
 public:
     explicit Team(int teamID, Sport sport, std::shared_ptr<Country> myCountry)
             : Item(teamID), sport(sport), myCountry(myCountry), strength(0), ausMeasure(0),
               contestants(std::make_shared<Tree<Contestant>>()),
-              strengths(std::make_shared<STree<Contestant>>(false)),
+              strengths(std::make_shared<STree<Contestant>>()),
               lowIDTree(std::make_shared<Tree<Contestant>>()),
               midIDTree(std::make_shared<Tree<Contestant>>()),
               highIDTree(std::make_shared<Tree<Contestant>>()),
-              lowStrTree(std::make_shared<STree<Contestant>>(true)),
-              midStrTree(std::make_shared<STree<Contestant>>(true)),
-              highStrTree(std::make_shared<STree<Contestant>>(true))
+              lowStrTree(std::make_shared<STree<Contestant>>()),
+              midStrTree(std::make_shared<STree<Contestant>>()),
+              highStrTree(std::make_shared<STree<Contestant>>())
     {}
     Team(const Team&) = delete;
     Team& operator=(const Team&)= delete;

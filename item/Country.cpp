@@ -4,16 +4,12 @@
 
 #include "Country.h"
 
-Country::Country(int countryID, int medals) : Item(countryID), numberOfContestants(0), numberOfTeams(0), strength(0), medals(medals){}
+Country::Country(int countryID, int medals) : Item(countryID), numberOfContestants(0), numberOfTeams(0), medals(medals){}
 
 
 
 int Country::getMedals() const {
     return medals;
-}
-
-int Country::getStrength() const {
-    return strength;
 }
 
 int Country::getNumberOfContestants() const {

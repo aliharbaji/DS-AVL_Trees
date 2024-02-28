@@ -14,14 +14,12 @@ class Country : public Item {
 
     int numberOfContestants;
     int numberOfTeams;
-    int strength;
     int medals;
 
 
 public:
     Country(int countryID, int medals);
     int getMedals() const;
-    int getStrength() const;
     int getNumberOfContestants() const;
     int getNumberOfTeams() const;
     //    friend class Tree<Country>;

@@ -251,16 +251,46 @@ private:
         else return node->getBF();
     }
 
+    shared_ptr<Node<T>> sortedArrayToAVL(shared_ptr<T>* arr, int start, int end) {
+        if (start > end)
+            return nullptr;
+
+        int mid = start + (end - start) / 2;
+        auto node = make_shared<Node<T>>(arr[mid]);
+
+        node->left = sortedArrayToAVL(arr, start, mid - 1);
+        node->right = sortedArrayToAVL(arr, mid + 1, end);
+
+        node->height = 1 + max(getHeight(node->left), getHeight(node->right));
+        node->size = 1 + getSize(node->left) + getSize(node->right);
+
+        return node;
+    }
+
+
 
 public:
 
     Tree() : root(nullptr), maximum(nullptr), minimum(nullptr), size(0){}
+    //constructor for a tree based on an array and its size.
     Tree(const Tree&) = delete;
     Tree& operator=(const Tree&)= delete;
     ~Tree(){
         clearParents(root);
     }//Necessary to break cyclical pointers and appropriately deallocate memory.
 
+    Tree(shared_ptr<T>* arr, int size) : size(size) {
+        if (size) root = sortedArrayToAVL(arr, 0, size - 1);
+        else root = nullptr;
+        minimum = root;
+        while (minimum->left != nullptr) {
+            minimum = minimum->left;
+        }
+        maximum = root;
+        while (maximum->right != nullptr) {
+            maximum = maximum->right;
+        }
+    }
 
     // finds member with ID, returns NULL if he doesn't exist.
     shared_ptr<T> find(const int ID){
@@ -347,67 +377,6 @@ public:
         return arr;
     }
 
-    // TODO: move to private
-    void outOrderDeletion(int& numOfDeletions, shared_ptr<Node<T>>& node) {
-        if (numOfDeletions <= 0 || !node)
-            return;
-
-        outOrderDeletion(numOfDeletions, node->right);
-        if(node == nullptr) return;
-        // this should delete the node if it is a leaf
-        if (node->right == nullptr && node->left == nullptr && numOfDeletions) { // if this node is a leaf delete it
-            auto parent = node->parent;
-
-            if (parent) {
-                if (parent->left == node)
-                    parent->left = nullptr;
-                else if (parent->right == node)
-                    parent->right = nullptr;
-                node->parent = nullptr;
-                // update height and size of the parent
-                parent->height = 1 + max(getHeight(parent->left), getHeight(parent->right));
-                parent->size = 1 + getSize(parent->left) + getSize(parent->right);
-            }
-            node = nullptr; // Set node to nullptr to release memory.
-            numOfDeletions--;
-
-
-        }
-
-        outOrderDeletion(numOfDeletions, node->left);
-    }
-
-    // this function makes a complete tree with floor(log2(numOfElements + 1)) height and then deletes the extra nodes.
-    // ourOrderDeletion is used to delete the extra nodes.
-    void makeEmptyCompleteTree(int numOfElements){
-
-        // h should be the smallest height that can hold numOfElements
-        int h = ceil(log2(numOfElements + 1));
-        root = makeEmptyCompleteTreeAux(h);
-        size = pow(2, h) - 1;
-        // TODO: fix outOrderDeletion to remove nodes that have no ID and whose data field is nullptr
-        int numOfDeletions = size - numOfElements;
-        outOrderDeletion(numOfDeletions, root);
-        root->size = numOfElements;
-        size = numOfElements;
-        minimum = getMinNode(root);
-        maximum = getMaxNode(root);
-    }
-
-    // TODO: move to private
-    shared_ptr<Node<T>> makeEmptyCompleteTreeAux(int h){
-        if (h == 0) return nullptr;
-
-        auto node = make_shared<Node<T>>(nullptr);
-        node->height = h;
-        node->size = pow(2, h) - 1;
-        node->left = makeEmptyCompleteTreeAux(h-1);
-        node->right = makeEmptyCompleteTreeAux(h-1);
-        if (node->left) node->left->parent = node;
-        if (node->right) node->right->parent = node;
-        return node;
-    }
-    // TODO: ***************************************************************************************
 };
 #define AVLTREES_TREE_H
 

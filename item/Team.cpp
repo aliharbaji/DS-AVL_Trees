@@ -439,22 +439,178 @@ shared_ptr<Contestant>* Team::copyTeamIntoArrayAndUpdateContestants(shared_ptr<T
 }
 
 void Team::auxCopy(shared_ptr<Node<Contestant>> root, shared_ptr<Contestant>* arr, int& index, shared_ptr<Team> team) {
-    if (!root || !team || !arr) return; // Handle base case where root is null.
+    if (!root || !team || !arr) return;
 
-    arr[index++] = root->data; // Use pre-calculated index, then increment.
     root->data->removeTeam(team->getID());
-    if (root->right) auxCopy(root->right, arr, index, team); // Pass index by reference.
-    if (root->left) auxCopy(root->left, arr, index, team); // Pass index by reference.
+    if (root->left) auxCopy(root->left, arr, index, team);
+    arr[index++] = root->data;
+    if (root->right) auxCopy(root->right, arr, index, team);
 }
 
 void Team::uniteWith(shared_ptr<Team> other) {
-    auto contestants1 = contestants->returnSortedArrayOfElements();
-    auto contestants2 = other->contestants->returnSortedArrayOfElements();
-    // this function should also unite the 6 sub-trees this is beginning to stress me out
+    auto fullIDArr1 = this->contestants->returnSortedArrayOfElements();
+   //this function which I implemented before updates the contestants that they're no longer part of a team during copy.
+   //we need to do this once so the contestants know they're no longer part of the other team.
+    auto fullIDArr2 = copyTeamIntoArrayAndUpdateContestants(other);
+    int totalIDSize;
+    auto mergedIDArr = mergeIDArrays(fullIDArr1, fullIDArr2,this->contestants->size,other->contestants->size, &totalIDSize);
+    auto fullStrArr1 = this->strengths->returnSortedArrayOfElements();
+    auto fullStrArr2 = other->strengths->returnSortedArrayOfElements();
+    int totalStrSize;
+    auto mergedStrArr = mergeStrArrays(fullStrArr1,fullStrArr2,this->strengths->size, other->strengths->size, &totalStrSize);
+    if (totalStrSize != totalIDSize) {
+        throw logic_error("nonmatching sizes between str and id trees");
+    }
 
-    // emptyTree = makeEmptyTree(n1 + n2);
-    // perform inorder on emptyTree and insert the elements from the two trees
-    // contestants = emptyTree
+    int mergedLowIDSize = (totalIDSize / 3) + (((totalIDSize % 3) >=1 ) ? 1 : 0);
+    int mergedMidIDSize = (totalIDSize / 3) + (((totalIDSize % 3) == 2 ) ? 1 : 0);
+    int mergedHighIDSize = totalIDSize / 3;
+
+
+    this->contestants = make_shared<Tree<Contestant>>(mergedIDArr, totalIDSize);
+    this->strengths = make_shared<STree<Contestant>>(mergedStrArr, totalStrSize);
+    this->lowIDTree = make_shared<Tree<Contestant>>(mergedIDArr, mergedLowIDSize);
+    this->midIDTree = make_shared<Tree<Contestant>>(mergedIDArr, mergedMidIDSize);
+    this->highIDTree = make_shared<Tree<Contestant>>(mergedIDArr, mergedHighIDSize);
+
+    auto mergedLowStr = new shared_ptr<Contestant>[mergedLowIDSize+3];
+    auto mergedMidStr = new shared_ptr<Contestant>[mergedMidIDSize+3];
+    auto mergedHighStr = new shared_ptr<Contestant>[mergedHighIDSize+3];
+
+
+    int l = 0, m = 0, h = 0;
+    for (int i = 0; i < totalStrSize; i++) {
+        if (mergedStrArr[i]->getID() < lowIDTree->maximum->getID()) {
+            mergedLowStr[l] = mergedStrArr[i];
+            l++;
+        }
+        else if (mergedStrArr[i]->getID() < midIDTree->maximum->getID()) {
+            mergedMidStr[m] = mergedStrArr[i];
+            m++;
+        }
+        else {
+            mergedHighStr[h] = mergedStrArr[i];
+            h++;
+        }
+    }
+
+    this->lowStrTree = make_shared<STree<Contestant>>(mergedLowStr, mergedLowIDSize);
+    this->midStrTree = make_shared<STree<Contestant>>(mergedMidStr, mergedMidIDSize);
+    this->highStrTree = make_shared<STree<Contestant>>(mergedHighStr, mergedHighIDSize);
+
+    this->redistribute();
+
+    delete[] fullIDArr1;
+    delete[] fullIDArr2;
+    delete[] fullStrArr1;
+    delete[] fullStrArr2;
+    delete[] mergedStrArr;
+    delete[] mergedIDArr;
+    delete[] mergedLowStr;
+    delete[] mergedMidStr;
+    delete[] mergedHighStr;
+
+
+}
+
+shared_ptr<Contestant>* Team::mergeIDArrays(shared_ptr<Contestant>* arr1, shared_ptr<Contestant>* arr2, int size1, int size2, int* totalSize) {
+    *totalSize = size1 + size2;
+    shared_ptr<Contestant>* result = new std::shared_ptr<Contestant> [*totalSize];
+
+    int i = 0, j = 0, k = 0;
+    shared_ptr<Contestant> lastAdded = nullptr;
+
+    while (i < size1 && j < size2) {
+        if (arr1[i]->getID() < arr2[j]->getID()) {
+            if (!lastAdded || arr1[i]->getID() != lastAdded->getID()) {
+                lastAdded = arr1[i];
+                result[k++] = arr1[i];
+            }
+            i++;
+        } else if (arr1[i]->getID() > arr2[j]->getID()) {
+            if (!lastAdded || arr2[j]->getID() != lastAdded->getID()) {
+                lastAdded = arr2[j];
+                result[k++] = arr2[j];
+            }
+            j++;
+        } else {
+            if (!lastAdded || arr1[i]->getID() != lastAdded->getID()) {
+                lastAdded = arr1[i];
+                result[k++] = arr1[i];
+            }
+            i++;
+            j++;
+        }
+    }
+
+    while (i < size1) {
+        if (!lastAdded || arr1[i]->getID() != lastAdded->getID()) {
+            lastAdded = arr1[i];
+            result[k++] = arr1[i];
+        }
+        i++;
+    }
+
+    while (j < size2) {
+        if (!lastAdded || arr2[j]->getID() != lastAdded->getID()) {
+            lastAdded = arr2[j];
+            result[k++] = arr2[j];
+        }
+        j++;
+    }
+
+    *totalSize = k;
+    return result;
 }
 
 
+shared_ptr<Contestant>* Team::mergeStrArrays(shared_ptr<Contestant>* arr1, shared_ptr<Contestant>* arr2, int size1, int size2, int* totalSize) {
+    *totalSize = size1 + size2;
+    shared_ptr<Contestant>* result = new shared_ptr<Contestant>[*totalSize];
+
+    int i = 0, j = 0, k = 0; // Indices for arr1, arr2, and result
+    shared_ptr<Contestant> lastAdded = nullptr;
+
+    while (i < size1 && j < size2) {
+        if (arr1[i]->getStrength() < arr2[j]->getStrength() ||
+            (arr1[i]->getStrength() == arr2[j]->getStrength() && arr1[i]->getID() < arr2[j]->getID())) {
+            if (!lastAdded || arr1[i]->getID() != lastAdded->getID()) {
+                lastAdded = arr1[i];
+                result[k++] = arr1[i];
+            }
+            i++;
+        } else if (arr1[i]->getStrength() > arr2[j]->getStrength() ||
+                   (arr1[i]->getStrength() == arr2[j]->getStrength() && arr1[i]->getID() > arr2[j]->getID())) {
+            if (!lastAdded || arr2[j]->getID() != lastAdded->getID()) {
+                lastAdded = arr2[j];
+                result[k++] = arr2[j];
+            }
+            j++;
+        } else { // When strengths are equal and IDs are equal, skip one
+            if (!lastAdded || arr1[i]->getID() != lastAdded->getID()) {
+                lastAdded = arr1[i];
+                result[k++] = arr1[i];
+            }
+            i++; j++;
+        }
+    }
+
+    while (i < size1) {
+        if (!lastAdded || arr1[i]->getID() != lastAdded->getID()) {
+            lastAdded = arr1[i];
+            result[k++] = arr1[i];
+        }
+        i++;
+    }
+
+    while (j < size2) {
+        if (!lastAdded || arr2[j]->getID() != lastAdded->getID()) {
+            lastAdded = arr2[j];
+            result[k++] = arr2[j];
+        }
+        j++;
+    }
+
+    *totalSize = k;
+    return result;
+}

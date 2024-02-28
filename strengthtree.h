@@ -19,7 +19,6 @@ class STree{
 private:
     shared_ptr<Node<T>> root;
     int size;
-    bool miniTree;
     shared_ptr<Node<T>> maximum;
     shared_ptr<Node<T>> minimum;
     //Adjusted logic to compare based on strength and in case of strength equality to compare based on ID.
@@ -300,14 +299,43 @@ private:
         else return node->getBF();
     }
 
+    shared_ptr<Node<T>> sortedArrayToAVL(shared_ptr<T>* arr, int start, int end) {
+        if (start > end)
+            return nullptr;
+
+        int mid = start + (end - start) / 2;
+        auto node = make_shared<Node<T>>(arr[mid]);
+
+        node->left = sortedArrayToAVL(arr, start, mid - 1);
+        node->right = sortedArrayToAVL(arr, mid + 1, end);
+
+        node->height = 1 + max(getHeight(node->left), getHeight(node->right));
+        node->size = 1 + getSize(node->left) + getSize(node->right);
+
+        return node;
+    }
+
 
 public:
 
-    explicit STree(bool miniTree = true) : root(nullptr), size(0), miniTree(miniTree), maximum(nullptr), minimum(nullptr){}
+    explicit STree() : root(nullptr), size(0), maximum(nullptr), minimum(nullptr){}
     STree(const STree&) = delete;
     STree& operator=(const STree&)= delete;
     ~STree(){
         clearParents(root);
+    }
+
+    STree(shared_ptr<T>* arr, int size) : size(size) {
+        if(size) root = sortedArrayToAVL(arr, 0, size - 1);
+        else root = nullptr;
+        minimum = root;
+        while (minimum->left != nullptr) {
+            minimum = minimum->left;
+        }
+        maximum = root;
+        while (maximum->right != nullptr) {
+            maximum = maximum->right;
+        }
     }
 
 
@@ -315,6 +343,7 @@ public:
     shared_ptr<T> find(const int ID) const{
         return findRecursively(root, ID);
     }
+
 
     //TODO: adapt contain and find to strength. Probably unecessary because we should check for duplication before insertion into STree.
     bool contains(const int ID) const{
@@ -377,6 +406,21 @@ public:
 
     int getSize() const{
         return size;
+    }
+
+    void inorderAddToArray(shared_ptr<Node<T>> node, shared_ptr<T>* arr, int& index){
+        if (node == nullptr || arr == nullptr) return;
+        inorderAddToArray(node->left, arr, index);
+        arr[index++] = node->data;
+        inorderAddToArray(node->right, arr, index);
+    }
+    //this function returns a sorted array of the elements in the tree.
+    shared_ptr<T>* returnSortedArrayOfElements(){
+        if (size == 0) return nullptr;
+        auto arr = new shared_ptr<T>[size];
+        int index = 0;
+        inorderAddToArray(root, arr, index);
+        return arr;
     }
 
 
