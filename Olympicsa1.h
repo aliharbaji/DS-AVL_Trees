@@ -19,10 +19,10 @@
 
 // Adding my own preprocessor commands (THEY SAY IT IS OK TO DO SO IN THE GROUP-CHAT)
 #include <memory>
-#include "../tree.h"
-#include "../item/Country.h"
-#include "../item/Team.h"
-#include "../item/Contestant.h"
+#include "tree.h"
+#include "Country.h"
+#include "Team.h"
+#include "Contestant.h"
 const int MAX_TEAM_SIZE = 3;
 
 class Olympics {

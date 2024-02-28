@@ -2,10 +2,10 @@
 
 #include "node.h"
 #include "memory"
-#include "item/item.h"
-#include "item/Country.h"
-#include "item/Team.h"
-#include "Scripts/Olympicsa1.h"
+#include "item.h"
+#include "Country.h"
+#include "Team.h"
+#include "Olympicsa1.h"
 
 #include "functions.h"
 using namespace std;

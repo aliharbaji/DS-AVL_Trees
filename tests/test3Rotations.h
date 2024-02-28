@@ -5,9 +5,9 @@
 #ifndef AVLTREES_TEST3ROTATIONS_H
 #define AVLTREES_TEST3ROTATIONS_H
 #include "../node.h"
-#include "../item/item.h"
+#include "../item.h"
 #include "../functions.h"
-#include "../item/team.h"
+#include "../Team.h"
 
 shared_ptr<Node<Team>> test3();
 

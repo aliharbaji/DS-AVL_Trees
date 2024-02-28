@@ -6,7 +6,7 @@
 #define AVLTREES_COUNTRY_H
 
 
-#include "../tree.h"
+#include "tree.h"
 #include "item.h"
 #include "Contestant.h"
 #include "Team.h"

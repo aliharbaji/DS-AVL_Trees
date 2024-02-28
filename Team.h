@@ -5,11 +5,11 @@
 #ifndef AVLTREES_TEAM_H
 #define AVLTREES_TEAM_H
 
-#include "../Scripts/wet1util.h"
+#include "wet1util.h"
 #include "item.h"
-#include "../tree.h"
+#include "tree.h"
 #include "Country.h"
-#include "../strengthtree.h"
+#include "strengthtree.h"
 #include <iostream>
 
 class Contestant;

@@ -6,9 +6,9 @@
 #define AVLTREES_TEST2_H
 #include "test2.h"
 #include "../node.h"
-#include "../item/item.h"
-#include "../item/Contestant.h"
-#include "../item/Team.h"
+#include "../item.h"
+#include "../Contestant.h"
+#include "../Team.h"
 
 
 #include <memory>

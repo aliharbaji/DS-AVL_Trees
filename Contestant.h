@@ -5,7 +5,7 @@
 #ifndef AVLTREES_CONTESTANT_H
 #define AVLTREES_CONTESTANT_H
 
-#include "../Scripts/wet1util.h"
+#include "wet1util.h"
 #include "item.h"
 #include "Country.h"
 
