@@ -500,6 +500,8 @@ void Team::uniteWith(shared_ptr<Team> other) {
     this->midStrTree = make_shared<STree<Contestant>>(mergedMidStr, mergedMidIDSize);
     this->highStrTree = make_shared<STree<Contestant>>(mergedHighStr, mergedHighIDSize);
 
+    this->updateStrength();
+    this->updateAusMeasure();
     this->redistribute();
 
     delete[] fullIDArr1;
