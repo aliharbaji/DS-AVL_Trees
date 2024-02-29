@@ -182,7 +182,7 @@ bool Team::removeAux(int contestantID) {
     if (!currentContestant) return false;
 
     // redundant, already checked and handled error properly in Olympic's remove_contestant_from_team function
-//    if (!currentContestant->removeTeam(this->getID())) throw logic_error("contestant in team but doesn't know it");
+    if (!currentContestant->removeTeam(this->getID())) throw logic_error("contestant in team but doesn't know it");
     contestants->remove(contestantID);
     strengths->remove(contestantID,currentContestant->getStrength());
 
