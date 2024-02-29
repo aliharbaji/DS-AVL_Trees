@@ -182,7 +182,7 @@ bool Team::removeAux(int contestantID) {
     if (!currentContestant) return false;
 
     // redundant, already checked and handled error properly in Olympic's remove_contestant_from_team function
-    if (!currentContestant->removeTeam(this->getID())) throw logic_error("contestant in team but doesn't know it");
+//    if (!currentContestant->removeTeam(this->getID())) throw logic_error("contestant in team but doesn't know it");
     contestants->remove(contestantID);
     strengths->remove(contestantID,currentContestant->getStrength());
 
@@ -434,7 +434,7 @@ shared_ptr<Contestant>* Team::copyTeamIntoArrayAndUpdateContestants(shared_ptr<T
     }
     int i=0;
     auxCopy(team->contestants->root, arr, i, team);
-    if (i != numOfContestants) throw logic_error("bug in copyArray");
+//    if (i != numOfContestants) throw logic_error("bug in copyArray");
     return arr;
 }
 

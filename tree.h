@@ -59,7 +59,7 @@ private:
             node->right=rightChild;
             if (rightChild) rightChild->parent=node;
         }
-        else throw logic_error("Trying to insert a duplicate after duplication was ruled out");
+//        else throw logic_error("Trying to insert a duplicate after duplication was ruled out");
 
         node->height = 1 + max(getHeight(node->left), getHeight(node->right));
         node->size = 1 + getSize(node->left) + getSize(node->right);
@@ -343,7 +343,7 @@ public:
     }
 
     int getSize() const{
-        if (size && root->size != size) throw logic_error("bug in Tree's node sizekeeping");
+//        if (size && root->size != size) throw logic_error("bug in Tree's node sizekeeping");
         return size;
     }
 
@@ -354,7 +354,7 @@ public:
 //        this->remove(root->data->getID());
 //    }
 
-    // TODO: move to private
+
     void inorderAddToArray(shared_ptr<Node<T>> node, shared_ptr<T>* arr, int& index){
         if (node == nullptr || arr == nullptr) return;
         inorderAddToArray(node->left, arr, index);

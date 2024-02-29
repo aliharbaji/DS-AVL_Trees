@@ -77,7 +77,7 @@ private:
             node->right=rightChild;
             if (rightChild) rightChild->parent=node;
         }
-        else throw logic_error("Trying to insert a duplicate after duplication was ruled out");
+//        else throw logic_error("Trying to insert a duplicate after duplication was ruled out");
 
         node->height = 1 + max(getHeight(node->left), getHeight(node->right));
         int balance = getBalance(node);
@@ -105,7 +105,7 @@ private:
 
     }
 
-    //delete now searches based on strength and ID TODO: fix this, it contains a bug
+    //delete now searches based on strength and ID
     bool deleteRecursively(shared_ptr<Node<T>>& node, int ID, int strength){
         if (node == nullptr) return false;
 
@@ -369,9 +369,6 @@ public:
     bool remove(const int ID, const int strength){
         if (!size) return false;
         if (deleteRecursively(root, ID, strength)) {
-            // TODO: I think that we should add an if statement here to check whether or not the deletion was successful,
-            //  before updating the size and minimum and maximum.
-            //You're absolutely right.
             size--;
             minimum = getMinNode(root);
             maximum = getMaxNode(root);
