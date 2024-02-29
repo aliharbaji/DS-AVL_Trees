@@ -59,7 +59,6 @@ private:
             node->right=rightChild;
             if (rightChild) rightChild->parent=node;
         }
-        else throw logic_error("Trying to insert a duplicate after duplication was ruled out");
 
         node->height = 1 + max(getHeight(node->left), getHeight(node->right));
         node->size = 1 + getSize(node->left) + getSize(node->right);
@@ -304,14 +303,8 @@ public:
     // Inserts item. Returns false in case of duplication. True otherwise.
     bool insert(shared_ptr<T> item){
         if (contains(item->getID())) return false;
-        try {
-            root = insertRecursively(root, item);
-        }
-        catch(const bad_alloc& e){
-         //Need to manage this exception in the olympics class.
-            // rethrow;
-            throw;
-        }
+
+        root = insertRecursively(root, item);
         size++;
         minimum = getMinNode(root);
         maximum = getMaxNode(root);
@@ -343,7 +336,6 @@ public:
     }
 
     int getSize() const{
-        if (size && root->size != size) throw logic_error("bug in Tree's node sizekeeping");
         return size;
     }
 

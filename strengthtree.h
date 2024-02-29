@@ -77,7 +77,6 @@ private:
             node->right=rightChild;
             if (rightChild) rightChild->parent=node;
         }
-        else throw logic_error("Trying to insert a duplicate after duplication was ruled out");
 
         node->height = 1 + max(getHeight(node->left), getHeight(node->right));
         int balance = getBalance(node);
@@ -353,13 +352,7 @@ public:
 
     // Inserts item. Returns false in case of duplication. True otherwise.
     bool insert(shared_ptr<T> item){
-        try {
-            root = insertRecursively(root, item);
-        }
-        catch(const bad_alloc& e){
-            throw;
-            //Need to manage this exception in the olympics class.
-        }
+        root = insertRecursively(root, item);
         size++;
         minimum = getMinNode(root);
         maximum = getMaxNode(root);

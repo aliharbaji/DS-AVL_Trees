@@ -182,7 +182,7 @@ bool Team::removeAux(int contestantID) {
     if (!currentContestant) return false;
 
     // redundant, already checked and handled error properly in Olympic's remove_contestant_from_team function
-    if (!currentContestant->removeTeam(this->getID())) throw logic_error("contestant in team but doesn't know it");
+    currentContestant->removeTeam(this->getID());
     contestants->remove(contestantID);
     strengths->remove(contestantID,currentContestant->getStrength());
 
@@ -426,15 +426,9 @@ bool Team::updateAusMeasure(){
 shared_ptr<Contestant>* Team::copyTeamIntoArrayAndUpdateContestants(shared_ptr<Team> team) {
     int numOfContestants = team->getNumberOfContestants();
     shared_ptr<Contestant>* arr;
-    try{
-        arr = new shared_ptr<Contestant>[numOfContestants];
-
-    }catch(bad_alloc& e){
-        throw e;
-    }
+    arr = new shared_ptr<Contestant>[numOfContestants];
     int i=0;
     auxCopy(team->contestants->root, arr, i, team);
-    if (i != numOfContestants) throw logic_error("bug in copyArray");
     return arr;
 }
 
@@ -458,9 +452,6 @@ void Team::uniteWith(shared_ptr<Team> other) {
     auto fullStrArr2 = other->strengths->returnSortedArrayOfElements();
     int totalStrSize;
     auto mergedStrArr = mergeStrArrays(fullStrArr1,fullStrArr2,this->strengths->size, other->strengths->size, &totalStrSize);
-    if (totalStrSize != totalIDSize) {
-        throw logic_error("nonmatching sizes between str and id trees");
-    }
 
     int mergedLowIDSize = (totalIDSize / 3) + (((totalIDSize % 3) >=1 ) ? 1 : 0);
     int mergedMidIDSize = (totalIDSize / 3) + (((totalIDSize % 3) == 2 ) ? 1 : 0);
