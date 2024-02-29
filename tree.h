@@ -3,7 +3,7 @@
 //
 #include "node.h"
 #include <stdexcept>
-#include "math.h"
+#include <math.h>
 #ifndef AVLTREES_TREE_H
 template <typename T>
 
