@@ -12,7 +12,7 @@
 //}
 
 int Team::getStrength() const {
-    int value = ((getNumberOfContestants() % 3) == 0) ? strength : 0;
+    int value = ( (getNumberOfContestants() > 0) && ((getNumberOfContestants() % 3) == 0) ) ? strength : 0;
     return value;
 }
 
